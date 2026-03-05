@@ -20,43 +20,42 @@
   },
   "hero": {
     "greeting": "你好，我是",
-    "name": "[在此填写你的名字]",
+    "name": "Chiicake",
     "roles": [
-      "软件工程师",
-      "前端开发",
-      "创意构建者"
+      "后端开发工程师",
+      "Rust / Go / Java 开发者",
+      "分布式系统构建者"
     ],
-    "description": "构建美观、实用且以用户为中心的数字体验。",
+    "description": "专注构建高可靠后端服务、可扩展 API 与云原生基础设施。",
     "ctaPrimary": "查看我的作品",
     "ctaSecondary": "联系我"
   },
   "about": {
     "title": "关于我",
-    "bio": "我是一名充满热情的软件工程师，专注于打造整洁、易用和高性能的用户界面。我喜欢将复杂的问题转化为简单、优雅和直观的设计。[在此添加你的详细简介]。",
+    "bio": "我是一名专注于高性能与高可靠系统的后端工程师。核心技术栈是 Rust、Go、Java，擅长服务边界设计、延迟优化和生产级 API 交付。[在此添加你的详细简介]。",
     "stats": {
-      "experience": "年经验",
-      "projects": "个完成项目",
-      "clients": "个满意客户"
+      "experience": "年后端经验",
+      "projects": "个后端交付项目",
+      "clients": "个线上运行服务"
     },
-    "interests": "兴趣与爱好",
-    "interestsList": "编程、设计、音乐、摄影 [在此编辑]"
+    "interests": "我关注的方向",
+    "interestsList": "分布式系统、API 设计、性能优化、云基础设施 [在此编辑]"
   },
   "skills": {
-    "title": "我的技能",
+    "title": "核心后端技能",
     "categories": {
-      "frontend": "前端",
-      "backend": "后端",
-      "tools": "工具与工作流",
-      "languages": "语言"
+      "languages": "核心语言",
+      "backend": "后端与数据",
+      "platform": "平台与 DevOps"
     },
     "items": {
-      "react": "React / Next.js",
-      "ts": "TypeScript",
-      "css": "Tailwind CSS",
-      "node": "Node.js",
-      "db": "SQL / NoSQL",
-      "git": "Git / GitHub",
-      "figma": "Figma"
+      "rust": "Rust (Axum / Tokio)",
+      "go": "Go (Gin / Fiber)",
+      "java": "Java (Spring Boot)",
+      "api": "REST / gRPC API 设计",
+      "database": "PostgreSQL / Redis / MySQL",
+      "container": "Docker / Kubernetes",
+      "cicd": "GitHub Actions / CI/CD"
     }
   },
   "projects": {
@@ -67,23 +66,23 @@
     "items": [
       {
         "title": "[项目一名称]",
-        "description": "一个综合性Web应用，解决[问题]。使用 React、TypeScript 和 Tailwind CSS 构建。[在此添加项目描述]。",
-        "tags": ["React", "TypeScript", "Tailwind CSS"]
+        "description": "面向 B2B 平台的高并发用户与鉴权服务，具备链路追踪与限流能力，使用 Go 和 Redis 构建。[在此添加项目描述]。",
+        "tags": ["Go", "gRPC", "Redis"]
       },
       {
         "title": "[项目二名称]",
-        "description": "用于数据可视化的交互式仪表板。支持实时更新和深色模式。[在此添加项目描述]。",
-        "tags": ["Next.js", "D3.js", "Vercel"]
+        "description": "面向高吞吐场景的异步任务处理与调度系统，强调可靠性与可恢复能力，使用 Rust 与消息队列实现。[在此添加项目描述]。",
+        "tags": ["Rust", "Tokio", "Kafka"]
       },
       {
         "title": "[项目三名称]",
-        "description": "一款用于生产力跟踪的跨平台移动应用。[在此添加项目描述]。",
-        "tags": ["React Native", "Firebase", "Redux"]
+        "description": "Java 微服务，负责订单流程处理，包含幂等、重试与事务安全机制。[在此添加项目描述]。",
+        "tags": ["Java", "Spring Boot", "PostgreSQL"]
       },
       {
         "title": "[项目四名称]",
-        "description": "一个专为可访问性和可定制性设计的开源UI组件库。[在此添加项目描述]。",
-        "tags": ["Vue", "Storybook", "CSS"]
+        "description": "统一后端平台工具集，标准化部署、监控与服务健康检查，提升团队交付效率。[在此添加项目描述]。",
+        "tags": ["Kubernetes", "Prometheus", "OpenTelemetry"]
       }
     ]
   },
@@ -92,22 +91,22 @@
     "present": "至今",
     "jobs": [
       {
-        "role": "[高级前端工程师]",
+        "role": "[高级后端工程师]",
         "company": "[公司名称]",
         "period": "2022 - 至今",
-        "description": "领导前端团队将旧版单体架构迁移到微前端。性能提升了40%。"
+        "description": "设计并交付 Rust 与 Go 核心微服务，优化 API 延迟，并在生产环境落地可观测性标准。"
       },
       {
-        "role": "[软件工程师]",
+        "role": "[后端工程师]",
         "company": "[公司名称]",
         "period": "2019 - 2022",
-        "description": "开发和维护多个面向客户的Web应用。与设计师紧密合作，实现像素级完美的用户界面。"
+        "description": "构建 Java 与 Go 后端服务，负责 API 契约治理，并稳定对接数据库与消息队列。"
       },
       {
-        "role": "[初级开发者]",
+        "role": "[初级后端开发工程师]",
         "company": "[公司名称]",
         "period": "2018 - 2019",
-        "description": "协助构建响应式登陆页面并优化资源以加快加载时间。"
+        "description": "维护后端模块，编写集成测试，并支持服务发布流水线与日常运维。"
       }
     ]
   },
@@ -130,12 +129,12 @@
   },
   "blog": {
     "title": "博客",
-    "subtitle": "关于软件开发和设计的思考、教程和见解。",
+    "subtitle": "后端架构、Rust/Go/Java 工程实践与分布式系统笔记。",
     "stayTuned": "内容正在准备中，敬请期待！"
   },
   "contact": {
     "title": "联系我",
-    "description": "我随时对新的机会、合作或只是聊聊技术和设计保持开放态度。欢迎随时联系我！",
+    "description": "欢迎后端工程岗位机会、技术合作或架构交流。随时联系我！",
     "email": "hello@example.com",
     "github": "github.com/chiicake"
   },

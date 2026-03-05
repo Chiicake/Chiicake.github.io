@@ -8,25 +8,25 @@ export default function Skills() {
 
   const skillCategories = [
     {
-      title: t('skills.categories.frontend'),
+      title: t('skills.categories.languages'),
       skills: [
-        { name: t('skills.items.react'), level: 90 },
-        { name: t('skills.items.ts'), level: 85 },
-        { name: t('skills.items.css'), level: 95 }
+        { name: t('skills.items.rust'), level: 92 },
+        { name: t('skills.items.go'), level: 90 },
+        { name: t('skills.items.java'), level: 88 }
       ]
     },
     {
       title: t('skills.categories.backend'),
       skills: [
-        { name: t('skills.items.node'), level: 80 },
-        { name: t('skills.items.db'), level: 75 }
+        { name: t('skills.items.api'), level: 90 },
+        { name: t('skills.items.database'), level: 86 }
       ]
     },
     {
-      title: t('skills.categories.tools'),
+      title: t('skills.categories.platform'),
       skills: [
-        { name: t('skills.items.git'), level: 85 },
-        { name: t('skills.items.figma'), level: 70 }
+        { name: t('skills.items.container'), level: 84 },
+        { name: t('skills.items.cicd'), level: 82 }
       ]
     }
   ];
