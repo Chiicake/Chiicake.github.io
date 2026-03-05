@@ -6,7 +6,6 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
-import { ScrollReveal } from '../components/animations/ScrollReveal';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 
 interface BlogArticleMeta {
@@ -113,68 +112,66 @@ export default function BlogArticle() {
 
   return (
     <div className="py-12">
-      <ScrollReveal>
+      <Link
+        to="/blog"
+        className="inline-flex items-center gap-2 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors mb-8"
+      >
+        <ArrowLeft size={16} />
+        {t('blog.backToList')}
+      </Link>
+
+      <header className="mb-10">
+        <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] leading-tight mb-4">
+          {meta.title[lang] ?? meta.title['en']}
+        </h1>
+
+        <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--color-text-secondary)] mb-4">
+          <span className="inline-flex items-center gap-1.5">
+            <Calendar size={14} />
+            {meta.date}
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Clock size={14} />
+            {meta.readingTime[lang] ?? meta.readingTime['en']}
+          </span>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {meta.tags.map((tag) => (
+            <span
+              key={tag}
+              className="px-2.5 py-0.5 text-xs font-medium bg-[var(--color-accent)]/10 text-[var(--color-accent)] rounded-md"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </header>
+
+      <article className="blog-article">
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[rehypeKatex]}
+          urlTransform={(url: string) => {
+            if (url.startsWith('./') || (!url.startsWith('http') && !url.startsWith('/') && !url.startsWith('#'))) {
+              return `${import.meta.env.BASE_URL}blog/${slug}/${url.replace(/^\.\//, '')}`;
+            }
+            return url;
+          }}
+        >
+          {content}
+        </ReactMarkdown>
+      </article>
+
+      <div className="mt-16 pt-8 border-t border-gray-200 dark:border-slate-800">
         <Link
           to="/blog"
-          className="inline-flex items-center gap-2 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors"
         >
           <ArrowLeft size={16} />
           {t('blog.backToList')}
         </Link>
-
-        <header className="mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] leading-tight mb-4">
-            {meta.title[lang] ?? meta.title['en']}
-          </h1>
-
-          <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--color-text-secondary)] mb-4">
-            <span className="inline-flex items-center gap-1.5">
-              <Calendar size={14} />
-              {meta.date}
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Clock size={14} />
-              {meta.readingTime[lang] ?? meta.readingTime['en']}
-            </span>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {meta.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2.5 py-0.5 text-xs font-medium bg-[var(--color-accent)]/10 text-[var(--color-accent)] rounded-md"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </header>
-
-        <article className="blog-article">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm, remarkMath]}
-            rehypePlugins={[rehypeKatex]}
-            urlTransform={(url: string) => {
-              if (url.startsWith('./') || (!url.startsWith('http') && !url.startsWith('/') && !url.startsWith('#'))) {
-                return `${import.meta.env.BASE_URL}blog/${slug}/${url.replace(/^\.\//, '')}`;
-              }
-              return url;
-            }}
-          >
-            {content}
-          </ReactMarkdown>
-        </article>
-
-        <div className="mt-16 pt-8 border-t border-gray-200 dark:border-slate-800">
-          <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors"
-          >
-            <ArrowLeft size={16} />
-            {t('blog.backToList')}
-          </Link>
-        </div>
-      </ScrollReveal>
+      </div>
     </div>
   );
 }

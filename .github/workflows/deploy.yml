@@ -51,3 +51,28 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify deployed site serves built assets
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          if [ -z "$PAGE_URL" ]; then
+            echo "Missing page URL from deploy step."
+            exit 1
+          fi
+
+          # Give CDN a short window to refresh.
+          sleep 10
+
+          HTML="$(curl -fsSL "$PAGE_URL")"
+
+          if printf '%s' "$HTML" | grep -q '/src/main.tsx'; then
+            echo "Deployment verification failed: site is serving source index.html (/src/main.tsx)."
+            echo "Check Settings -> Pages and set Source to GitHub Actions."
+            exit 1
+          fi
+
+          if ! printf '%s' "$HTML" | grep -q '/assets/'; then
+            echo "Deployment verification failed: built asset references were not found in deployed index.html."
+            exit 1
+          fi

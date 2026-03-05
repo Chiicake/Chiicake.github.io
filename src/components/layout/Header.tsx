@@ -14,12 +14,12 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { id: 'top', label: 'nav.home' },
+  { id: 'blog', label: 'nav.blog', isRoute: true, routePath: '/blog' },
+  { id: 'projects', label: 'nav.projects' },
   { id: 'about', label: 'nav.about' },
   { id: 'skills', label: 'nav.skills' },
-  { id: 'projects', label: 'nav.projects' },
   { id: 'experience', label: 'nav.experience' },
   { id: 'education', label: 'nav.education' },
-  { id: 'blog', label: 'nav.blog', isRoute: true, routePath: '/blog' },
   { id: 'contact', label: 'nav.contact' },
 ];
 
@@ -47,7 +47,7 @@ export function Header() {
     if (location.pathname !== '/') return;
 
     const observers = new Map<string, IntersectionObserver>();
-    const sectionIds = ['about', 'skills', 'projects', 'experience', 'education', 'blog', 'contact'];
+    const sectionIds = ['blog', 'projects', 'about', 'skills', 'experience', 'education', 'contact'];
     
     const handleScrollForTop = () => {
       if (window.scrollY < 200) {

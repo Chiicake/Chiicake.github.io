@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowDown, ArrowRight } from 'lucide-react';
+import { ArrowDown, ArrowRight, BookOpen } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { TypewriterText } from '../components/ui/TypewriterText';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
@@ -48,6 +48,9 @@ export default function Home() {
 
         <ScrollReveal delay={0.5}>
           <div className="flex flex-wrap gap-4">
+            <Button onClick={() => document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })} variant="outline" size="lg" icon={<BookOpen size={20} />}>
+              {t('hero.ctaBlog')}
+            </Button>
             <Button onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} size="lg" icon={<ArrowRight size={20} />}>
               {t('hero.ctaPrimary')}
             </Button>

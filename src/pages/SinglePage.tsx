@@ -30,12 +30,12 @@ export default function SinglePage() {
     <div className="flex flex-col w-full">
       <Home />
       <div className="px-6 max-w-7xl mx-auto w-full">
+        <BlogPreview id="blog" />
+        <Projects id="projects" />
         <About id="about" />
         <Skills id="skills" />
-        <Projects id="projects" />
         <Experience id="experience" />
         <Education id="education" />
-        <BlogPreview id="blog" />
         <Contact id="contact" />
       </div>
     </div>
