@@ -1,0 +1,21 @@
+{
+  "articles": [
+    {
+      "slug": "asymmetric-encryption-tls-evolution",
+      "date": "2026-03-05",
+      "tags": ["TLS", "Cryptography", "Security"],
+      "title": {
+        "zh": "非对称加密与TLS演进",
+        "en": "Asymmetric Encryption and TLS Evolution"
+      },
+      "summary": {
+        "zh": "从 RSA 密钥交换到 ECDHE 前向保密，再到后量子密码学：TLS 协议二十年演进中非对称加密的关键变迁。",
+        "en": "From RSA key exchange to ECDHE forward secrecy to post-quantum cryptography: key changes in asymmetric encryption across twenty years of TLS evolution."
+      },
+      "readingTime": {
+        "zh": "15 分钟",
+        "en": "15 min"
+      }
+    }
+  ]
+}

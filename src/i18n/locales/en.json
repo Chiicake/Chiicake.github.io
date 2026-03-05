@@ -130,7 +130,9 @@
   "blog": {
     "title": "Blog",
     "subtitle": "Notes on backend architecture, Rust/Go/Java engineering, and distributed systems.",
-    "stayTuned": "Content is being prepared. Stay tuned!"
+    "stayTuned": "Content is being prepared. Stay tuned!",
+    "backToList": "Back to articles",
+    "notFound": "Article not found"
   },
   "contact": {
     "title": "Get In Touch",

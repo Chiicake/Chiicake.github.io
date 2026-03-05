@@ -11,6 +11,7 @@ const Projects = lazy(() => import('./pages/Projects'));
 const Experience = lazy(() => import('./pages/Experience'));
 const Education = lazy(() => import('./pages/Education'));
 const Blog = lazy(() => import('./pages/Blog'));
+const BlogArticle = lazy(() => import('./pages/BlogArticle'));
 const Contact = lazy(() => import('./pages/Contact'));
 
 function LoadingSpinner() {
@@ -33,6 +34,7 @@ const router = createHashRouter([
       { path: 'experience', element: <Experience /> },
       { path: 'education', element: <Education /> },
       { path: 'blog', element: <Blog /> },
+      { path: 'blog/:slug', element: <BlogArticle /> },
       { path: 'contact', element: <Contact /> },
     ],
   },

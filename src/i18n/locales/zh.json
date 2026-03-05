@@ -130,7 +130,9 @@
   "blog": {
     "title": "博客",
     "subtitle": "后端架构、Rust/Go/Java 工程实践与分布式系统笔记。",
-    "stayTuned": "内容正在准备中，敬请期待！"
+    "stayTuned": "内容正在准备中，敬请期待！",
+    "backToList": "返回文章列表",
+    "notFound": "文章未找到"
   },
   "contact": {
     "title": "联系我",
