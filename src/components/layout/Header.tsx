@@ -1,16 +1,37 @@
-import { useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router';
+import { useState, useEffect, useCallback } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Sun, Moon, Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '../../contexts/ThemeContext';
 
+interface NavItem {
+  id: string;
+  label: string;
+  isRoute?: boolean;
+  routePath?: string;
+}
+
+const navItems: NavItem[] = [
+  { id: 'top', label: 'nav.home' },
+  { id: 'about', label: 'nav.about' },
+  { id: 'skills', label: 'nav.skills' },
+  { id: 'projects', label: 'nav.projects' },
+  { id: 'experience', label: 'nav.experience' },
+  { id: 'education', label: 'nav.education' },
+  { id: 'blog', label: 'nav.blog', isRoute: true, routePath: '/blog' },
+  { id: 'contact', label: 'nav.contact' },
+];
+
 export function Header() {
   const { t, i18n } = useTranslation();
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
+  const navigate = useNavigate();
+  
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('top');
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -22,22 +43,79 @@ export function Header() {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (location.pathname !== '/') return;
+
+    const observers = new Map<string, IntersectionObserver>();
+    const sectionIds = ['about', 'skills', 'projects', 'experience', 'education', 'blog', 'contact'];
+    
+    const handleScrollForTop = () => {
+      if (window.scrollY < 200) {
+        setActiveSection('top');
+      }
+    };
+    window.addEventListener('scroll', handleScrollForTop);
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                setActiveSection(entry.target.id);
+              }
+            });
+          },
+          { rootMargin: '-80px 0px -60% 0px' }
+        );
+        observer.observe(element);
+        observers.set(id, observer);
+      }
+    });
+
+    return () => {
+      window.removeEventListener('scroll', handleScrollForTop);
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, [location.pathname]);
+
   const toggleLang = () => {
     const newLang = i18n.language === 'en' ? 'zh' : 'en';
     i18n.changeLanguage(newLang);
     localStorage.setItem('app-lang', newLang);
   };
 
-  const navLinks = [
-    { path: '/', label: 'nav.home' },
-    { path: '/about', label: 'nav.about' },
-    { path: '/skills', label: 'nav.skills' },
-    { path: '/projects', label: 'nav.projects' },
-    { path: '/experience', label: 'nav.experience' },
-    { path: '/education', label: 'nav.education' },
-    { path: '/blog', label: 'nav.blog' },
-    { path: '/contact', label: 'nav.contact' },
-  ];
+  const handleNavClick = useCallback((item: NavItem) => {
+    setIsMobileMenuOpen(false);
+    
+    if (item.isRoute) {
+      navigate(item.routePath!);
+    } else if (location.pathname === '/') {
+      if (item.id === 'top') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/', { state: { scrollTo: item.id === 'top' ? undefined : item.id } });
+    }
+  }, [location.pathname, navigate]);
+
+  const handleLogoClick = () => {
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
+    }
+  };
+
+  const isActive = (item: NavItem) => {
+    if (item.isRoute) {
+      return location.pathname.startsWith(item.routePath!);
+    }
+    return location.pathname === '/' && activeSection === item.id;
+  };
 
   const headerClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
     isScrolled 
@@ -48,28 +126,26 @@ export function Header() {
   return (
     <header className={headerClasses}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <NavLink 
-          to="/" 
+        <button 
+          onClick={handleLogoClick}
           className="text-xl font-bold tracking-tight text-[var(--color-accent)] transition-transform hover:scale-105"
         >
           C.
-        </NavLink>
+        </button>
 
         <nav className="hidden md:flex items-center gap-1 lg:gap-2">
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              className={({ isActive }) => 
-                `px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive 
-                    ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]' 
-                    : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-gray-100 dark:hover:bg-slate-800'
-                }`
-              }
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => handleNavClick(item)}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                isActive(item)
+                  ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]' 
+                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-gray-100 dark:hover:bg-slate-800'
+              }`}
             >
-              {t(link.label)}
-            </NavLink>
+              {t(item.label)}
+            </button>
           ))}
         </nav>
 
@@ -110,20 +186,18 @@ export function Header() {
             className="md:hidden bg-[var(--color-surface)] border-b border-gray-200 dark:border-slate-800 overflow-hidden"
           >
             <nav className="flex flex-col p-4">
-              {navLinks.map((link) => (
-                <NavLink
-                  key={link.path}
-                  to={link.path}
-                  className={({ isActive }) => 
-                    `px-4 py-3 rounded-xl text-base font-medium mb-1 ${
-                      isActive 
-                        ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]' 
-                        : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-gray-100 dark:hover:bg-slate-800'
-                    }`
-                  }
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item)}
+                  className={`px-4 py-3 rounded-xl text-base font-medium mb-1 text-left ${
+                    isActive(item)
+                      ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]' 
+                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-gray-100 dark:hover:bg-slate-800'
+                  }`}
                 >
-                  {t(link.label)}
-                </NavLink>
+                  {t(item.label)}
+                </button>
               ))}
             </nav>
           </motion.div>

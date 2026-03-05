@@ -10,7 +10,7 @@ interface ProjectItem {
   tags: string[];
 }
 
-export default function Projects() {
+export default function Projects({ id }: { id?: string }) {
   const { t, i18n } = useTranslation();
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown>;
@@ -18,6 +18,7 @@ export default function Projects() {
   const projects: ProjectItem[] = Array.isArray(projectsData) ? projectsData : [];
 
   return (
+    <section id={id} className="scroll-mt-20">
     <div className="py-12">
       <SectionTitle title={t('projects.title')} />
 
@@ -76,5 +77,6 @@ export default function Projects() {
         ))}
       </StaggeredList>
     </div>
+    </section>
   );
 }

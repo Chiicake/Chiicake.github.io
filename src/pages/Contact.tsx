@@ -3,7 +3,7 @@ import { SectionTitle } from '../components/ui/SectionTitle';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
 import { Github, Mail, Send } from 'lucide-react';
 
-export default function Contact() {
+export default function Contact({ id }: { id?: string }) {
   const { t } = useTranslation();
 
   const contactLinks = [
@@ -22,6 +22,7 @@ export default function Contact() {
   ];
 
   return (
+    <section id={id} className="scroll-mt-20">
     <div className="py-12">
       <SectionTitle title={t('contact.title')} />
 
@@ -77,5 +78,6 @@ export default function Contact() {
         </ScrollReveal>
       </div>
     </div>
+    </section>
   );
 }

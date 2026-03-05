@@ -4,15 +4,9 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { Layout } from './components/layout/Layout';
 import './i18n';
 
-const Home = lazy(() => import('./pages/Home'));
-const About = lazy(() => import('./pages/About'));
-const Skills = lazy(() => import('./pages/Skills'));
-const Projects = lazy(() => import('./pages/Projects'));
-const Experience = lazy(() => import('./pages/Experience'));
-const Education = lazy(() => import('./pages/Education'));
+const SinglePage = lazy(() => import('./pages/SinglePage'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogArticle = lazy(() => import('./pages/BlogArticle'));
-const Contact = lazy(() => import('./pages/Contact'));
 
 function LoadingSpinner() {
   return (
@@ -27,15 +21,9 @@ const router = createHashRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Home /> },
-      { path: 'about', element: <About /> },
-      { path: 'skills', element: <Skills /> },
-      { path: 'projects', element: <Projects /> },
-      { path: 'experience', element: <Experience /> },
-      { path: 'education', element: <Education /> },
+      { index: true, element: <SinglePage /> },
       { path: 'blog', element: <Blog /> },
       { path: 'blog/:slug', element: <BlogArticle /> },
-      { path: 'contact', element: <Contact /> },
     ],
   },
 ]);

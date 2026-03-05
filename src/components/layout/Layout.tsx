@@ -7,15 +7,18 @@ import { PageTransition } from '../animations/PageTransition';
 
 export function Layout() {
   const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, [location.pathname]);
+    if (!isHomePage) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+  }, [location.pathname, isHomePage]);
 
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-grow pt-24 px-6 max-w-7xl mx-auto w-full">
+      <main className={isHomePage ? 'flex-grow pt-0' : 'flex-grow pt-24 px-6 max-w-7xl mx-auto w-full'}>
         <AnimatePresence mode="wait">
           <PageTransition key={location.pathname}>
             <Outlet />

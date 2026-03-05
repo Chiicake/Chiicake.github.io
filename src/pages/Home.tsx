@@ -18,10 +18,10 @@ export default function Home() {
   const roles = Array.isArray(rolesRaw) ? rolesRaw : Object.values(rolesRaw);
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] flex flex-col justify-center relative">
+    <div className="min-h-screen flex flex-col justify-center relative px-6">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[var(--color-accent)]/10 via-transparent to-transparent opacity-60"></div>
       
-      <div className="max-w-4xl">
+      <div className="max-w-4xl mx-auto w-full">
         <ScrollReveal delay={0.1}>
           <p className="text-xl md:text-2xl text-[var(--color-text-secondary)] mb-4 font-medium">
             {t('hero.greeting')}
@@ -48,10 +48,10 @@ export default function Home() {
 
         <ScrollReveal delay={0.5}>
           <div className="flex flex-wrap gap-4">
-            <Button to="/projects" size="lg" icon={<ArrowRight size={20} />}>
+            <Button onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} size="lg" icon={<ArrowRight size={20} />}>
               {t('hero.ctaPrimary')}
             </Button>
-            <Button to="/contact" variant="secondary" size="lg">
+            <Button onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} variant="secondary" size="lg">
               {t('hero.ctaSecondary')}
             </Button>
           </div>

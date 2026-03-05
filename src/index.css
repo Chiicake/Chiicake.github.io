@@ -231,3 +231,38 @@
   border-radius: 8px;
   margin: 1.5em 0;
 }
+
+/* KaTeX display math */
+.blog-article .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5em 0;
+  margin: 1.5em 0;
+}
+
+.blog-article .katex-display > .katex {
+  white-space: nowrap;
+}
+
+/* KaTeX inline math */
+.blog-article .katex {
+  font-size: 1.05em;
+}
+
+/* Blog images with captions */
+.blog-article figure {
+  margin: 2em 0;
+  text-align: center;
+}
+
+.blog-article figure img {
+  margin: 0 auto;
+  display: block;
+}
+
+.blog-article figcaption {
+  margin-top: 0.75em;
+  font-size: 0.875em;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}

@@ -132,7 +132,9 @@
     "subtitle": "Notes on backend architecture, Rust/Go/Java engineering, and distributed systems.",
     "stayTuned": "Content is being prepared. Stay tuned!",
     "backToList": "Back to articles",
-    "notFound": "Article not found"
+    "notFound": "Article not found",
+    "viewAll": "View All Articles",
+    "latestPosts": "Latest Posts"
   },
   "contact": {
     "title": "Get In Touch",

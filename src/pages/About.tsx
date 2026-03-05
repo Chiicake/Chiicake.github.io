@@ -3,10 +3,11 @@ import { SectionTitle } from '../components/ui/SectionTitle';
 import { Card } from '../components/ui/Card';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
 
-export default function About() {
+export default function About({ id }: { id?: string }) {
   const { t } = useTranslation();
 
   return (
+    <section id={id} className="scroll-mt-20">
     <div className="py-12">
       <SectionTitle title={t('about.title')} />
       
@@ -60,5 +61,6 @@ export default function About() {
         </ScrollReveal>
       </div>
     </div>
+    </section>
   );
 }

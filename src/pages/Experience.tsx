@@ -10,7 +10,7 @@ interface JobItem {
   description: string;
 }
 
-export default function Experience() {
+export default function Experience({ id }: { id?: string }) {
   const { t, i18n } = useTranslation();
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown>;
@@ -18,6 +18,7 @@ export default function Experience() {
   const jobs: JobItem[] = Array.isArray(expData) ? expData : [];
 
   return (
+    <section id={id} className="scroll-mt-20">
     <div className="py-12">
       <SectionTitle title={t('experience.title')} />
 
@@ -57,5 +58,6 @@ export default function Experience() {
         </div>
       </div>
     </div>
+    </section>
   );
 }

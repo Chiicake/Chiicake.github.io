@@ -1,0 +1,36 @@
+<svg viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg">
+  <title>Point Addition on Elliptic Curve</title>
+  
+  <!-- Curve background -->
+  <path d="M 150,150 C 200,350 400,350 600,150 M 150,450 C 200,250 400,250 600,450" fill="none" stroke="#e2e8f0" stroke-width="2" />
+
+  <!-- The main curve -->
+  <path d="M 150,150 C 200,350 400,350 600,150" fill="none" stroke="#6366f1" stroke-width="3" />
+  <path d="M 150,450 C 200,250 400,250 600,450" fill="none" stroke="#6366f1" stroke-width="3" />
+
+  <!-- Points P and Q -->
+  <circle cx="200" cy="245" r="6" fill="#10b981" />
+  <text x="185" y="235" font-family="sans-serif" font-weight="bold" fill="currentColor">P</text>
+
+  <circle cx="450" cy="275" r="6" fill="#10b981" />
+  <text x="460" y="270" font-family="sans-serif" font-weight="bold" fill="currentColor">Q</text>
+
+  <!-- Line through P and Q -->
+  <line x1="100" y1="233" x2="600" y2="293" stroke="#f43f5e" stroke-width="2" stroke-dasharray="5,5" />
+
+  <!-- Intersection point R' -->
+  <circle cx="560" cy="288" r="6" fill="#f59e0b" />
+  <text x="570" y="305" font-family="sans-serif" font-weight="bold" fill="currentColor">R'</text>
+
+  <!-- Vertical reflection line -->
+  <line x1="560" y1="288" x2="560" y2="312" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3,3" />
+
+  <!-- Point R = P + Q -->
+  <circle cx="560" cy="312" r="6" fill="#8b5cf6" />
+  <text x="570" y="330" font-family="sans-serif" font-weight="bold" fill="currentColor">P + Q</text>
+
+  <!-- Legend/Annotations -->
+  <text x="50" y="550" font-family="sans-serif" font-size="14" fill="currentColor">1. Draw line through P and Q</text>
+  <text x="50" y="570" font-family="sans-serif" font-size="14" fill="currentColor">2. Find third intersection point R'</text>
+  <text x="50" y="590" font-family="sans-serif" font-size="14" fill="currentColor">3. Reflect R' across x-axis to get R = P + Q</text>
+</svg>

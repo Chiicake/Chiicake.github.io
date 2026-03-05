@@ -10,7 +10,7 @@ interface EducationItem {
   description: string;
 }
 
-export default function Education() {
+export default function Education({ id }: { id?: string }) {
   const { t, i18n } = useTranslation();
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown>;
@@ -18,6 +18,7 @@ export default function Education() {
   const items: EducationItem[] = Array.isArray(eduData) ? eduData : [];
 
   return (
+    <section id={id} className="scroll-mt-20">
     <div className="py-12">
       <SectionTitle title={t('education.title')} />
 
@@ -57,5 +58,6 @@ export default function Education() {
         </div>
       </div>
     </div>
+    </section>
   );
 }

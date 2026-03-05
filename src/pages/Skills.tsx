@@ -3,7 +3,7 @@ import { SectionTitle } from '../components/ui/SectionTitle';
 import { Card } from '../components/ui/Card';
 import { StaggeredList } from '../components/animations/StaggeredList';
 
-export default function Skills() {
+export default function Skills({ id }: { id?: string }) {
   const { t } = useTranslation();
 
   const skillCategories = [
@@ -32,6 +32,7 @@ export default function Skills() {
   ];
 
   return (
+    <section id={id} className="scroll-mt-20">
     <div className="py-12">
       <SectionTitle title={t('skills.title')} />
 
@@ -61,5 +62,6 @@ export default function Skills() {
         ))}
       </StaggeredList>
     </div>
+    </section>
   );
 }

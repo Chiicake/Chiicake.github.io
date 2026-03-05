@@ -3,6 +3,9 @@ import { useParams, Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 
@@ -55,9 +58,9 @@ export default function BlogArticle() {
         if (!r.ok) throw new Error('index');
         return r.json() as Promise<BlogIndex>;
       }),
-      fetch(`${base}blog/${slug}.${lang}.md`).then((r) => {
+      fetch(`${base}blog/${slug}/index.${lang}.md`).then((r) => {
         if (!r.ok) {
-          return fetch(`${base}blog/${slug}.en.md`).then((r2) => {
+          return fetch(`${base}blog/${slug}/index.en.md`).then((r2) => {
             if (!r2.ok) throw new Error('md');
             return r2.text();
           });
@@ -148,7 +151,18 @@ export default function BlogArticle() {
         </header>
 
         <article className="blog-article">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeKatex]}
+            urlTransform={(url: string) => {
+              if (url.startsWith('./') || (!url.startsWith('http') && !url.startsWith('/') && !url.startsWith('#'))) {
+                return `${import.meta.env.BASE_URL}blog/${slug}/${url.replace(/^\.\//, '')}`;
+              }
+              return url;
+            }}
+          >
+            {content}
+          </ReactMarkdown>
         </article>
 
         <div className="mt-16 pt-8 border-t border-gray-200 dark:border-slate-800">
