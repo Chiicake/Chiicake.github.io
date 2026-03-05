@@ -19,7 +19,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col justify-center relative px-6">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[var(--color-accent)]/10 via-transparent to-transparent opacity-60"></div>
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[var(--color-accent)]/12 via-transparent to-transparent opacity-70"></div>
+
+        <div className="hidden md:block absolute -top-24 right-[-10%] h-[52vh] w-[48vw] min-w-[320px] max-w-[680px]">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(99,102,241,0.14)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,0.14)_1px,transparent_1px)] bg-[size:24px_24px] opacity-70 [mask-image:radial-gradient(circle_at_top_right,black_30%,transparent_82%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.25),transparent_68%)] blur-2xl"></div>
+        </div>
+      </div>
       
       <div className="max-w-4xl mx-auto w-full">
         <ScrollReveal delay={0.1}>
