@@ -1,0 +1,146 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "experience": "Experience",
+    "education": "Education",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "common": {
+    "toggleTheme": "Toggle Theme",
+    "switchLang": "Switch Language",
+    "viewMore": "View More",
+    "comingSoon": "Coming Soon",
+    "openMenu": "Open Menu",
+    "closeMenu": "Close Menu",
+    "readMore": "Read More"
+  },
+  "hero": {
+    "greeting": "Hello, I am",
+    "name": "[Your name here]",
+    "roles": [
+      "Software Engineer",
+      "Frontend Developer",
+      "Creative Thinker"
+    ],
+    "description": "Building beautiful, functional, and user-centric digital experiences.",
+    "ctaPrimary": "View My Work",
+    "ctaSecondary": "Get in Touch"
+  },
+  "about": {
+    "title": "About Me",
+    "bio": "I am a passionate software engineer with a focus on crafting clean, accessible, and performant user interfaces. I love turning complex problems into simple, beautiful, and intuitive designs. [Add your detailed bio here].",
+    "stats": {
+      "experience": "Years Experience",
+      "projects": "Projects Completed",
+      "clients": "Happy Clients"
+    },
+    "interests": "Interests & Hobbies",
+    "interestsList": "Coding, Design, Music, Photography [Edit here]"
+  },
+  "skills": {
+    "title": "My Skills",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Tools & Workflow",
+      "languages": "Languages"
+    },
+    "items": {
+      "react": "React / Next.js",
+      "ts": "TypeScript",
+      "css": "Tailwind CSS",
+      "node": "Node.js",
+      "db": "SQL / NoSQL",
+      "git": "Git / GitHub",
+      "figma": "Figma"
+    }
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "featured": "Featured",
+    "live": "Live Demo",
+    "source": "Source Code",
+    "items": [
+      {
+        "title": "[Project 1 Name]",
+        "description": "A comprehensive web application that solves [Problem]. Built with React, TypeScript, and Tailwind CSS. [Add your project description here].",
+        "tags": ["React", "TypeScript", "Tailwind CSS"]
+      },
+      {
+        "title": "[Project 2 Name]",
+        "description": "An interactive dashboard for data visualization. Features real-time updates and dark mode support. [Add your project description here].",
+        "tags": ["Next.js", "D3.js", "Vercel"]
+      },
+      {
+        "title": "[Project 3 Name]",
+        "description": "A cross-platform mobile application for productivity tracking. [Add your project description here].",
+        "tags": ["React Native", "Firebase", "Redux"]
+      },
+      {
+        "title": "[Project 4 Name]",
+        "description": "An open-source UI component library designed for accessibility and customization. [Add your project description here].",
+        "tags": ["Vue", "Storybook", "CSS"]
+      }
+    ]
+  },
+  "experience": {
+    "title": "Experience",
+    "present": "Present",
+    "jobs": [
+      {
+        "role": "[Senior Frontend Engineer]",
+        "company": "[Company Name]",
+        "period": "2022 - Present",
+        "description": "Led the frontend development team in migrating legacy monolithic architecture to micro-frontends. Improved performance by 40%."
+      },
+      {
+        "role": "[Software Engineer]",
+        "company": "[Company Name]",
+        "period": "2019 - 2022",
+        "description": "Developed and maintained multiple client-facing web applications. Collaborated closely with designers to implement pixel-perfect UIs."
+      },
+      {
+        "role": "[Junior Developer]",
+        "company": "[Company Name]",
+        "period": "2018 - 2019",
+        "description": "Assisted in building responsive landing pages and optimizing assets for faster load times."
+      }
+    ]
+  },
+  "education": {
+    "title": "Education",
+    "items": [
+      {
+        "degree": "[Master of Science in Computer Science]",
+        "school": "[University Name]",
+        "period": "2016 - 2018",
+        "description": "Specialized in Human-Computer Interaction and Software Engineering. Graduated with Honors."
+      },
+      {
+        "degree": "[Bachelor of Science in Computer Science]",
+        "school": "[University Name]",
+        "period": "2012 - 2016",
+        "description": "Foundational studies in algorithms, data structures, and system design."
+      }
+    ]
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Thoughts, tutorials, and insights on software development and design.",
+    "stayTuned": "Content is being prepared. Stay tuned!"
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "description": "I'm always open to new opportunities, collaborations, or just a chat about technology and design. Feel free to reach out!",
+    "email": "hello@example.com",
+    "github": "github.com/chiicake"
+  },
+  "footer": {
+    "copyright": "© {{year}} [Your Name]. All rights reserved.",
+    "builtWith": "Built with React & Tailwind CSS"
+  }
+}

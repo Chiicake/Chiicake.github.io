@@ -1,0 +1,146 @@
+{
+  "nav": {
+    "home": "主页",
+    "about": "关于",
+    "skills": "技能",
+    "projects": "项目",
+    "experience": "经历",
+    "education": "教育",
+    "blog": "博客",
+    "contact": "联系"
+  },
+  "common": {
+    "toggleTheme": "切换主题",
+    "switchLang": "切换语言",
+    "viewMore": "查看更多",
+    "comingSoon": "敬请期待",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单",
+    "readMore": "阅读更多"
+  },
+  "hero": {
+    "greeting": "你好，我是",
+    "name": "[在此填写你的名字]",
+    "roles": [
+      "软件工程师",
+      "前端开发",
+      "创意构建者"
+    ],
+    "description": "构建美观、实用且以用户为中心的数字体验。",
+    "ctaPrimary": "查看我的作品",
+    "ctaSecondary": "联系我"
+  },
+  "about": {
+    "title": "关于我",
+    "bio": "我是一名充满热情的软件工程师，专注于打造整洁、易用和高性能的用户界面。我喜欢将复杂的问题转化为简单、优雅和直观的设计。[在此添加你的详细简介]。",
+    "stats": {
+      "experience": "年经验",
+      "projects": "个完成项目",
+      "clients": "个满意客户"
+    },
+    "interests": "兴趣与爱好",
+    "interestsList": "编程、设计、音乐、摄影 [在此编辑]"
+  },
+  "skills": {
+    "title": "我的技能",
+    "categories": {
+      "frontend": "前端",
+      "backend": "后端",
+      "tools": "工具与工作流",
+      "languages": "语言"
+    },
+    "items": {
+      "react": "React / Next.js",
+      "ts": "TypeScript",
+      "css": "Tailwind CSS",
+      "node": "Node.js",
+      "db": "SQL / NoSQL",
+      "git": "Git / GitHub",
+      "figma": "Figma"
+    }
+  },
+  "projects": {
+    "title": "精选项目",
+    "featured": "精选",
+    "live": "在线演示",
+    "source": "源代码",
+    "items": [
+      {
+        "title": "[项目一名称]",
+        "description": "一个综合性Web应用，解决[问题]。使用 React、TypeScript 和 Tailwind CSS 构建。[在此添加项目描述]。",
+        "tags": ["React", "TypeScript", "Tailwind CSS"]
+      },
+      {
+        "title": "[项目二名称]",
+        "description": "用于数据可视化的交互式仪表板。支持实时更新和深色模式。[在此添加项目描述]。",
+        "tags": ["Next.js", "D3.js", "Vercel"]
+      },
+      {
+        "title": "[项目三名称]",
+        "description": "一款用于生产力跟踪的跨平台移动应用。[在此添加项目描述]。",
+        "tags": ["React Native", "Firebase", "Redux"]
+      },
+      {
+        "title": "[项目四名称]",
+        "description": "一个专为可访问性和可定制性设计的开源UI组件库。[在此添加项目描述]。",
+        "tags": ["Vue", "Storybook", "CSS"]
+      }
+    ]
+  },
+  "experience": {
+    "title": "工作经历",
+    "present": "至今",
+    "jobs": [
+      {
+        "role": "[高级前端工程师]",
+        "company": "[公司名称]",
+        "period": "2022 - 至今",
+        "description": "领导前端团队将旧版单体架构迁移到微前端。性能提升了40%。"
+      },
+      {
+        "role": "[软件工程师]",
+        "company": "[公司名称]",
+        "period": "2019 - 2022",
+        "description": "开发和维护多个面向客户的Web应用。与设计师紧密合作，实现像素级完美的用户界面。"
+      },
+      {
+        "role": "[初级开发者]",
+        "company": "[公司名称]",
+        "period": "2018 - 2019",
+        "description": "协助构建响应式登陆页面并优化资源以加快加载时间。"
+      }
+    ]
+  },
+  "education": {
+    "title": "教育背景",
+    "items": [
+      {
+        "degree": "[计算机科学硕士]",
+        "school": "[大学名称]",
+        "period": "2016 - 2018",
+        "description": "专注于人机交互和软件工程。以优异成绩毕业。"
+      },
+      {
+        "degree": "[计算机科学学士]",
+        "school": "[大学名称]",
+        "period": "2012 - 2016",
+        "description": "算法、数据结构和系统设计的基础研究。"
+      }
+    ]
+  },
+  "blog": {
+    "title": "博客",
+    "subtitle": "关于软件开发和设计的思考、教程和见解。",
+    "stayTuned": "内容正在准备中，敬请期待！"
+  },
+  "contact": {
+    "title": "联系我",
+    "description": "我随时对新的机会、合作或只是聊聊技术和设计保持开放态度。欢迎随时联系我！",
+    "email": "hello@example.com",
+    "github": "github.com/chiicake"
+  },
+  "footer": {
+    "copyright": "© {{year}} [你的名字]. 保留所有权利。",
+    "builtWith": "基于 React & Tailwind CSS 构建"
+  }
+}
