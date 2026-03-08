@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Calendar, Clock, ArrowRight, Layers3, PenLine } from 'lucide-react';
-import { SectionTitle } from '../components/ui/SectionTitle';
 import { Card } from '../components/ui/Card';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
@@ -26,7 +25,6 @@ export default function Blog() {
   if (loading) {
     return (
       <div className="py-12">
-        <SectionTitle title={t('blog.title')} subtitle={t('blog.subtitle')} />
         <div className="flex items-center justify-center py-20">
           <div className="w-8 h-8 border-4 border-[var(--color-accent)] border-t-transparent rounded-full animate-spin" />
         </div>
@@ -37,7 +35,6 @@ export default function Blog() {
   if (error || !index || index.articles.length === 0) {
     return (
       <div className="py-12">
-        <SectionTitle title={t('blog.title')} subtitle={t('blog.subtitle')} />
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <div className="w-20 h-20 rounded-full bg-[var(--color-accent)]/10 flex items-center justify-center mb-6">
             <PenLine size={36} className="text-[var(--color-accent)]" />
@@ -75,8 +72,6 @@ export default function Blog() {
 
   return (
     <div className="py-12">
-      <SectionTitle title={t('blog.title')} subtitle={t('blog.subtitle')} />
-
       <section className="mb-10 grid gap-5 xl:grid-cols-[1.18fr_0.82fr]">
         <div className="rounded-[2rem] border border-gray-200/80 bg-white/85 p-6 shadow-[0_20px_70px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/70 md:p-7">
           <div className="mb-5 max-w-2xl">
