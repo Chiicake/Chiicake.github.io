@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { Sun, Moon, Menu, X, Globe } from 'lucide-react';
+import { Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import avatarImage from '../../../avatar.png';
-import { useTheme } from '../../contexts/useTheme';
 import { preloadBlogPageAssets } from '../../lib/blogPrefetch';
 
 interface NavItem {
@@ -27,7 +26,6 @@ const navItems: NavItem[] = [
 
 export function Header() {
   const { t, i18n } = useTranslation();
-  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -179,14 +177,6 @@ export function Header() {
             title={t('common.switchLang')}
           >
             <Globe size={20} />
-          </button>
-          <button 
-            onClick={toggleTheme}
-            className="p-2 rounded-full text-[var(--color-text-secondary)] hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
-            aria-label={t('common.toggleTheme')}
-            title={t('common.toggleTheme')}
-          >
-            {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
           </button>
           
           <button 
