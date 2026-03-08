@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Sun, Moon, Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useTheme } from '../../contexts/useTheme';
 
 interface NavItem {
   id: string;
@@ -40,7 +40,11 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    setIsMobileMenuOpen(false);
+    const frame = window.requestAnimationFrame(() => {
+      setIsMobileMenuOpen(false);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [location.pathname]);
 
   useEffect(() => {

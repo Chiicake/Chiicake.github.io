@@ -17,21 +17,17 @@ export function TypewriterText({
   className = ''
 }: TypewriterTextProps) {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [displayText, setDisplayText] = useState('');
+  const [displayText, setDisplayText] = useState(texts[0] || '');
   const [isDeleting, setIsDeleting] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
-    if (shouldReduceMotion) {
-      setDisplayText(texts[0] || '');
+    if (shouldReduceMotion || !texts.length) {
       return;
     }
 
-    if (!texts.length) return;
-
     let timer: ReturnType<typeof setTimeout>;
-    
-    const currentFullText = texts[currentTextIndex];
+    const currentFullText = texts[currentTextIndex] || texts[0];
 
     const handleType = () => {
       if (!isDeleting) {

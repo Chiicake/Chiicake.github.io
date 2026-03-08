@@ -135,7 +135,22 @@
     "backToList": "Back to articles",
     "notFound": "Article not found",
     "viewAll": "View All Articles",
-    "latestPosts": "Latest Posts"
+    "latestPosts": "Latest Posts",
+    "recommendedEyebrow": "Editor Picks",
+    "recommendedTitle": "Recommended Reads",
+    "recommendedSubtitle": "A short set of representative posts for first-time readers who want the shape of the blog quickly.",
+    "recommendedEmpty": "More representative posts are being prepared.",
+    "allCategories": "All Categories",
+    "categoryLabel": "Category",
+    "filterHint": "Browse by topic first, then keep reading through collections.",
+    "collectionLabel": "Collections",
+    "collectionSubtitle": "Organize related articles into continuous series, similar to Bilibili playlists.",
+    "currentCollection": "Current Collection",
+    "tableOfContents": "Table of Contents",
+    "articlesCount": "{{count}} articles",
+    "partLabel": "Part {{order}}",
+    "independentPosts": "Standalone Posts",
+    "noToc": "This article is written as a continuous narrative without a navigable outline."
   },
   "contact": {
     "title": "Get In Touch",

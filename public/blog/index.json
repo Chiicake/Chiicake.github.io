@@ -1,16 +1,163 @@
 {
+  "categories": [
+    {
+      "id": "cryptography",
+      "label": {
+        "zh": "密码学基础",
+        "en": "Cryptography"
+      },
+      "description": {
+        "zh": "聚焦椭圆曲线、数字签名与现代密码学原语。",
+        "en": "Elliptic curves, signatures, and the core primitives of modern cryptography."
+      }
+    },
+    {
+      "id": "protocols",
+      "label": {
+        "zh": "协议分析",
+        "en": "Protocol Analysis"
+      },
+      "description": {
+        "zh": "从握手流程、密钥协商到协议版本演进，拆解实际网络协议。",
+        "en": "Handshake flows, key exchange, and how real-world network protocols evolve."
+      }
+    },
+    {
+      "id": "security-engineering",
+      "label": {
+        "zh": "安全工程",
+        "en": "Security Engineering"
+      },
+      "description": {
+        "zh": "关注签名校验、密钥管理与生产环境里的安全边界。",
+        "en": "Signature verification, key management, and production security boundaries."
+      }
+    },
+    {
+      "id": "service-reliability",
+      "label": {
+        "zh": "服务稳定性",
+        "en": "Service Reliability"
+      },
+      "description": {
+        "zh": "围绕限流、熔断、容量保护等生产级服务治理实践。",
+        "en": "Rate limiting, circuit breaking, and capacity protection for production services."
+      }
+    },
+    {
+      "id": "distributed-systems",
+      "label": {
+        "zh": "分布式系统",
+        "en": "Distributed Systems"
+      },
+      "description": {
+        "zh": "处理幂等、重试、消息一致性与跨服务状态协调。",
+        "en": "Idempotency, retries, message consistency, and cross-service coordination."
+      }
+    }
+  ],
+  "collections": [
+    {
+      "slug": "crypto-tls-foundations",
+      "name": {
+        "zh": "现代密码协议深潜",
+        "en": "Modern Crypto Protocol Deep Dive"
+      },
+      "description": {
+        "zh": "从 ECDSA、TLS 到 JWT，沿着协议栈梳理现代安全通信中最关键的原语与误区。",
+        "en": "From ECDSA and TLS to JWT, this series follows the protocol stack behind modern secure communication."
+      }
+    },
+    {
+      "slug": "backend-reliability-playbook",
+      "name": {
+        "zh": "高可靠服务手册",
+        "en": "Backend Reliability Playbook"
+      },
+      "description": {
+        "zh": "从限流、幂等到失败恢复，总结生产级后端服务必须具备的生存策略。",
+        "en": "A production-oriented series on rate limiting, idempotency, and failure recovery."
+      }
+    }
+  ],
   "articles": [
+    {
+      "slug": "jwt-signature-pitfalls",
+      "date": "2026-03-08",
+      "tags": ["JWT", "Security", "Auth"],
+      "category": "security-engineering",
+      "collection": "crypto-tls-foundations",
+      "seriesOrder": 3,
+      "featuredRank": 1,
+      "title": {
+        "zh": "JWT 签名校验中的常见陷阱",
+        "en": "Common Pitfalls in JWT Signature Verification"
+      },
+      "summary": {
+        "zh": "算法白名单、`kid` 轮换、时钟漂移与多租户密钥隔离，是 JWT 在生产环境里最容易踩坑的四个点。",
+        "en": "Algorithm allowlists, `kid` rotation, clock skew, and tenant key isolation are four of the most common JWT traps in production."
+      },
+      "readingTime": {
+        "zh": "9 分钟",
+        "en": "9 min"
+      }
+    },
+    {
+      "slug": "distributed-idempotency-checklist",
+      "date": "2026-03-07",
+      "tags": ["Idempotency", "Distributed Systems", "Reliability"],
+      "category": "distributed-systems",
+      "collection": "backend-reliability-playbook",
+      "seriesOrder": 2,
+      "featuredRank": 3,
+      "title": {
+        "zh": "分布式系统的幂等性清单",
+        "en": "An Idempotency Checklist for Distributed Systems"
+      },
+      "summary": {
+        "zh": "只靠“重试可安全执行”远远不够，幂等键、状态机和副作用隔离才是落地关键。",
+        "en": "Idempotency is more than safe retries; the hard parts are keys, state transitions, and isolating side effects."
+      },
+      "readingTime": {
+        "zh": "8 分钟",
+        "en": "8 min"
+      }
+    },
+    {
+      "slug": "asymmetric-encryption-tls-evolution",
+      "date": "2026-03-06",
+      "tags": ["TLS", "Cryptography", "Security"],
+      "category": "protocols",
+      "collection": "crypto-tls-foundations",
+      "seriesOrder": 2,
+      "featuredRank": 2,
+      "title": {
+        "zh": "非对称加密与 TLS 演进",
+        "en": "Asymmetric Encryption and TLS Evolution"
+      },
+      "summary": {
+        "zh": "从 RSA 密钥交换到 ECDHE 前向保密，再到后量子密码学：TLS 协议二十年演进中的关键转折。",
+        "en": "From RSA key exchange to ECDHE forward secrecy and post-quantum experiments: the turning points in TLS across twenty years."
+      },
+      "readingTime": {
+        "zh": "15 分钟",
+        "en": "15 min"
+      }
+    },
     {
       "slug": "ecdsa-algorithm-analysis",
       "date": "2026-03-05",
       "tags": ["Cryptography", "ECDSA", "Security", "Mathematics"],
+      "category": "cryptography",
+      "collection": "crypto-tls-foundations",
+      "seriesOrder": 1,
       "title": {
-        "zh": "ECDSA算法解析",
+        "zh": "ECDSA 算法解析",
         "en": "ECDSA Algorithm Analysis"
       },
       "summary": {
         "zh": "深入解析椭圆曲线数字签名算法（ECDSA）的数学原理、签名与验证流程，以及常见安全考量。",
-        "en": "A deep dive into the mathematics behind Elliptic Curve Digital Signature Algorithm (ECDSA), covering signing, verification, and security considerations."
+        "en": "A deep dive into the mathematics behind ECDSA, covering signing, verification, and practical security considerations."
       },
       "readingTime": {
         "zh": "12 分钟",
@@ -18,20 +165,23 @@
       }
     },
     {
-      "slug": "asymmetric-encryption-tls-evolution",
-      "date": "2026-03-05",
-      "tags": ["TLS", "Cryptography", "Security"],
+      "slug": "go-service-rate-limiting-patterns",
+      "date": "2026-03-04",
+      "tags": ["Go", "Rate Limiting", "Reliability"],
+      "category": "service-reliability",
+      "collection": "backend-reliability-playbook",
+      "seriesOrder": 1,
       "title": {
-        "zh": "非对称加密与TLS演进",
-        "en": "Asymmetric Encryption and TLS Evolution"
+        "zh": "Go 服务限流的几种落地模式",
+        "en": "Practical Rate Limiting Patterns for Go Services"
       },
       "summary": {
-        "zh": "从 RSA 密钥交换到 ECDHE 前向保密，再到后量子密码学：TLS 协议二十年演进中非对称加密的关键变迁。",
-        "en": "From RSA key exchange to ECDHE forward secrecy to post-quantum cryptography: key changes in asymmetric encryption across twenty years of TLS evolution."
+        "zh": "网关、服务节点与 Redis 三层限流如何分工，以及令牌桶和滑动窗口在高并发场景里的取舍。",
+        "en": "How to divide rate limiting across gateway, service nodes, and Redis, and when to choose token bucket vs. sliding window."
       },
       "readingTime": {
-        "zh": "15 分钟",
-        "en": "15 min"
+        "zh": "10 分钟",
+        "en": "10 min"
       }
     }
   ]

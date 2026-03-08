@@ -135,7 +135,22 @@
     "backToList": "返回文章列表",
     "notFound": "文章未找到",
     "viewAll": "查看所有文章",
-    "latestPosts": "最新文章"
+    "latestPosts": "最新文章",
+    "recommendedEyebrow": "编辑精选",
+    "recommendedTitle": "推荐文章",
+    "recommendedSubtitle": "挑几篇最能代表当前博客方向的文章，适合第一次进入本站时快速浏览。",
+    "recommendedEmpty": "更多代表性文章正在整理中。",
+    "allCategories": "全部分类",
+    "categoryLabel": "分类",
+    "filterHint": "像频道分区一样按主题浏览，再按合集连续阅读。",
+    "collectionLabel": "合集",
+    "collectionSubtitle": "像 Bilibili 合集一样把相关文章组织成一组连续内容。",
+    "currentCollection": "所属合集",
+    "tableOfContents": "目录",
+    "articlesCount": "{{count}} 篇文章",
+    "partLabel": "第 {{order}} 篇",
+    "independentPosts": "独立文章",
+    "noToc": "这篇文章以连续叙述为主，没有拆出可导航的目录层级。"
   },
   "contact": {
     "title": "联系我",
