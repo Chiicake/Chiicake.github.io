@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { BookOpen, Cpu, Github, HardDrive, Waypoints } from 'lucide-react';
+import { BookOpen, Cpu, Eye, GitFork, Github, HardDrive, Star, Waypoints } from 'lucide-react';
 import { SectionTitle } from '../components/ui/SectionTitle';
 import { Button } from '../components/ui/Button';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
@@ -10,6 +10,12 @@ interface ProjectModule {
 }
 
 interface ProjectDiagnostic {
+  label: string;
+  value: string;
+}
+
+interface ProjectMetric {
+  key: string;
   label: string;
   value: string;
 }
@@ -32,6 +38,7 @@ interface FeaturedProjectContent {
   highlights: string[];
   modules: ProjectModule[];
   diagnostics: ProjectDiagnostic[];
+  metrics: ProjectMetric[];
   stack: string[];
   sourceHref: string;
 }
@@ -52,6 +59,14 @@ export default function Projects({ id }: { id?: string }) {
 
   const highlights = Array.isArray(featuredProject.highlights) ? featuredProject.highlights.filter(isString) : [];
   const stack = Array.isArray(featuredProject.stack) ? featuredProject.stack.filter(isString) : [];
+  const metrics = (Array.isArray(featuredProject.metrics) ? featuredProject.metrics : [])
+    .filter(isRecord)
+    .map((metric) => ({
+      key: isString(metric.key) ? metric.key : '',
+      label: isString(metric.label) ? metric.label : '',
+      value: isString(metric.value) ? metric.value : '',
+    }))
+    .filter((metric) => metric.key && metric.label && metric.value);
 
   const modules = (Array.isArray(featuredProject.modules) ? featuredProject.modules : [])
     .filter(isRecord)
@@ -87,11 +102,17 @@ export default function Projects({ id }: { id?: string }) {
     highlights,
     modules,
     diagnostics,
+    metrics,
     stack,
     sourceHref: t('projects.featuredProject.sourceHref'),
   };
 
   const moduleIcons = [Cpu, HardDrive, Waypoints];
+  const metricIcons = {
+    watch: Eye,
+    fork: GitFork,
+    star: Star,
+  } as const;
 
   return (
     <section id={id} className="scroll-mt-20">
@@ -114,6 +135,26 @@ export default function Projects({ id }: { id?: string }) {
                     </span>
                   </div>
                   <p className="mono-data mt-3 text-xs text-[var(--color-text-secondary)]">{content.path}</p>
+                  {content.metrics.length > 0 && (
+                    <div className="mt-4 flex flex-wrap gap-2.5">
+                      {content.metrics.map((metric) => {
+                        const Icon = metricIcons[metric.key as keyof typeof metricIcons] ?? Eye;
+
+                        return (
+                          <div
+                            key={metric.key}
+                            className="engineering-subpanel inline-flex items-center gap-2.5 rounded-full px-3.5 py-2"
+                          >
+                            <Icon size={14} className="text-[var(--color-accent)]" />
+                            <span className="mono-data text-[11px] uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">
+                              {metric.label}
+                            </span>
+                            <span className="text-sm font-semibold text-[var(--color-text-primary)]">{metric.value}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                   <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-text-secondary)] md:text-[15px]">
                     {content.tagline}
                   </p>

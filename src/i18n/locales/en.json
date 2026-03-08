@@ -28,10 +28,10 @@
       "Distributed Systems Builder"
     ],
     "description": "I build reliable backend services, scalable APIs, and cloud-native infrastructure, and I keep turning protocols, caches, and storage systems into explainable engineering experiments.",
-    "ctaBlog": "View Articles",
-    "ctaPrimary": "View My Work",
+    "ctaBlog": "Blog Articles",
+    "ctaPrimary": "Open Source Projects",
     "ctaGithub": "GitHub",
-    "ctaSecondary": "Get in Touch"
+    "ctaSecondary": "Contact Me"
   },
   "about": {
     "title": "About Me",
@@ -43,8 +43,6 @@
     ],
     "bio": "I am Chiicake, a 2026 new-grad backend engineer with roughly 2 years of backend experience. I mainly work with Rust, Go, and Java, and I also spend time around Redis, PostgreSQL, and Docker.",
     "bioExtra": "The problems I care about most are service reliability, distributed systems, protocols and security mechanisms, and cache or storage paths. I keep writing blog posts, building small experiments, and reading infrastructure or systems code. I am still early in my career, but the technical curiosity is very real.",
-    "githubStatsTitle": "GitHub Stats",
-    "githubStatsCaption": "This image uses a locally prepared GitHub stats snapshot based on the current public profile.",
     "statsCards": [
       {
         "value": "2 Years",
@@ -85,13 +83,13 @@
     "snakeStatusLost": "Lost",
     "snakeStatusWon": "Won",
     "snakeOverlayIdleTitle": "Ready",
-    "snakeOverlayIdleDescription": "Press a direction key or Space to start and turn the plain greeting into a live interface.",
+    "snakeOverlayIdleDescription": "Press an arrow key or Space to start.",
     "snakeOverlayPausedTitle": "Paused",
-    "snakeOverlayPausedDescription": "The route is still there. The next move just has not been committed yet.",
+    "snakeOverlayPausedDescription": "Press Space to continue.",
     "snakeOverlayLostTitle": "Crashed",
-    "snakeOverlayLostDescription": "That path failed. Reset and try a cleaner line.",
+    "snakeOverlayLostDescription": "Want to restart and try again?",
     "snakeOverlayWonTitle": "Board Filled",
-    "snakeOverlayWonDescription": "This run squeezed every remaining cell out of the board."
+    "snakeOverlayWonDescription": "You filled the board on this run."
   },
   "skills": {
     "title": "Capability Matrix",
@@ -201,19 +199,19 @@
     ]
   },
   "projects": {
-    "title": "Featured Projects",
+    "title": "Open Source Projects",
     "featuredProject": {
       "eyebrow": "Project Spotlight",
       "title": "hybird-kv",
       "terminalLabel": "kv://hybird-kv/live",
-      "status": "active experiment",
-      "introLabel": "Project Brief",
+      "status": "In Progress",
+      "introLabel": "Project Overview",
       "focusLabel": "Core Focus",
       "modulesLabel": "Key Modules",
       "diagnosticsLabel": "Engineering Signals",
-      "stackLabel": "Stack",
-      "sourceCta": "Open Repository",
-      "articleCta": "Open Blog",
+      "stackLabel": "Tech Stack",
+      "sourceCta": "View Repository",
+      "articleCta": "View Blog",
       "path": "github.com/Chiicake/hybird-kv",
       "tagline": "An SSD-friendly high-performance KV storage experiment built around a hybrid architecture: a kernel hot-key cache plus a user-space authoritative engine.",
       "summary": "I am using it as a systems-heavy workbench to test how hot and cold paths should be separated, how cache policy can be decoupled from the storage core, and where the boundary between kernel space and user space should sit if you want hit efficiency without sacrificing evolvability or operational clarity.",
@@ -246,8 +244,25 @@
           "value": "How to balance hit-path efficiency against evolvability"
         },
         {
-          "label": "Geek Signal",
-          "value": "This is a systems playground, not a routine CRUD project"
+          "label": "Summary",
+          "value": "An experimental project for validating ideas, covering most systems, networking, and storage-related techniques."
+        }
+      ],
+      "metrics": [
+        {
+          "key": "watch",
+          "label": "Watch",
+          "value": "9"
+        },
+        {
+          "key": "fork",
+          "label": "Fork",
+          "value": "5"
+        },
+        {
+          "key": "star",
+          "label": "Star",
+          "value": "128"
         }
       ],
       "stack": [
@@ -265,22 +280,16 @@
     "present": "Present",
     "jobs": [
       {
-        "role": "[Senior Backend Engineer]",
-        "company": "[Company Name]",
-        "period": "2022 - Present",
-        "description": "Designed and delivered core microservices in Rust and Go, improved API latency, and introduced observability standards for production systems."
+        "role": "Backend Engineer Intern",
+        "company": "ByteDance",
+        "period": "2025.4 - 2025.9",
+        "description": "Built Go backend services, worked on API contract governance, and maintained stable integrations with databases and message queues."
       },
       {
-        "role": "[Backend Engineer]",
-        "company": "[Company Name]",
-        "period": "2019 - 2022",
-        "description": "Built Java and Go services for internal platforms, owned API contracts, and delivered stable integrations with databases and message queues."
-      },
-      {
-        "role": "[Junior Backend Developer]",
-        "company": "[Company Name]",
-        "period": "2018 - 2019",
-        "description": "Maintained backend modules, wrote integration tests, and supported release pipelines for service deployments."
+        "role": "Backend Engineer Intern",
+        "company": "Hongyun Machinery Manufacturing Co., Ltd.",
+        "period": "2024.6 - 2025.1",
+        "description": "Maintained backend modules, wrote integration tests, and supported service release pipelines and day-to-day operations."
       }
     ]
   },
@@ -288,15 +297,15 @@
     "title": "Education",
     "items": [
       {
-        "degree": "[Master of Science in Computer Science]",
-        "school": "[University Name]",
-        "period": "2016 - 2018",
-        "description": "Specialized in Human-Computer Interaction and Software Engineering. Graduated with Honors."
+        "degree": "Master of Computer Science",
+        "school": "Hohai University",
+        "period": "2023 - 2026",
+        "description": "Focused on reinforcement learning and published multiple papers."
       },
       {
-        "degree": "[Bachelor of Science in Computer Science]",
-        "school": "[University Name]",
-        "period": "2012 - 2016",
+        "degree": "Bachelor of Computer Science",
+        "school": "Hohai University",
+        "period": "2019 - 2023",
         "description": "Foundational studies in algorithms, data structures, and system design."
       }
     ]
@@ -308,23 +317,23 @@
     "backToList": "Back to articles",
     "notFound": "Article not found",
     "viewAll": "View All Articles",
-    "latestPosts": "Latest Posts",
-    "recommendedEyebrow": "Editor Picks",
-    "recommendedTitle": "Recommended Reads",
-    "recommendedSubtitle": "A short set of representative posts for first-time readers who want the shape of the blog quickly.",
+    "latestPosts": "Latest Articles",
+    "recommendedEyebrow": "Featured Blog Posts",
+    "recommendedTitle": "Recommended Articles",
+    "recommendedSubtitle": "My representative blog posts. No AI-generated content; AI is used only for factual verification.",
     "recommendedEmpty": "More representative posts are being prepared.",
     "allCategories": "All Categories",
     "categoryLabel": "Category",
-    "filterHint": "Browse by topic first, then read articles in reverse chronological order.",
+    "filterHint": "",
     "collectionLabel": "Collections",
-    "collectionSubtitle": "Collections live as dedicated pages that group related posts together.",
+    "collectionSubtitle": "List of article collections",
     "currentCollection": "Current Collection",
     "tableOfContents": "Table of Contents",
     "articlesCount": "{{count}} articles",
     "partLabel": "Part {{order}}",
     "independentPosts": "Standalone Posts",
     "noToc": "This article is written as a continuous narrative without a navigable outline.",
-    "timeOrderedTitle": "Reverse Chronological",
+    "timeOrderedTitle": "All Articles",
     "collectionNotFound": "Collection not found",
     "collectionPageHint": "Read this series in topic order",
     "collectionEmpty": "No collection entry is available for the current category.",
@@ -334,13 +343,13 @@
     "nextPage": "Next"
   },
   "contact": {
-    "title": "Get In Touch",
-    "description": "I am open to backend engineering opportunities, technical collaboration, and architecture discussions. Feel free to reach out!",
+    "title": "Contact Me",
+    "description": "Backend engineering opportunities, technical collaboration, or architecture discussions are all welcome. Feel free to reach out!",
     "email": "hello@example.com",
     "github": "github.com/chiicake"
   },
   "footer": {
-    "copyright": "© {{year}} [Your Name]. All rights reserved.",
+    "copyright": "© {{year}} Chiicake. All rights reserved.",
     "builtWith": "Built with React & Tailwind CSS"
   }
 }

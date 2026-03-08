@@ -43,8 +43,6 @@
     ],
     "bio": "我是 Chiicake，一名 2026 届应届后端工程师，目前大约有 2 年后端开发经验。主要使用 Rust、Go、Java，也会接触 Redis、PostgreSQL、Docker 这些后端常用组件。",
     "bioExtra": "我更关注服务可靠性、分布式系统、协议与安全机制、缓存和存储路径这类问题。平时会写博客、做实验项目，也会持续读一些基础设施和系统相关源码。现在还在积累阶段，但会一直保持对技术的热情。",
-    "githubStatsTitle": "GitHub 统计",
-    "githubStatsCaption": "使用本地生成的 GitHub 统计图展示当前公开主页数据。",
     "statsCards": [
       {
         "value": "2 年",
@@ -250,6 +248,23 @@
           "value": "一个验证想法的实验性项目，涉及了大部分系统/网络/存储相关的技术"
         }
       ],
+      "metrics": [
+        {
+          "key": "watch",
+          "label": "Watch",
+          "value": "9"
+        },
+        {
+          "key": "fork",
+          "label": "Fork",
+          "value": "5"
+        },
+        {
+          "key": "star",
+          "label": "Star",
+          "value": "128"
+        }
+      ],
       "stack": [
         "Rust",
         "Linux",
@@ -265,21 +280,15 @@
     "present": "至今",
     "jobs": [
       {
-        "role": "[高级后端工程师]",
-        "company": "[公司名称]",
-        "period": "2022 - 至今",
-        "description": "设计并交付 Rust 与 Go 核心微服务，优化 API 延迟，并在生产环境落地可观测性标准。"
+        "role": "后端开发工程师（实习）",
+        "company": "字节跳动",
+        "period": "2025.4 - 2025.9",
+        "description": "构建 Go 后端服务，负责 API 契约治理，并稳定对接数据库与消息队列。"
       },
       {
-        "role": "[后端工程师]",
-        "company": "[公司名称]",
-        "period": "2019 - 2022",
-        "description": "构建 Java 与 Go 后端服务，负责 API 契约治理，并稳定对接数据库与消息队列。"
-      },
-      {
-        "role": "[初级后端开发工程师]",
-        "company": "[公司名称]",
-        "period": "2018 - 2019",
+        "role": "后端开发工程师（实习）",
+        "company": "鸿运机械制造有限公司",
+        "period": "2024.6 - 2025.1",
         "description": "维护后端模块，编写集成测试，并支持服务发布流水线与日常运维。"
       }
     ]
@@ -288,16 +297,16 @@
     "title": "教育背景",
     "items": [
       {
-        "degree": "[计算机科学硕士]",
-        "school": "[大学名称]",
-        "period": "2016 - 2018",
-        "description": "专注于人机交互和软件工程。以优异成绩毕业。"
+        "degree": "计算机科学硕士",
+        "school": "河海大学",
+        "period": "2023 - 2026",
+        "description": "专注于强化学习，发表多篇论文。"
       },
       {
-        "degree": "[计算机科学学士]",
-        "school": "[大学名称]",
-        "period": "2012 - 2016",
-        "description": "算法、数据结构和系统设计的基础研究。"
+        "degree": "计算机科学学士",
+        "school": "河海大学",
+        "period": "2019 - 2023",
+        "description": "算法、数据结构和系统设计的基础学习。"
       }
     ]
   },
