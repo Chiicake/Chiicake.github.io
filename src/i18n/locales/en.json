@@ -32,6 +32,39 @@
     "ctaPrimary": "Open Source Projects",
     "ctaGithub": "GitHub",
     "ctaSecondary": "Contact Me",
+    "bootLabel": "boot sequence",
+    "bootStatus": "online",
+    "bootSequence": [
+      "loading hero runtime modules",
+      "syncing build fingerprint 2026.03.08",
+      "mounting life simulation panel",
+      "prefetching /blog resources"
+    ],
+    "runtimeBar": {
+      "build": "2026.03.08",
+      "runtime": "react / vite",
+      "focus": "storage / reliability",
+      "status": "online"
+    },
+    "traceLabel": "system trace",
+    "traceItems": [
+      {
+        "label": "last update",
+        "value": "2026-03-08"
+      },
+      {
+        "label": "open source repos",
+        "value": "14 public repos"
+      },
+      {
+        "label": "writing cadence",
+        "value": "backend / protocol / storage notes"
+      },
+      {
+        "label": "current experiment",
+        "value": "hybird-kv"
+      }
+    ],
     "lifeEyebrow": "cellular automaton",
     "lifeTitle": "Game of Life",
     "lifeSubtitle": "It auto-initializes on page load and keeps running, replacing the static recommendation card with a living cellular grid.",
@@ -273,6 +306,14 @@
           "label": "Star",
           "value": "128"
         }
+      ],
+      "flowLabel": "Request Path",
+      "flowHint": "hit / route / persist",
+      "flowNodes": [
+        "Kernel hot-key cache",
+        "Policy plane",
+        "User-space engine",
+        "SSD layer"
       ],
       "stack": [
         "Rust",

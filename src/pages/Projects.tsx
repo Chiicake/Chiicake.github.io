@@ -41,6 +41,9 @@ interface FeaturedProjectContent {
   metrics: ProjectMetric[];
   stack: string[];
   sourceHref: string;
+  flowLabel: string;
+  flowHint: string;
+  flowNodes: string[];
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -105,6 +108,9 @@ export default function Projects({ id }: { id?: string }) {
     metrics,
     stack,
     sourceHref: t('projects.featuredProject.sourceHref'),
+    flowLabel: t('projects.featuredProject.flowLabel'),
+    flowHint: t('projects.featuredProject.flowHint'),
+    flowNodes: (Array.isArray(featuredProject.flowNodes) ? featuredProject.flowNodes : []).filter(isString),
   };
 
   const moduleIcons = [Cpu, HardDrive, Waypoints];
@@ -173,6 +179,34 @@ export default function Projects({ id }: { id?: string }) {
                   </div>
                 </div>
               </div>
+
+              {content.flowNodes.length > 0 && (
+                <div className="engineering-subpanel mb-4 rounded-[1.5rem] p-5">
+                  <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                    <p className="engineering-kicker">{content.flowLabel}</p>
+                    <p className="mono-data text-[11px] uppercase tracking-[0.16em] text-[var(--color-text-secondary)]">
+                      {content.flowHint}
+                    </p>
+                  </div>
+
+                  <div className="project-flow-track">
+                    <div className="project-flow-grid">
+                      {content.flowNodes.map((node, index) => (
+                        <div
+                          key={node}
+                          className="project-flow-node"
+                          style={{ ['--node-index' as string]: String(index) }}
+                        >
+                          <span className="project-flow-node__index mono-data">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                          <span className="project-flow-node__label">{node}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="grid gap-4 xl:grid-cols-[1.08fr_0.92fr]">
                 <div className="space-y-4">

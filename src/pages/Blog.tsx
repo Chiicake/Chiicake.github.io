@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { Calendar, Clock, ArrowRight, Layers3, PenLine } from 'lucide-react';
-import { Card } from '../components/ui/Card';
+import { Layers3, PenLine } from 'lucide-react';
+import { BlogEntryCard } from '../components/blog/BlogEntryCard';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
   findBlogCategory,
@@ -201,60 +201,13 @@ export default function Blog() {
               const collection = article.collection ? findBlogCollection(index, article.collection) : undefined;
 
               return (
-                <Link key={article.slug} to={`/blog/${article.slug}`} className="block group">
-                  <Card hoverable className="min-h-full transition-colors">
-                    <div className="flex h-full flex-col gap-4">
-                      <div className="flex flex-wrap items-center gap-2">
-                        {category && (
-                          <span className="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
-                            {getLocalizedText(category.label, lang)}
-                          </span>
-                        )}
-                        {collection && (
-                          <span className="px-2.5 py-1 text-[11px] font-medium rounded-full bg-gray-100 dark:bg-slate-800 text-[var(--color-text-secondary)]">
-                            {getLocalizedText(collection.name, lang)}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-text-secondary)]">
-                        <span className="inline-flex items-center gap-1.5">
-                          <Calendar size={14} />
-                          {article.date}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5">
-                          <Clock size={14} />
-                          {getLocalizedText(article.readingTime, lang)}
-                        </span>
-                      </div>
-
-                      <h4 className="text-xl font-bold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent)]">
-                        {getLocalizedText(article.title, lang)}
-                      </h4>
-
-                      <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
-                        {getLocalizedText(article.summary, lang)}
-                      </p>
-
-                      <div className="mt-auto flex items-end justify-between gap-4">
-                        <div className="flex flex-wrap items-center gap-2">
-                          {article.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="px-2.5 py-0.5 text-xs font-medium bg-gray-100 dark:bg-slate-800 text-[var(--color-text-secondary)] rounded-md"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-
-                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] group-hover:bg-[var(--color-accent)] group-hover:text-white transition-colors shrink-0">
-                          <ArrowRight size={18} />
-                        </div>
-                      </div>
-                    </div>
-                  </Card>
-                </Link>
+                <BlogEntryCard
+                  key={article.slug}
+                  article={article}
+                  lang={lang}
+                  categoryLabel={category ? getLocalizedText(category.label, lang) : undefined}
+                  collectionLabel={collection ? getLocalizedText(collection.name, lang) : undefined}
+                />
               );
             })}
           </div>

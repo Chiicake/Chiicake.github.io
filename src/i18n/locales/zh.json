@@ -32,6 +32,39 @@
     "ctaPrimary": "开源项目",
     "ctaGithub": "GitHub",
     "ctaSecondary": "联系我",
+    "bootLabel": "boot sequence",
+    "bootStatus": "online",
+    "bootSequence": [
+      "loading hero runtime modules",
+      "syncing build fingerprint 2026.03.08",
+      "mounting life simulation panel",
+      "prefetching /blog resources"
+    ],
+    "runtimeBar": {
+      "build": "2026.03.08",
+      "runtime": "react / vite",
+      "focus": "storage / reliability",
+      "status": "online"
+    },
+    "traceLabel": "system trace",
+    "traceItems": [
+      {
+        "label": "last update",
+        "value": "2026-03-08"
+      },
+      {
+        "label": "open source repos",
+        "value": "14 public repos"
+      },
+      {
+        "label": "writing cadence",
+        "value": "backend / protocol / storage notes"
+      },
+      {
+        "label": "current experiment",
+        "value": "hybird-kv"
+      }
+    ],
     "lifeEyebrow": "cellular automaton",
     "lifeTitle": "生命游戏",
     "lifeSubtitle": "首页打开时会自动初始化并持续运行，用一块活着的细胞网格替代静态推荐卡片。",
@@ -223,7 +256,7 @@
       "articleCta": "查看博客",
       "path": "github.com/Chiicake/hybird-kv",
       "tagline": "一个面向 SSD 场景的高性能 KV 存储 lab 项目，采用“内核热 Key 缓存 + 用户态权威存储引擎”的混合架构。",
-      "summary": "我把它作为一个偏系统研究味道的在建项目，用来验证冷热数据路径怎么分层、缓存策略怎样从存储引擎里解耦，以及内核态与用户态边界该如何划分，才能兼顾命中效率、可演进性和工程可解释性。",
+      "summary": "一个偏研究的实验性项目，用来验证冷热数据路径怎么分层、缓存策略怎样从存储引擎里解耦，以及内核态与用户态边界该如何划分，才能兼顾命中效率、可演进性和工程可解释性。",
       "highlights": [
         "把热点访问路径尽量前移，减少高频请求在用户态反复穿梭的成本。",
         "用户态继续承担权威数据和控制逻辑，避免为了局部性能牺牲整体可维护性。",
@@ -273,6 +306,14 @@
           "label": "Star",
           "value": "128"
         }
+      ],
+      "flowLabel": "路径视图",
+      "flowHint": "hit / route / persist",
+      "flowNodes": [
+        "Kernel hot-key cache",
+        "Policy plane",
+        "User-space engine",
+        "SSD layer"
       ],
       "stack": [
         "Rust",

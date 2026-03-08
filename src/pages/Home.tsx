@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowDown, ArrowRight, BookOpen, Github } from 'lucide-react';
+import { ArrowRight, BookOpen, Github } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { TypewriterText } from '../components/ui/TypewriterText';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
@@ -19,6 +19,8 @@ function isString(value: unknown): value is string {
 export default function Home() {
   const { t, i18n } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
+  const [bootVisible, setBootVisible] = useState(false);
+  const [bootStep, setBootStep] = useState(0);
 
   useEffect(() => {
     const idleWindow = window as Window & {
@@ -55,6 +57,63 @@ export default function Home() {
     .filter(Boolean)
     .slice(0, 4);
 
+  const bootLines = (Array.isArray(heroBundle.bootSequence) ? heroBundle.bootSequence : [])
+    .filter(isString)
+    .slice(0, 5);
+
+  useEffect(() => {
+    if (shouldReduceMotion || bootLines.length === 0 || typeof window === 'undefined') {
+      return undefined;
+    }
+
+    try {
+      if (window.sessionStorage.getItem('home-boot-seen') === '1') {
+        return undefined;
+      }
+    } catch {
+      return undefined;
+    }
+
+    let currentStep = 0;
+    let hideTimeoutId: number | undefined;
+    let intervalId: number | undefined;
+
+    const startTimeoutId = window.setTimeout(() => {
+      setBootVisible(true);
+      setBootStep(0);
+
+      intervalId = window.setInterval(() => {
+        currentStep += 1;
+        setBootStep(currentStep);
+
+        if (currentStep >= bootLines.length) {
+          if (intervalId !== undefined) {
+            window.clearInterval(intervalId);
+          }
+
+          hideTimeoutId = window.setTimeout(() => {
+            setBootVisible(false);
+            try {
+              window.sessionStorage.setItem('home-boot-seen', '1');
+            } catch {
+              return;
+            }
+          }, 700);
+        }
+      }, 150);
+    }, 0);
+
+    return () => {
+      window.clearTimeout(startTimeoutId);
+      if (intervalId !== undefined) {
+        window.clearInterval(intervalId);
+      }
+      if (hideTimeoutId !== undefined) {
+        window.clearTimeout(hideTimeoutId);
+      }
+    };
+  }, [bootLines.length, shouldReduceMotion]);
+
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -73,7 +132,40 @@ export default function Home() {
       </div>
 
       <div className="mx-auto w-full max-w-7xl xl:grid xl:grid-cols-[minmax(0,1fr)_30rem] xl:items-start xl:gap-12">
-        <div className="max-w-4xl">
+        <div className="relative max-w-4xl">
+          {bootVisible && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="pointer-events-none absolute right-0 top-1 z-20 hidden w-full max-w-md lg:block"
+            >
+              <div className="home-boot-sequence rounded-[1.5rem] p-4">
+                <div className="mb-3 flex items-center justify-between gap-4">
+                  <span className="engineering-kicker">{t('hero.bootLabel')}</span>
+                  <span className="mono-data rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-emerald-300">
+                    {t('hero.bootStatus')}
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  {bootLines.slice(0, bootStep).map((line, index) => (
+                    <motion.div
+                      key={line}
+                      initial={{ opacity: 0, x: -6 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="home-boot-line"
+                    >
+                      <span className="home-boot-line__index mono-data">{String(index + 1).padStart(2, '0')}</span>
+                      <span className="mono-data text-[11px] uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
+                        {line}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           <ScrollReveal delay={0.08} width="fit-content">
             <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-gray-200/80 bg-white/75 px-4 py-2 shadow-[0_12px_30px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/65">
               <div className="flex gap-1.5">
@@ -163,21 +255,12 @@ export default function Home() {
               </Button>
             </div>
           </ScrollReveal>
-
         </div>
 
         <div className="mt-12 xl:mt-0 xl:pt-2">
           <HomeLifePanel />
         </div>
       </div>
-
-      <motion.div
-        className="pointer-events-none absolute bottom-6 right-8 hidden text-[var(--color-text-secondary)] 2xl:block"
-        animate={shouldReduceMotion ? {} : { y: [0, 10, 0] }}
-        transition={shouldReduceMotion ? {} : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <ArrowDown size={24} className="opacity-45" />
-      </motion.div>
     </div>
   );
 }
