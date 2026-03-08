@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Sun, Moon, Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '../../contexts/useTheme';
+import { preloadBlogPageAssets } from '../../lib/blogPrefetch';
 
 interface NavItem {
   id: string;
@@ -90,8 +91,16 @@ export function Header() {
     localStorage.setItem('app-lang', newLang);
   };
 
+  const handleNavIntent = (item: NavItem) => {
+    if (item.routePath === '/blog') {
+      preloadBlogPageAssets();
+    }
+  };
+
   const handleNavClick = useCallback((item: NavItem) => {
     setIsMobileMenuOpen(false);
+
+    handleNavIntent(item);
     
     if (item.isRoute) {
       navigate(item.routePath!);
@@ -142,6 +151,8 @@ export function Header() {
             <button
               key={item.id}
               onClick={() => handleNavClick(item)}
+              onMouseEnter={() => handleNavIntent(item)}
+              onFocus={() => handleNavIntent(item)}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive(item)
                   ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]' 
@@ -194,6 +205,7 @@ export function Header() {
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item)}
+                  onFocus={() => handleNavIntent(item)}
                   className={`px-4 py-3 rounded-xl text-base font-medium mb-1 text-left ${
                     isActive(item)
                       ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]' 

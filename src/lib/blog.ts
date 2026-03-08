@@ -32,6 +32,7 @@ export interface BlogArticleMeta {
 }
 
 export interface BlogIndex {
+  tags: string[];
   categories: BlogCategoryMeta[];
   collections: BlogCollectionMeta[];
   articles: BlogArticleMeta[];
@@ -44,6 +45,24 @@ export interface BlogTocItem {
 }
 
 let blogIndexPromise: Promise<BlogIndex> | null = null;
+
+function sortUniqueStrings(values: string[]) {
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))].sort((left, right) =>
+    left.localeCompare(right)
+  );
+}
+
+export function normalizeBlogIndex(index: Partial<BlogIndex>) {
+  const articles = sortArticles(index.articles ?? []);
+  const tags = sortUniqueStrings([...(index.tags ?? []), ...articles.flatMap((article) => article.tags ?? [])]);
+
+  return {
+    tags,
+    categories: [...(index.categories ?? [])],
+    collections: [...(index.collections ?? [])],
+    articles,
+  } satisfies BlogIndex;
+}
 
 function sortArticles(articles: BlogArticleMeta[]) {
   return [...articles].sort((left, right) => {
@@ -78,10 +97,7 @@ export async function fetchBlogIndex() {
 
         return response.json() as Promise<BlogIndex>;
       })
-      .then((data) => ({
-        ...data,
-        articles: sortArticles(data.articles),
-      }))
+      .then((data) => normalizeBlogIndex(data))
       .catch((error) => {
         blogIndexPromise = null;
         throw error;
@@ -89,6 +105,20 @@ export async function fetchBlogIndex() {
   }
 
   return blogIndexPromise;
+}
+
+export function primeBlogIndex(index: Partial<BlogIndex>) {
+  const normalizedIndex = normalizeBlogIndex(index);
+  blogIndexPromise = Promise.resolve(normalizedIndex);
+  return normalizedIndex;
+}
+
+export function resetBlogIndexCache() {
+  blogIndexPromise = null;
+}
+
+export function preloadBlogIndex() {
+  return fetchBlogIndex();
 }
 
 export function findBlogCategory(index: BlogIndex, categoryId: string) {

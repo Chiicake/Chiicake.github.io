@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'motion/react';
@@ -13,26 +14,27 @@ import {
   getFeaturedArticles,
   getLocalizedText,
 } from '../lib/blog';
+import { preloadBlogPageAssets } from '../lib/blogPrefetch';
 
-function RecommendedArticlesPanel() {
+function RecommendedArticlesPanel({ maxArticles = 2 }: { maxArticles?: number }) {
   const { t, i18n } = useTranslation();
   const { index, loading } = useBlogIndex();
   const lang = getBlogLanguage(i18n.language);
-  const featuredArticles = index ? getFeaturedArticles(index) : [];
+  const featuredArticles = index ? getFeaturedArticles(index, maxArticles) : [];
 
   return (
     <ScrollReveal delay={0.45} className="h-full">
-      <aside className="relative overflow-hidden rounded-[2rem] border border-gray-200/80 bg-white/85 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/70 md:p-7">
+      <aside className="relative max-w-[22rem] overflow-hidden rounded-[2rem] border border-gray-200/80 bg-white/85 p-5 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/70 md:p-6">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.18),transparent_55%)]"></div>
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/60 to-transparent"></div>
 
         <div className="relative">
-          <div className="flex items-start justify-between gap-4 mb-6">
+          <div className="flex items-start justify-between gap-4 mb-5">
             <div className="min-w-0">
               <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--color-accent)] mb-3">
                 {t('blog.recommendedEyebrow')}
               </p>
-              <h2 className="text-2xl font-black tracking-tight text-[var(--color-text-primary)] mb-2">
+              <h2 className="text-[1.4rem] font-black tracking-tight text-[var(--color-text-primary)] mb-2">
                 {t('blog.recommendedTitle')}
               </h2>
               <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
@@ -54,7 +56,7 @@ function RecommendedArticlesPanel() {
               {t('blog.recommendedEmpty')}
             </p>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3">
               {featuredArticles.map((article) => {
                 const category = findBlogCategory(index, article.category);
                 const collection = article.collection ? findBlogCollection(index, article.collection) : undefined;
@@ -63,7 +65,7 @@ function RecommendedArticlesPanel() {
                   <Link
                     key={article.slug}
                     to={`/blog/${article.slug}`}
-                    className="group block rounded-[1.5rem] border border-gray-200/80 bg-white/80 p-4 transition-transform duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]/40 dark:border-slate-800/80 dark:bg-slate-900/70"
+                    className="group block rounded-[1.5rem] border border-gray-200/80 bg-white/80 p-3.5 transition-transform duration-300 hover:-translate-y-1 hover:border-[var(--color-accent)]/40 dark:border-slate-800/80 dark:bg-slate-900/70"
                   >
                     <div className="flex flex-wrap items-center gap-2 mb-3">
                       {category && (
@@ -80,10 +82,10 @@ function RecommendedArticlesPanel() {
 
                     <div className="flex items-start gap-3">
                       <div className="min-w-0 flex-1">
-                        <h3 className="text-base font-bold leading-snug text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent)]">
+                        <h3 className="text-[15px] font-bold leading-snug text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent)]">
                           {getLocalizedText(article.title, lang)}
                         </h3>
-                        <p className="mt-2 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                        <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--color-text-secondary)]">
                           {getLocalizedText(article.summary, lang)}
                         </p>
                       </div>
@@ -94,7 +96,7 @@ function RecommendedArticlesPanel() {
                       />
                     </div>
 
-                    <div className="mt-4 flex flex-wrap items-center gap-3 text-xs text-[var(--color-text-secondary)]">
+                    <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-[var(--color-text-secondary)]">
                       <span className="inline-flex items-center gap-1.5">
                         <Calendar size={13} />
                         {article.date}
@@ -129,6 +131,25 @@ export default function Home() {
   const { t, i18n } = useTranslation();
   const shouldReduceMotion = useReducedMotion();
 
+  useEffect(() => {
+    const idleWindow = window as Window & {
+      requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+
+    const triggerPrefetch = () => {
+      preloadBlogPageAssets();
+    };
+
+    if (typeof idleWindow.requestIdleCallback === 'function') {
+      const idleId = idleWindow.requestIdleCallback(triggerPrefetch, { timeout: 1200 });
+      return () => idleWindow.cancelIdleCallback?.(idleId);
+    }
+
+    const timeoutId = window.setTimeout(triggerPrefetch, 300);
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
   const rolesRaw = i18n.getResourceBundle(i18n.language, 'translation')?.hero?.roles || [
     'Software Engineer',
     'Frontend Developer',
@@ -138,7 +159,7 @@ export default function Home() {
   const roles = Array.isArray(rolesRaw) ? rolesRaw : Object.values(rolesRaw);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center relative px-6 py-24 xl:py-0">
+    <div className="min-h-screen flex flex-col justify-center relative px-6 pt-28 pb-20 xl:justify-start xl:pt-36 xl:pb-24">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[var(--color-accent)]/12 via-transparent to-transparent opacity-70"></div>
 
@@ -148,7 +169,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto w-full xl:grid xl:grid-cols-[minmax(0,1fr)_23rem] xl:gap-16 xl:items-center">
+      <div className="max-w-7xl mx-auto w-full xl:grid xl:grid-cols-[minmax(0,1fr)_22rem] xl:gap-14 xl:items-start">
         <div className="max-w-4xl">
           <ScrollReveal delay={0.1}>
             <p className="text-xl md:text-2xl text-[var(--color-text-secondary)] mb-4 font-medium">
@@ -202,12 +223,12 @@ export default function Home() {
           </ScrollReveal>
 
           <div className="mt-12 xl:hidden">
-            <RecommendedArticlesPanel />
+            <RecommendedArticlesPanel maxArticles={3} />
           </div>
         </div>
 
-        <div className="hidden xl:block">
-          <RecommendedArticlesPanel />
+        <div className="hidden xl:block pt-2">
+          <RecommendedArticlesPanel maxArticles={2} />
         </div>
       </div>
 

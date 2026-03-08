@@ -2,11 +2,14 @@ import { Suspense, lazy } from 'react';
 import { createHashRouter, RouterProvider } from 'react-router';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Layout } from './components/layout/Layout';
+import { LOCAL_BLOG_ADMIN_ROUTE } from './lib/localBlogAdminConfig';
 import './i18n';
 
 const SinglePage = lazy(() => import('./pages/SinglePage'));
 const Blog = lazy(() => import('./pages/Blog'));
+const BlogCollection = lazy(() => import('./pages/BlogCollection'));
 const BlogArticle = lazy(() => import('./pages/BlogArticle'));
+const LocalBlogAdmin = import.meta.env.DEV ? lazy(() => import('./pages/LocalBlogAdmin')) : null;
 
 function LoadingSpinner() {
   return (
@@ -23,9 +26,18 @@ const router = createHashRouter([
     children: [
       { index: true, element: <SinglePage /> },
       { path: 'blog', element: <Blog /> },
+      { path: 'blog/collections/:collectionSlug', element: <BlogCollection /> },
       { path: 'blog/:slug', element: <BlogArticle /> },
     ],
   },
+  ...(LocalBlogAdmin
+    ? [
+        {
+          path: `/${LOCAL_BLOG_ADMIN_ROUTE}`,
+          element: <LocalBlogAdmin />,
+        },
+      ]
+    : []),
 ]);
 
 export default function App() {

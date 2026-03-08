@@ -232,9 +232,12 @@ export default function BlogArticle() {
                 </span>
               )}
               {collection && (
-                <span className="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-slate-800 text-[var(--color-text-secondary)]">
+                <Link
+                  to={`/blog/collections/${collection.slug}`}
+                  className="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-slate-800 text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors"
+                >
                   {getLocalizedText(collection.name, lang)}
-                </span>
+                </Link>
               )}
               {meta.seriesOrder && (
                 <span className="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-slate-800 text-[var(--color-text-secondary)]">
@@ -349,9 +352,13 @@ export default function BlogArticle() {
               </div>
 
                 <div className="mb-5">
-                  <h3 className="text-base font-bold text-[var(--color-text-primary)] mb-2">
+                  <Link
+                    to={`/blog/collections/${collection.slug}`}
+                    className="inline-flex items-center gap-2 text-base font-bold text-[var(--color-text-primary)] mb-2 hover:text-[var(--color-accent)] transition-colors"
+                  >
                     {getLocalizedText(collection.name, lang)}
-                  </h3>
+                    <ArrowLeft size={14} className="rotate-180" />
+                  </Link>
                   <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
                     {getLocalizedText(collection.description, lang)}
                   </p>

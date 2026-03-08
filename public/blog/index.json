@@ -1,4 +1,17 @@
 {
+  "tags": [
+    "Auth",
+    "Cryptography",
+    "Distributed Systems",
+    "ECDSA",
+    "Go",
+    "Idempotency",
+    "JWT",
+    "Mathematics",
+    "Rate Limiting",
+    "Reliability",
+    "Security"
+  ],
   "categories": [
     {
       "id": "cryptography",
@@ -60,11 +73,11 @@
     {
       "slug": "crypto-tls-foundations",
       "name": {
-        "zh": "现代密码协议深潜",
+        "zh": "密码学原语与应用解析",
         "en": "Modern Crypto Protocol Deep Dive"
       },
       "description": {
-        "zh": "从 ECDSA、TLS 到 JWT，沿着协议栈梳理现代安全通信中最关键的原语与误区。",
+        "zh": "从 ECDSA、TLS 到 JWT，沿着协议栈梳理现代安全通信中最关键的原语。",
         "en": "From ECDSA and TLS to JWT, this series follows the protocol stack behind modern secure communication."
       }
     },
@@ -84,7 +97,11 @@
     {
       "slug": "jwt-signature-pitfalls",
       "date": "2026-03-08",
-      "tags": ["JWT", "Security", "Auth"],
+      "tags": [
+        "JWT",
+        "Security",
+        "Auth"
+      ],
       "category": "security-engineering",
       "collection": "crypto-tls-foundations",
       "seriesOrder": 3,
@@ -105,7 +122,11 @@
     {
       "slug": "distributed-idempotency-checklist",
       "date": "2026-03-07",
-      "tags": ["Idempotency", "Distributed Systems", "Reliability"],
+      "tags": [
+        "Idempotency",
+        "Distributed Systems",
+        "Reliability"
+      ],
       "category": "distributed-systems",
       "collection": "backend-reliability-playbook",
       "seriesOrder": 2,
@@ -126,7 +147,10 @@
     {
       "slug": "asymmetric-encryption-tls-evolution",
       "date": "2026-03-06",
-      "tags": ["TLS", "Cryptography", "Security"],
+      "tags": [
+        "Cryptography",
+        "Security"
+      ],
       "category": "protocols",
       "collection": "crypto-tls-foundations",
       "seriesOrder": 2,
@@ -147,7 +171,12 @@
     {
       "slug": "ecdsa-algorithm-analysis",
       "date": "2026-03-05",
-      "tags": ["Cryptography", "ECDSA", "Security", "Mathematics"],
+      "tags": [
+        "Cryptography",
+        "ECDSA",
+        "Security",
+        "Mathematics"
+      ],
       "category": "cryptography",
       "collection": "crypto-tls-foundations",
       "seriesOrder": 1,
@@ -167,7 +196,11 @@
     {
       "slug": "go-service-rate-limiting-patterns",
       "date": "2026-03-04",
-      "tags": ["Go", "Rate Limiting", "Reliability"],
+      "tags": [
+        "Go",
+        "Rate Limiting",
+        "Reliability"
+      ],
       "category": "service-reliability",
       "collection": "backend-reliability-playbook",
       "seriesOrder": 1,
