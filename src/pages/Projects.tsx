@@ -31,12 +31,6 @@ export default function Projects({ id }: { id?: string }) {
               </span>
             </div>
 
-            {index === 0 && (
-              <span className="inline-block px-3 py-1 text-xs font-semibold bg-[var(--color-accent)]/10 text-[var(--color-accent)] rounded-full mb-3">
-                {t('projects.featured')}
-              </span>
-            )}
-
             <h3 className="text-xl font-bold text-[var(--color-text-primary)] mb-2">
               {project.title}
             </h3>

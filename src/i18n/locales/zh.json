@@ -27,8 +27,8 @@
       "分布式系统构建者"
     ],
     "description": "专注构建高可靠后端服务、可扩展 API 与云原生基础设施。",
-    "ctaBlog": "查看文章",
-    "ctaPrimary": "查看我的作品",
+    "ctaBlog": "博客文章",
+    "ctaPrimary": "开源项目",
     "ctaSecondary": "联系我"
   },
   "about": {
@@ -60,9 +60,9 @@
     }
   },
   "projects": {
-    "title": "精选项目",
+    "title": "开源项目",
     "featured": "精选",
-    "live": "在线演示",
+    "live": "演示",
     "source": "源代码",
     "items": [
       {
