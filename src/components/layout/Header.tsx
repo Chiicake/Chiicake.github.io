@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Sun, Moon, Menu, X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import avatarImage from '../../../avatar.png';
 import { useTheme } from '../../contexts/useTheme';
 import { preloadBlogPageAssets } from '../../lib/blogPrefetch';
 
@@ -17,8 +18,8 @@ const navItems: NavItem[] = [
   { id: 'top', label: 'nav.home' },
   { id: 'blog', label: 'nav.blog', isRoute: true, routePath: '/blog' },
   { id: 'projects', label: 'nav.projects' },
-  { id: 'about', label: 'nav.about' },
   { id: 'skills', label: 'nav.skills' },
+  { id: 'about', label: 'nav.about' },
   { id: 'experience', label: 'nav.experience' },
   { id: 'education', label: 'nav.education' },
   { id: 'contact', label: 'nav.contact' },
@@ -52,7 +53,7 @@ export function Header() {
     if (location.pathname !== '/') return;
 
     const observers = new Map<string, IntersectionObserver>();
-    const sectionIds = ['blog', 'projects', 'about', 'skills', 'experience', 'education', 'contact'];
+    const sectionIds = ['blog', 'projects', 'skills', 'about', 'experience', 'education', 'contact'];
     
     const handleScrollForTop = () => {
       if (window.scrollY < 200) {
@@ -141,9 +142,15 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <button 
           onClick={handleLogoClick}
-          className="text-xl font-bold tracking-tight text-[var(--color-accent)] transition-transform hover:scale-105"
+          className="overflow-hidden rounded-full border border-gray-200/80 shadow-[0_10px_25px_rgba(15,23,42,0.08)] transition-transform hover:scale-105 dark:border-slate-800/80"
+          aria-label={t('nav.home')}
         >
-          C.
+          <img
+            src={avatarImage}
+            alt="Chiicake avatar"
+            className="h-11 w-11 object-cover"
+            loading="eager"
+          />
         </button>
 
         <nav className="hidden md:flex items-center gap-1 lg:gap-2">

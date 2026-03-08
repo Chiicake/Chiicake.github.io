@@ -14,7 +14,7 @@ import {
   getLocalizedText,
 } from '../../lib/blog';
 
-export function BlogPreview({ id, maxArticles = 3 }: { id?: string; maxArticles?: number }) {
+export function BlogPreview({ id, maxArticles = 4 }: { id?: string; maxArticles?: number }) {
   const { t, i18n } = useTranslation();
   const { index, loading, error } = useBlogIndex();
   const lang = getBlogLanguage(i18n.language);
@@ -56,48 +56,48 @@ export function BlogPreview({ id, maxArticles = 3 }: { id?: string; maxArticles?
     <section id={id} className="scroll-mt-20 py-12">
       <SectionTitle title={t('blog.latestPosts')} subtitle={t('blog.filterHint')} />
 
-      <StaggeredList className="grid gap-6">
+      <StaggeredList className="grid gap-6 lg:grid-cols-2">
         {articles.map((article) => {
           const category = findBlogCategory(index, article.category);
           const collection = article.collection ? findBlogCollection(index, article.collection) : undefined;
 
           return (
             <Link key={article.slug} to={`/blog/${article.slug}`} className="block group">
-              <Card hoverable className="transition-colors">
-                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2 mb-3">
-                      {category && (
-                        <span className="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
-                          {getLocalizedText(category.label, lang)}
-                        </span>
-                      )}
-                      {collection && (
-                        <span className="px-2.5 py-1 text-[11px] font-medium rounded-full bg-gray-100 dark:bg-slate-800 text-[var(--color-text-secondary)]">
-                          {getLocalizedText(collection.name, lang)}
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-text-secondary)] mb-3">
-                      <span className="inline-flex items-center gap-1.5">
-                        <Calendar size={14} />
-                        {article.date}
+              <Card hoverable className="min-h-full transition-colors">
+                <div className="flex h-full flex-col gap-4">
+                  <div className="flex flex-wrap items-center gap-2">
+                    {category && (
+                      <span className="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
+                        {getLocalizedText(category.label, lang)}
                       </span>
-                      <span className="inline-flex items-center gap-1.5">
-                        <Clock size={14} />
-                        {getLocalizedText(article.readingTime, lang)}
+                    )}
+                    {collection && (
+                      <span className="px-2.5 py-1 text-[11px] font-medium rounded-full bg-gray-100 dark:bg-slate-800 text-[var(--color-text-secondary)]">
+                        {getLocalizedText(collection.name, lang)}
                       </span>
-                    </div>
+                    )}
+                  </div>
 
-                    <h3 className="text-xl font-bold text-[var(--color-text-primary)] mb-2 group-hover:text-[var(--color-accent)] transition-colors">
-                      {getLocalizedText(article.title, lang)}
-                    </h3>
+                  <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--color-text-secondary)]">
+                    <span className="inline-flex items-center gap-1.5">
+                      <Calendar size={14} />
+                      {article.date}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <Clock size={14} />
+                      {getLocalizedText(article.readingTime, lang)}
+                    </span>
+                  </div>
 
-                    <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed mb-4">
-                      {getLocalizedText(article.summary, lang)}
-                    </p>
+                  <h3 className="text-xl font-bold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent)]">
+                    {getLocalizedText(article.title, lang)}
+                  </h3>
 
+                  <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">
+                    {getLocalizedText(article.summary, lang)}
+                  </p>
+
+                  <div className="mt-auto flex items-end justify-between gap-4">
                     <div className="flex flex-wrap items-center gap-2">
                       {article.tags.map((tag) => (
                         <span
@@ -108,10 +108,10 @@ export function BlogPreview({ id, maxArticles = 3 }: { id?: string; maxArticles?
                         </span>
                       ))}
                     </div>
-                  </div>
 
-                  <div className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] group-hover:bg-[var(--color-accent)] group-hover:text-white transition-colors shrink-0 mt-8">
-                    <ArrowRight size={18} />
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] group-hover:bg-[var(--color-accent)] group-hover:text-white transition-colors shrink-0">
+                      <ArrowRight size={18} />
+                    </div>
                   </div>
                 </div>
               </Card>

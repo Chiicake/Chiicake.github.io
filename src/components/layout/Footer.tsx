@@ -1,28 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import { Github, Mail } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router';
 
 export function Footer() {
   const { t } = useTranslation();
   const year = new Date().getFullYear();
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const handleLogoClick = () => {
-    if (location.pathname === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      navigate('/');
-    }
-  };
 
   return (
     <footer className="w-full border-t border-gray-200 dark:border-slate-800 bg-[var(--color-surface)] py-12 mt-20">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex flex-col items-center md:items-start gap-2">
-          <button onClick={handleLogoClick} className="text-2xl font-bold tracking-tight text-[var(--color-accent)] hover:scale-105 transition-transform">
-            C.
-          </button>
           <p className="text-[var(--color-text-secondary)] text-sm">
             {t('footer.copyright', { year })}
           </p>

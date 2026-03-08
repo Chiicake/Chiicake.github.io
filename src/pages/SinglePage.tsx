@@ -32,8 +32,8 @@ export default function SinglePage() {
       <div className="px-6 max-w-7xl mx-auto w-full">
         <BlogPreview id="blog" />
         <Projects id="projects" />
-        <About id="about" />
         <Skills id="skills" />
+        <About id="about" />
         <Experience id="experience" />
         <Education id="education" />
         <Contact id="contact" />

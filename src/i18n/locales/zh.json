@@ -21,71 +21,244 @@
   "hero": {
     "greeting": "你好，我是",
     "name": "Chiicake",
+    "systemLabel": "engineering log / reliability-first",
     "roles": [
       "后端开发工程师",
       "Rust / Go / Java 开发者",
       "分布式系统构建者"
     ],
-    "description": "专注构建高可靠后端服务、可扩展 API 与云原生基础设施。",
+    "description": "专注构建高可靠后端服务、可扩展 API 与云原生基础设施，也持续把协议、缓存与存储系统做成可拆解的工程实验。",
     "ctaBlog": "博客文章",
     "ctaPrimary": "开源项目",
+    "ctaGithub": "GitHub",
     "ctaSecondary": "联系我"
   },
   "about": {
     "title": "关于我",
-    "bio": "我是一名专注于高性能与高可靠系统的后端工程师。核心技术栈是 Rust、Go、Java，擅长服务边界设计、延迟优化和生产级 API 交付。[在此添加你的详细简介]。",
-    "stats": {
-      "experience": "年后端经验",
-      "projects": "个后端交付项目",
-      "clients": "个线上运行服务"
-    },
-    "interests": "我关注的方向",
-    "interestsList": "分布式系统、API 设计、性能优化、云基础设施 [在此编辑]"
+    "profileEyebrow": "backend / systems / open source",
+    "profileMeta": [
+      "@Chiicake",
+      "Beijing, China",
+      "Backend / Systems"
+    ],
+    "bio": "我是 Chiicake，一名 2026 届应届后端工程师，目前大约有 2 年后端开发经验。主要使用 Rust、Go、Java，也会接触 Redis、PostgreSQL、Docker 这些后端常用组件。",
+    "bioExtra": "我更关注服务可靠性、分布式系统、协议与安全机制、缓存和存储路径这类问题。平时会写博客、做实验项目，也会持续读一些基础设施和系统相关源码。现在还在积累阶段，但会一直保持对技术的热情。",
+    "githubStatsTitle": "GitHub 统计",
+    "githubStatsCaption": "使用本地生成的 GitHub 统计图展示当前公开主页数据。",
+    "statsCards": [
+      {
+        "value": "2 年",
+        "label": "后端经验",
+        "note": "从课程、实习和个人项目中持续积累。"
+      },
+      {
+        "value": "Rust / Go / Java",
+        "label": "技术栈",
+        "note": "主要围绕后端服务、可靠性和系统实现展开。"
+      },
+      {
+        "value": "持续学习 / 持续折腾",
+        "label": "技术状态",
+        "note": "写博客、做实验、读源码，尽量把兴趣落成可见的东西。"
+      }
+    ],
+    "interests": "我长期在追的问题",
+    "interestsList": "分布式系统, 协议与安全机制, 存储与缓存路径, API 设计, 可观测性",
+    "snakeTitle": "你好，我是 Chiicake，目标是成为一个优秀的软件工程师！",
+    "snakeBoardLabel": "Runtime",
+    "snakeStatusPanelTitle": "Signals",
+    "snakeStatusLabel": "状态",
+    "snakeTickLabel": "节拍",
+    "snakeScoreLabel": "得分",
+    "snakeBestLabel": "最高",
+    "snakeStartAction": "开始",
+    "snakePauseAction": "暂停",
+    "snakeResetAction": "重开",
+    "snakeControlsTitle": "Controls",
+    "snakeDirectionUp": "向上",
+    "snakeDirectionDown": "向下",
+    "snakeDirectionLeft": "向左",
+    "snakeDirectionRight": "向右",
+    "snakeStatusIdle": "待机",
+    "snakeStatusRunning": "运行中",
+    "snakeStatusPaused": "已暂停",
+    "snakeStatusLost": "失败",
+    "snakeStatusWon": "通关",
+    "snakeOverlayIdleTitle": "准备就绪",
+    "snakeOverlayIdleDescription": "按方向键或者空格启动。",
+    "snakeOverlayPausedTitle": "已暂停",
+    "snakeOverlayPausedDescription": "按下空格继续。",
+    "snakeOverlayLostTitle": "撞墙了",
+    "snakeOverlayLostDescription": "重开一局试试？",
+    "snakeOverlayWonTitle": "棋盘填满",
+    "snakeOverlayWonDescription": "这一轮已经把空间填满了。"
   },
   "skills": {
-    "title": "核心后端技能",
-    "categories": {
-      "languages": "核心语言",
-      "backend": "后端与数据",
-      "platform": "平台与 DevOps"
-    },
-    "items": {
-      "rust": "Rust (Axum / Tokio)",
-      "go": "Go (Gin / Fiber)",
-      "java": "Java (Spring Boot)",
-      "api": "REST / gRPC API 设计",
-      "database": "PostgreSQL / Redis / MySQL",
-      "container": "Docker / Kubernetes",
-      "cicd": "GitHub Actions / CI/CD"
-    }
+    "title": "能力矩阵",
+    "focusLabel": "能力焦点",
+    "scenarioLabel": "典型场景",
+    "toolingLabel": "常用技术",
+    "relatedBlogsLabel": "相关博客",
+    "relatedBlogsEmpty": "相关博客预留位，后续可在这里补充专题文章。",
+    "matrices": [
+      {
+        "code": "M01",
+        "title": "可靠后端服务设计",
+        "summary": "围绕接口契约、服务边界和故障处理设计能长期演进的后端系统。",
+        "focus": [
+          "REST / gRPC API 契约设计",
+          "模块边界拆分与服务职责约束",
+          "可观测优先的上线与回归定位"
+        ],
+        "scenarios": [
+          "中高并发业务 API",
+          "团队共享基础服务",
+          "需要长期维护的内部平台能力"
+        ],
+        "tooling": [
+          "Go",
+          "Java",
+          "gRPC",
+          "OpenTelemetry"
+        ],
+        "relatedArticles": [
+          "jwt-signature-pitfalls",
+          "go-service-rate-limiting-patterns"
+        ]
+      },
+      {
+        "code": "M02",
+        "title": "分布式稳定性治理",
+        "summary": "把重试、幂等、限流和失败恢复做成系统能力，而不是事后打补丁。",
+        "focus": [
+          "幂等键与状态机设计",
+          "限流、熔断与容量保护",
+          "异步任务与重试链路治理"
+        ],
+        "scenarios": [
+          "跨服务写入流程",
+          "消息驱动系统",
+          "高峰期容量保护与降级"
+        ],
+        "tooling": [
+          "Redis",
+          "Kafka",
+          "PostgreSQL",
+          "Rate Limiting"
+        ],
+        "relatedArticles": [
+          "distributed-idempotency-checklist",
+          "go-service-rate-limiting-patterns"
+        ]
+      },
+      {
+        "code": "M03",
+        "title": "存储与性能实验",
+        "summary": "关注冷热路径、缓存策略和协议细节，愿意为了关键性能问题向系统底层下钻。",
+        "focus": [
+          "缓存命中路径与数据分层",
+          "延迟热点定位与性能剖析",
+          "协议、签名与安全边界理解"
+        ],
+        "scenarios": [
+          "高频访问热点优化",
+          "KV / 存储类实验项目",
+          "安全协议与签名校验实现"
+        ],
+        "tooling": [
+          "Rust",
+          "Linux",
+          "Tokio",
+          "Security"
+        ],
+        "relatedArticles": [
+          "ecdsa-algorithm-analysis",
+          "asymmetric-encryption-tls-evolution"
+        ]
+      },
+      {
+        "code": "M04",
+        "title": "平台化交付与工程化",
+        "summary": "把部署、监控和规范沉淀成团队可复用的交付能力，减少人肉操作和脆弱流程。",
+        "focus": [
+          "CI/CD 与发布流水线",
+          "容器化与基础设施标准化",
+          "监控、日志与健康检查体系"
+        ],
+        "scenarios": [
+          "服务交付流程统一",
+          "多环境部署与回滚",
+          "运行时问题追踪和定位"
+        ],
+        "tooling": [
+          "Docker",
+          "Kubernetes",
+          "GitHub Actions",
+          "Prometheus"
+        ],
+        "relatedArticles": []
+      }
+    ]
   },
   "projects": {
     "title": "开源项目",
-    "featured": "精选",
-    "live": "演示",
-    "source": "源代码",
-    "items": [
-      {
-        "title": "[项目一名称]",
-        "description": "面向 B2B 平台的高并发用户与鉴权服务，具备链路追踪与限流能力，使用 Go 和 Redis 构建。[在此添加项目描述]。",
-        "tags": ["Go", "gRPC", "Redis"]
-      },
-      {
-        "title": "[项目二名称]",
-        "description": "面向高吞吐场景的异步任务处理与调度系统，强调可靠性与可恢复能力，使用 Rust 与消息队列实现。[在此添加项目描述]。",
-        "tags": ["Rust", "Tokio", "Kafka"]
-      },
-      {
-        "title": "[项目三名称]",
-        "description": "Java 微服务，负责订单流程处理，包含幂等、重试与事务安全机制。[在此添加项目描述]。",
-        "tags": ["Java", "Spring Boot", "PostgreSQL"]
-      },
-      {
-        "title": "[项目四名称]",
-        "description": "统一后端平台工具集，标准化部署、监控与服务健康检查，提升团队交付效率。[在此添加项目描述]。",
-        "tags": ["Kubernetes", "Prometheus", "OpenTelemetry"]
-      }
-    ]
+    "featuredProject": {
+      "eyebrow": "Project Spotlight",
+      "title": "hybird-kv",
+      "terminalLabel": "kv://hybird-kv/live",
+      "status": "推进中",
+      "introLabel": "项目介绍",
+      "focusLabel": "核心关注",
+      "modulesLabel": "关键模块",
+      "diagnosticsLabel": "工程信号",
+      "stackLabel": "技术栈",
+      "sourceCta": "查看仓库",
+      "articleCta": "查看博客",
+      "path": "github.com/Chiicake/hybird-kv",
+      "tagline": "一个面向 SSD 场景的高性能 KV 存储 lab 项目，采用“内核热 Key 缓存 + 用户态权威存储引擎”的混合架构。",
+      "summary": "我把它作为一个偏系统研究味道的在建项目，用来验证冷热数据路径怎么分层、缓存策略怎样从存储引擎里解耦，以及内核态与用户态边界该如何划分，才能兼顾命中效率、可演进性和工程可解释性。",
+      "highlights": [
+        "把热点访问路径尽量前移，减少高频请求在用户态反复穿梭的成本。",
+        "用户态继续承担权威数据和控制逻辑，避免为了局部性能牺牲整体可维护性。",
+        "缓存淘汰策略做成可插拔平面，方便继续实验不同 workload 下的取舍。"
+      ],
+      "modules": [
+        {
+          "name": "Kernel hot-key cache",
+          "description": "处理最敏感的热点读写命中路径。"
+        },
+        {
+          "name": "User-space engine",
+          "description": "负责权威数据、写入编排与恢复逻辑。"
+        },
+        {
+          "name": "Policy plane",
+          "description": "承载可替换的缓存策略和淘汰算法实验。"
+        }
+      ],
+      "diagnostics": [
+        {
+          "label": "Architecture",
+          "value": "Hybrid KV / kernel + user-space"
+        },
+        {
+          "label": "Primary Question",
+          "value": "如何在命中效率和可演进性之间取得平衡"
+        },
+        {
+          "label": "Summary",
+          "value": "一个验证想法的实验性项目，涉及了大部分系统/网络/存储相关的技术"
+        }
+      ],
+      "stack": [
+        "Rust",
+        "Linux",
+        "Kernel Module",
+        "KV Storage",
+        "Cache Policy"
+      ],
+      "sourceHref": "https://github.com/Chiicake/hybird-kv"
+    }
   },
   "experience": {
     "title": "工作经历",
@@ -167,7 +340,7 @@
     "github": "github.com/chiicake"
   },
   "footer": {
-    "copyright": "© {{year}} [你的名字]. 保留所有权利。",
+    "copyright": "© {{year}} Chiicake. 保留所有权利。",
     "builtWith": "基于 React & Tailwind CSS 构建"
   }
 }

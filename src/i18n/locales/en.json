@@ -21,71 +21,244 @@
   "hero": {
     "greeting": "Hello, I am",
     "name": "Chiicake",
+    "systemLabel": "engineering log / reliability-first",
     "roles": [
       "Backend Engineer",
       "Rust / Go / Java Developer",
       "Distributed Systems Builder"
     ],
-    "description": "I build reliable backend services, scalable APIs, and cloud-native infrastructure.",
+    "description": "I build reliable backend services, scalable APIs, and cloud-native infrastructure, and I keep turning protocols, caches, and storage systems into explainable engineering experiments.",
     "ctaBlog": "View Articles",
     "ctaPrimary": "View My Work",
+    "ctaGithub": "GitHub",
     "ctaSecondary": "Get in Touch"
   },
   "about": {
     "title": "About Me",
-    "bio": "I am a backend engineer focused on high-performance and resilient systems. My core stack is Rust, Go, and Java, and I enjoy designing service boundaries, optimizing latency, and shipping production-ready APIs. [Add your detailed bio here].",
-    "stats": {
-      "experience": "Years Building Backends",
-      "projects": "Backend Projects Delivered",
-      "clients": "Services in Production"
-    },
-    "interests": "What I Focus On",
-    "interestsList": "Distributed Systems, API Design, Performance Tuning, Cloud Infrastructure [Edit here]"
+    "profileEyebrow": "backend / systems / open source",
+    "profileMeta": [
+      "@Chiicake",
+      "Beijing, China",
+      "Backend / Systems"
+    ],
+    "bio": "I am Chiicake, a 2026 new-grad backend engineer with roughly 2 years of backend experience. I mainly work with Rust, Go, and Java, and I also spend time around Redis, PostgreSQL, and Docker.",
+    "bioExtra": "The problems I care about most are service reliability, distributed systems, protocols and security mechanisms, and cache or storage paths. I keep writing blog posts, building small experiments, and reading infrastructure or systems code. I am still early in my career, but the technical curiosity is very real.",
+    "githubStatsTitle": "GitHub Stats",
+    "githubStatsCaption": "This image uses a locally prepared GitHub stats snapshot based on the current public profile.",
+    "statsCards": [
+      {
+        "value": "2 Years",
+        "label": "Backend Experience",
+        "note": "Built up through coursework, internships, and personal projects."
+      },
+      {
+        "value": "Rust / Go / Java",
+        "label": "Stack",
+        "note": "Mostly focused on backend services, reliability, and systems work."
+      },
+      {
+        "value": "Still learning / still building",
+        "label": "Current Mode",
+        "note": "Writing, experimenting, and reading source code as much as possible."
+      }
+    ],
+    "interests": "Questions I Keep Chasing",
+    "interestsList": "Distributed Systems, Protocols and Security, Storage and Cache Paths, API Design, Observability",
+    "snakeTitle": "Hi, I'm Chiicake. My goal is to become an excellent software engineer!",
+    "snakeBoardLabel": "Runtime",
+    "snakeStatusPanelTitle": "Signals",
+    "snakeStatusLabel": "Status",
+    "snakeTickLabel": "Tick",
+    "snakeScoreLabel": "Score",
+    "snakeBestLabel": "Best",
+    "snakeStartAction": "Start",
+    "snakePauseAction": "Pause",
+    "snakeResetAction": "Reset",
+    "snakeControlsTitle": "Controls",
+    "snakeDirectionUp": "Move up",
+    "snakeDirectionDown": "Move down",
+    "snakeDirectionLeft": "Move left",
+    "snakeDirectionRight": "Move right",
+    "snakeStatusIdle": "Idle",
+    "snakeStatusRunning": "Running",
+    "snakeStatusPaused": "Paused",
+    "snakeStatusLost": "Lost",
+    "snakeStatusWon": "Won",
+    "snakeOverlayIdleTitle": "Ready",
+    "snakeOverlayIdleDescription": "Press a direction key or Space to start and turn the plain greeting into a live interface.",
+    "snakeOverlayPausedTitle": "Paused",
+    "snakeOverlayPausedDescription": "The route is still there. The next move just has not been committed yet.",
+    "snakeOverlayLostTitle": "Crashed",
+    "snakeOverlayLostDescription": "That path failed. Reset and try a cleaner line.",
+    "snakeOverlayWonTitle": "Board Filled",
+    "snakeOverlayWonDescription": "This run squeezed every remaining cell out of the board."
   },
   "skills": {
-    "title": "Core Backend Skills",
-    "categories": {
-      "languages": "Core Languages",
-      "backend": "Backend & Data",
-      "platform": "Platform & DevOps"
-    },
-    "items": {
-      "rust": "Rust (Axum / Tokio)",
-      "go": "Go (Gin / Fiber)",
-      "java": "Java (Spring Boot)",
-      "api": "REST / gRPC API Design",
-      "database": "PostgreSQL / Redis / MySQL",
-      "container": "Docker / Kubernetes",
-      "cicd": "GitHub Actions / CI/CD"
-    }
+    "title": "Capability Matrix",
+    "focusLabel": "Focus",
+    "scenarioLabel": "Typical Scenarios",
+    "toolingLabel": "Preferred Tooling",
+    "relatedBlogsLabel": "Related Writing",
+    "relatedBlogsEmpty": "A slot is reserved here for future articles tied to this capability.",
+    "matrices": [
+      {
+        "code": "M01",
+        "title": "Reliable Backend Service Design",
+        "summary": "Design backend systems around contracts, service boundaries, and failure handling so they can evolve without turning fragile.",
+        "focus": [
+          "REST / gRPC contract design",
+          "Service boundary definition and responsibility control",
+          "Observability-first rollout and regression diagnosis"
+        ],
+        "scenarios": [
+          "Medium to high concurrency APIs",
+          "Shared internal platform services",
+          "Long-lived backend capabilities with multiple consumers"
+        ],
+        "tooling": [
+          "Go",
+          "Java",
+          "gRPC",
+          "OpenTelemetry"
+        ],
+        "relatedArticles": [
+          "jwt-signature-pitfalls",
+          "go-service-rate-limiting-patterns"
+        ]
+      },
+      {
+        "code": "M02",
+        "title": "Distributed Reliability Engineering",
+        "summary": "Turn retries, idempotency, rate limiting, and recovery into first-class system capabilities instead of patching them in later.",
+        "focus": [
+          "Idempotency keys and state transitions",
+          "Rate limiting, circuit breaking, and capacity protection",
+          "Async workflow and retry-chain governance"
+        ],
+        "scenarios": [
+          "Cross-service write flows",
+          "Message-driven systems",
+          "Peak-load protection and graceful degradation"
+        ],
+        "tooling": [
+          "Redis",
+          "Kafka",
+          "PostgreSQL",
+          "Rate Limiting"
+        ],
+        "relatedArticles": [
+          "distributed-idempotency-checklist",
+          "go-service-rate-limiting-patterns"
+        ]
+      },
+      {
+        "code": "M03",
+        "title": "Storage and Performance Experiments",
+        "summary": "I like drilling down into hot paths, cache behavior, and protocol details when a performance problem becomes structurally important.",
+        "focus": [
+          "Hot-path caching and data tiering",
+          "Latency hotspot diagnosis and performance profiling",
+          "Protocols, signatures, and security boundary analysis"
+        ],
+        "scenarios": [
+          "High-frequency access optimization",
+          "KV or storage-oriented experiments",
+          "Security protocol and signature verification work"
+        ],
+        "tooling": [
+          "Rust",
+          "Linux",
+          "Tokio",
+          "Security"
+        ],
+        "relatedArticles": [
+          "ecdsa-algorithm-analysis",
+          "asymmetric-encryption-tls-evolution"
+        ]
+      },
+      {
+        "code": "M04",
+        "title": "Platform Delivery and Engineering Systems",
+        "summary": "Turn deployment, monitoring, and operational rules into reusable team capabilities so delivery depends less on manual coordination.",
+        "focus": [
+          "CI/CD and release pipelines",
+          "Containerization and infrastructure standardization",
+          "Monitoring, logging, and service health systems"
+        ],
+        "scenarios": [
+          "Unified service delivery flows",
+          "Multi-environment deployment and rollback",
+          "Runtime issue tracing and diagnosis"
+        ],
+        "tooling": [
+          "Docker",
+          "Kubernetes",
+          "GitHub Actions",
+          "Prometheus"
+        ],
+        "relatedArticles": []
+      }
+    ]
   },
   "projects": {
     "title": "Featured Projects",
-    "featured": "Featured",
-    "live": "Live Demo",
-    "source": "Source Code",
-    "items": [
-      {
-        "title": "[Project 1 Name]",
-        "description": "A high-concurrency user and auth service for B2B platforms, with request tracing and rate limiting. Built with Go and Redis. [Add your project description here].",
-        "tags": ["Go", "gRPC", "Redis"]
-      },
-      {
-        "title": "[Project 2 Name]",
-        "description": "An async job processing and scheduling system designed for reliability and throughput. Built with Rust and message queues. [Add your project description here].",
-        "tags": ["Rust", "Tokio", "Kafka"]
-      },
-      {
-        "title": "[Project 3 Name]",
-        "description": "A Java microservice handling order workflows with idempotency, retries, and transaction safety. [Add your project description here].",
-        "tags": ["Java", "Spring Boot", "PostgreSQL"]
-      },
-      {
-        "title": "[Project 4 Name]",
-        "description": "A backend platform toolkit that standardizes deployment, monitoring, and service health checks across teams. [Add your project description here].",
-        "tags": ["Kubernetes", "Prometheus", "OpenTelemetry"]
-      }
-    ]
+    "featuredProject": {
+      "eyebrow": "Project Spotlight",
+      "title": "hybird-kv",
+      "terminalLabel": "kv://hybird-kv/live",
+      "status": "active experiment",
+      "introLabel": "Project Brief",
+      "focusLabel": "Core Focus",
+      "modulesLabel": "Key Modules",
+      "diagnosticsLabel": "Engineering Signals",
+      "stackLabel": "Stack",
+      "sourceCta": "Open Repository",
+      "articleCta": "Open Blog",
+      "path": "github.com/Chiicake/hybird-kv",
+      "tagline": "An SSD-friendly high-performance KV storage experiment built around a hybrid architecture: a kernel hot-key cache plus a user-space authoritative engine.",
+      "summary": "I am using it as a systems-heavy workbench to test how hot and cold paths should be separated, how cache policy can be decoupled from the storage core, and where the boundary between kernel space and user space should sit if you want hit efficiency without sacrificing evolvability or operational clarity.",
+      "highlights": [
+        "Push the hottest access path forward so frequent reads and writes do not keep paying unnecessary user-space cost.",
+        "Keep the user-space engine authoritative so control logic, observability, and recovery remain understandable.",
+        "Treat eviction policy as a pluggable plane so different workload tradeoffs can be explored without rewriting the storage core."
+      ],
+      "modules": [
+        {
+          "name": "Kernel hot-key cache",
+          "description": "Handles the most latency-sensitive hot read and write path."
+        },
+        {
+          "name": "User-space engine",
+          "description": "Owns authoritative data, write orchestration, and recovery behavior."
+        },
+        {
+          "name": "Policy plane",
+          "description": "Hosts replaceable cache policy and eviction strategy experiments."
+        }
+      ],
+      "diagnostics": [
+        {
+          "label": "Architecture",
+          "value": "Hybrid KV / kernel + user-space"
+        },
+        {
+          "label": "Primary Question",
+          "value": "How to balance hit-path efficiency against evolvability"
+        },
+        {
+          "label": "Geek Signal",
+          "value": "This is a systems playground, not a routine CRUD project"
+        }
+      ],
+      "stack": [
+        "Rust",
+        "Linux",
+        "Kernel Module",
+        "KV Storage",
+        "Cache Policy"
+      ],
+      "sourceHref": "https://github.com/Chiicake/hybird-kv"
+    }
   },
   "experience": {
     "title": "Experience",
