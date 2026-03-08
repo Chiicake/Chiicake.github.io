@@ -31,7 +31,16 @@
     "ctaBlog": "博客文章",
     "ctaPrimary": "开源项目",
     "ctaGithub": "GitHub",
-    "ctaSecondary": "联系我"
+    "ctaSecondary": "联系我",
+    "lifeEyebrow": "cellular automaton",
+    "lifeTitle": "生命游戏",
+    "lifeSubtitle": "首页打开时会自动初始化并持续运行，用一块活着的细胞网格替代静态推荐卡片。",
+    "lifeGenerationLabel": "Generation",
+    "lifePopulationLabel": "Population",
+    "lifeResetLabel": "Reseed",
+    "lifeResetAction": "重新初始化",
+    "lifeAutoStatus": "auto boot",
+    "lifeRunning": "running"
   },
   "about": {
     "title": "关于我",

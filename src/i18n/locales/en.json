@@ -31,7 +31,16 @@
     "ctaBlog": "Blog Articles",
     "ctaPrimary": "Open Source Projects",
     "ctaGithub": "GitHub",
-    "ctaSecondary": "Contact Me"
+    "ctaSecondary": "Contact Me",
+    "lifeEyebrow": "cellular automaton",
+    "lifeTitle": "Game of Life",
+    "lifeSubtitle": "It auto-initializes on page load and keeps running, replacing the static recommendation card with a living cellular grid.",
+    "lifeGenerationLabel": "Generation",
+    "lifePopulationLabel": "Population",
+    "lifeResetLabel": "Reseed",
+    "lifeResetAction": "Reinitialize",
+    "lifeAutoStatus": "auto boot",
+    "lifeRunning": "running"
   },
   "about": {
     "title": "About Me",
