@@ -16,7 +16,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
-import { ArrowLeft, Calendar, Clock, Layers3, ListTree } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Layers3, ListTree, ShieldCheck } from 'lucide-react';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
   findBlogCategory,
@@ -324,6 +324,20 @@ export default function BlogArticle() {
             <p className="text-lg leading-relaxed text-[var(--color-text-secondary)] max-w-3xl mb-6">
               {getLocalizedText(meta.summary, lang)}
             </p>
+
+            <div className="mb-6 inline-flex max-w-full items-center gap-3 rounded-[1.15rem] border border-[var(--color-accent)]/18 bg-[var(--color-accent)]/8 px-4 py-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
+                <ShieldCheck size={16} />
+              </div>
+              <div className="min-w-0">
+                <p className="mono-data text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)]">
+                  {t('blog.provenanceEyebrow')}
+                </p>
+                <p className="mt-1 text-sm font-medium leading-relaxed text-[var(--color-text-primary)]">
+                  {t('blog.articleProvenanceBadge')}
+                </p>
+              </div>
+            </div>
 
             <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--color-text-secondary)] mb-4">
               <span className="inline-flex items-center gap-1.5">

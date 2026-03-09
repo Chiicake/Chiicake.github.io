@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { FolderTree, Layers3, PenLine } from 'lucide-react';
+import { FolderTree, Layers3, PenLine, ShieldCheck } from 'lucide-react';
 import { BlogEntryCard } from '../components/blog/BlogEntryCard';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
@@ -71,6 +71,24 @@ export default function Blog() {
 
   return (
     <div className="py-12">
+      <section className="mb-10 rounded-[2rem] border border-gray-200/80 bg-white/85 p-6 shadow-[0_20px_70px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/70 md:p-7">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="engineering-kicker">{t('blog.provenanceEyebrow')}</p>
+            <h2 className="mt-3 text-2xl font-black tracking-tight text-[var(--color-text-primary)]">
+              {t('blog.provenanceTitle')}
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-[0.95rem]">
+              {t('blog.provenanceDescription')}
+            </p>
+          </div>
+
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
+            <ShieldCheck size={20} />
+          </div>
+        </div>
+      </section>
+
       <section className="mb-10 grid gap-5 xl:grid-cols-[1.18fr_0.82fr]">
         <div className="flex h-[16.5rem] flex-col rounded-[2rem] border border-gray-200/80 bg-white/85 p-6 shadow-[0_20px_70px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/70 md:h-[18rem] md:p-7">
           <div className="flex items-center gap-3 mb-5">

@@ -395,6 +395,32 @@
     "filterHint": "文章分类列表",
     "collectionLabel": "合集",
     "collectionSubtitle": "文章合集列表",
+    "provenanceEyebrow": "content manifest",
+    "provenanceTitle": "创作声明 — 博客正文、结构、观点与表达均由本人独立完成",
+    "provenanceDescription": "本站博客未使用 AI 生成正文内容。AI 仅用于事实校验与错漏检查。",
+    "articleProvenanceBadge": "人工撰写 · AI 仅用于事实校验与资料交叉验证",
+    "provenanceFields": {
+      "authoring": {
+        "label": "authoring",
+        "value": "human-owned"
+      },
+      "drafting": {
+        "label": "drafting",
+        "value": "manual"
+      },
+      "aiRole": {
+        "label": "ai-role",
+        "value": "fact-check only"
+      },
+      "sources": {
+        "label": "sources",
+        "value": "docs / papers / code"
+      },
+      "owner": {
+        "label": "owner",
+        "value": "Chiicake"
+      }
+    },
     "currentCollection": "所属合集",
     "readingProgress": "阅读进度",
     "readingProgressHint": "根据正文滚动位置实时更新。",
