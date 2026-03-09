@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowRight, BookOpen, Github } from 'lucide-react';
-import { Button } from '../components/ui/Button';
 import { TypewriterText } from '../components/ui/TypewriterText';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
-import { HomeLifePanel } from '../components/home/HomeLifePanel';
+import { HomeRollingUpdatesPanel } from '../components/home/HomeRollingUpdatesPanel';
 import { preloadBlogPageAssets } from '../lib/blogPrefetch';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -19,7 +16,6 @@ function isString(value: unknown): value is string {
 
 export default function Home() {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
   const shouldReduceMotion = useReducedMotion();
   const [bootVisible, setBootVisible] = useState(false);
   const [bootStep, setBootStep] = useState(0);
@@ -45,19 +41,11 @@ export default function Home() {
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown> | undefined;
   const heroBundle = isRecord(bundle?.hero) ? bundle.hero : {};
-  const skillsBundle = isRecord(bundle?.skills) ? bundle.skills : {};
-
   const rolesRaw = Array.isArray(heroBundle.roles) ? heroBundle.roles.filter(isString) : [];
   const roles = rolesRaw.length > 0
     ? rolesRaw
     : ['Software Engineer', 'Rust / Go / Java Developer', 'Distributed Systems Builder'];
-
-  const matrixRaw = Array.isArray(skillsBundle.matrices) ? skillsBundle.matrices : [];
-  const signalRaw = matrixRaw
-    .filter(isRecord)
-    .map((entry) => (isString(entry.title) ? entry.title : ''))
-    .filter(Boolean)
-    .slice(0, 4);
+  const heroDescription = isString(heroBundle.description) ? heroBundle.description : '';
 
   const bootLines = (Array.isArray(heroBundle.bootSequence) ? heroBundle.bootSequence : [])
     .filter(isString)
@@ -120,8 +108,32 @@ export default function Home() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const terminalShortcuts = [
+    {
+      command: '$ open /blog',
+      label: t('hero.ctaBlog'),
+      href: '/blog',
+    },
+    {
+      command: '$ jump #projects',
+      label: t('hero.ctaPrimary'),
+      onClick: () => scrollToSection('projects'),
+    },
+    {
+      command: '$ xdg-open github.com/Chiicake',
+      label: t('hero.ctaGithub'),
+      href: 'https://github.com/Chiicake',
+      external: true,
+    },
+    {
+      command: '$ jump #contact',
+      label: t('hero.ctaSecondary'),
+      onClick: () => scrollToSection('contact'),
+    },
+  ];
+
   return (
-    <div className="relative flex min-h-screen flex-col justify-center px-6 pb-20 pt-28 xl:justify-start xl:pb-24 xl:pt-36">
+    <div className="relative flex min-h-screen flex-col justify-center px-6 pb-20 pt-28 xl:pb-20 xl:pt-24">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[var(--color-accent)]/12 via-transparent to-transparent opacity-70"></div>
         <div className="absolute left-[6%] top-[22%] hidden h-16 w-16 rounded-full border border-[var(--color-accent)]/15 md:block" />
@@ -133,8 +145,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl xl:grid xl:grid-cols-[minmax(0,1fr)_35rem] xl:items-start xl:gap-12">
-        <div className="relative max-w-4xl">
+      <div className="mx-auto w-full max-w-7xl xl:grid xl:grid-cols-[minmax(0,1fr)_35rem] xl:items-center xl:gap-12">
+        <div className="relative max-w-4xl xl:pt-8">
           {bootVisible && (
             <motion.div
               initial={{ opacity: 0, y: -8 }}
@@ -168,19 +180,6 @@ export default function Home() {
             </motion.div>
           )}
 
-          <ScrollReveal delay={0.08} width="fit-content">
-            <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-gray-200/80 bg-white/75 px-4 py-2 shadow-[0_12px_30px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/65">
-              <div className="flex gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
-                <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-              </div>
-              <span className="mono-data text-[11px] uppercase tracking-[0.28em] text-[var(--color-text-secondary)]">
-                {t('hero.systemLabel')}
-              </span>
-            </div>
-          </ScrollReveal>
-
           <ScrollReveal delay={0.14}>
             <p className="mb-4 text-xl font-medium text-[var(--color-text-secondary)] md:text-2xl">
               {t('hero.greeting')}
@@ -199,68 +198,19 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.38}>
-            <p className="mb-8 max-w-3xl text-lg leading-relaxed text-[var(--color-text-secondary)] md:text-xl">
-              {t('hero.description')}
-            </p>
-          </ScrollReveal>
-
-          {signalRaw.length > 0 && (
-            <ScrollReveal delay={0.46}>
-              <div className="mb-10 flex flex-wrap gap-3">
-                {signalRaw.map((signal) => (
-                  <span
-                    key={signal}
-                    className="inline-flex items-center gap-2 rounded-full border border-gray-200/80 bg-white/75 px-4 py-2 text-sm font-medium text-[var(--color-text-secondary)] shadow-[0_10px_25px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/65"
-                  >
-                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" />
-                    {signal}
-                  </span>
-                ))}
-              </div>
+          {heroDescription && (
+            <ScrollReveal delay={0.38}>
+              <p className="mb-8 max-w-3xl text-lg leading-relaxed text-[var(--color-text-secondary)] md:text-xl">
+                {heroDescription}
+              </p>
             </ScrollReveal>
           )}
-
-          <ScrollReveal delay={0.52}>
-            <div className="flex flex-wrap gap-4">
-              <Button
-                onClick={() => navigate('/blog')}
-                variant="outline"
-                size="lg"
-                icon={<BookOpen size={20} />}
-              >
-                {t('hero.ctaBlog')}
-              </Button>
-              <Button
-                onClick={() => scrollToSection('projects')}
-                size="lg"
-                icon={<ArrowRight size={20} />}
-              >
-                {t('hero.ctaPrimary')}
-              </Button>
-              <Button
-                href="https://github.com/Chiicake"
-                target="_blank"
-                rel="noreferrer"
-                variant="secondary"
-                size="lg"
-                icon={<Github size={20} />}
-              >
-                {t('hero.ctaGithub')}
-              </Button>
-              <Button
-                onClick={() => scrollToSection('contact')}
-                variant="secondary"
-                size="lg"
-              >
-                {t('hero.ctaSecondary')}
-              </Button>
-            </div>
-          </ScrollReveal>
         </div>
 
-        <div className="mt-12 xl:mt-0 xl:pt-2">
-          <HomeLifePanel />
+        <div className="mt-12 xl:mt-0 xl:self-center">
+          <ScrollReveal delay={0.52}>
+            <HomeRollingUpdatesPanel shortcuts={terminalShortcuts} />
+          </ScrollReveal>
         </div>
       </div>
     </div>

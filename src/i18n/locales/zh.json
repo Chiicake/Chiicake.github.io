@@ -25,9 +25,10 @@
     "roles": [
       "后端开发工程师",
       "Rust / Go / Java 开发者",
-      "奶油蘑菇汤食用者"
+      "奶油蘑菇汤食用者",
+      "100% 人类"
     ],
-    "description": "专注构建高可靠后端服务、可扩展 API 与云原生基础设施，也持续把协议、缓存与存储系统做成可拆解的工程实验。",
+    "description": "",
     "ctaBlog": "博客文章",
     "ctaPrimary": "开源项目",
     "ctaGithub": "GitHub",
@@ -39,6 +40,33 @@
       "syncing build fingerprint 2026.03.08",
       "mounting life simulation panel",
       "prefetching /blog resources"
+    ],
+    "rollingWindowTitle": "rolling://updates",
+    "rollingWindowStatus": "arch sync",
+    "rollingCommand": "sudo pacman -Syu --needed homepage-runtime blog-feed opensource-projects",
+    "rollingRecentTitle": "recent://blog",
+    "rollingRecentLoading": "正在抓取最新博客索引...",
+    "rollingLines": [
+      "[core] synchronizing package databases...",
+      "[extra] synchronizing package databases...",
+      ":: starting full system upgrade...",
+      "resolving dependencies...",
+      "looking for conflicting packages...",
+      "Packages (5) homepage-runtime blog-feed opensource-projects life-runtime markdown-index",
+      "Total Download Size: 11.24 MiB",
+      ":: Proceed with installation? [Y/n] Y",
+      "(1/5) upgrading homepage-runtime",
+      "[ALPM] upgraded homepage-runtime (2026.03.08-1 -> 2026.03.09-1)",
+      "(2/5) upgrading blog-feed",
+      "[ALPM] upgraded blog-feed (1.4.1-1 -> 1.4.2-1)",
+      "(3/5) upgrading opensource-projects",
+      "[ALPM] upgraded opensource-projects (0.7.2-1 -> 0.7.3-1)",
+      "(4/5) upgrading life-runtime",
+      "[ALPM] upgraded life-runtime (2.0.9-1 -> 2.1.0-1)",
+      "(5/5) upgrading markdown-index",
+      "[ALPM-SCRIPTLET] rebuilding /blog cache...",
+      "[ALPM] transaction completed",
+      ":: system is up to date"
     ],
     "runtimeBar": {
       "build": "2026.03.08",
@@ -255,28 +283,6 @@
           "ecdsa-algorithm-analysis",
           "asymmetric-encryption-tls-evolution"
         ]
-      },
-      {
-        "code": "M04",
-        "title": "平台化交付与工程化",
-        "summary": "把部署、监控和规范沉淀成团队可复用的交付能力，减少人肉操作和脆弱流程。",
-        "focus": [
-          "CI/CD 与发布流水线",
-          "容器化与基础设施标准化",
-          "监控、日志与健康检查体系"
-        ],
-        "scenarios": [
-          "服务交付流程统一",
-          "多环境部署与回滚",
-          "运行时问题追踪和定位"
-        ],
-        "tooling": [
-          "Docker",
-          "Kubernetes",
-          "GitHub Actions",
-          "Prometheus"
-        ],
-        "relatedArticles": []
       }
     ]
   },

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronDown, Pause, Play, Shuffle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -160,19 +160,24 @@ function createRuntime(seedMode: Exclude<LifeSeedMode, 'greeting'> = 'random'): 
 export function HomeLifePanel() {
   const { t } = useTranslation();
   const [runtime, setRuntime] = useState<LifeRuntime>(() => createTextRuntime(LIFE_GREETING_LINES));
-  const [simulationRunning, setSimulationRunning] = useState(false);
+  const [simulationRunning, setSimulationRunning] = useState(true);
   const [seedMenuOpen, setSeedMenuOpen] = useState(false);
   const [activeSeedMode, setActiveSeedMode] = useState<LifeSeedMode>('greeting');
   const seedButtonRef = useRef<HTMLButtonElement | null>(null);
   const seedMenuRef = useRef<HTMLDivElement | null>(null);
   const introTimerRefs = useRef<number[]>([]);
+  const scheduleGreetingSequenceRef = useRef<() => void>(() => {});
 
-  const clearIntroSequence = () => {
+  const clearIntroSequence = useCallback(() => {
     introTimerRefs.current.forEach((timer) => window.clearTimeout(timer));
     introTimerRefs.current = [];
-  };
+  }, []);
 
-  const scheduleGreetingSequence = () => {
+  const scheduleGreetingSequence = useCallback(() => {
+    const initialTimer = window.setTimeout(() => {
+      setRuntime((current) => createTextRuntime(LIFE_GREETING_LINES, current.grid));
+    }, 0);
+
     const clearTimer = window.setTimeout(() => {
       setRuntime((current) =>
         createRuntimeFromGrid(createBlankGrid(), {
@@ -205,30 +210,28 @@ export function HomeLifePanel() {
       );
     }, LIFE_GREETING_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_MEET_YOU_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_SIGNATURE_HOLD_MS);
 
-    const startTimer = window.setTimeout(() => {
-      setActiveSeedMode('pulsar');
-      setRuntime((current) =>
-        createPatternRuntime('pulsar', {
-          previousGrid: current.grid,
-          repeatRows: 1,
-          repeatCols: 1,
-        }),
-      );
-      setSimulationRunning(true);
+    const restartTimer = window.setTimeout(() => {
+      scheduleGreetingSequenceRef.current();
     }, LIFE_GREETING_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_MEET_YOU_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_SIGNATURE_HOLD_MS + LIFE_BLANK_HOLD_MS);
 
-    introTimerRefs.current = [clearTimer, meetTimer, blankTimer, signatureTimer, finalBlankTimer, startTimer];
-  };
-
-  useEffect(() => {
-    clearIntroSequence();
-    scheduleGreetingSequence();
-
-    return clearIntroSequence;
+    introTimerRefs.current = [initialTimer, clearTimer, meetTimer, blankTimer, signatureTimer, finalBlankTimer, restartTimer];
   }, []);
 
   useEffect(() => {
-    if (!simulationRunning) {
+    scheduleGreetingSequenceRef.current = scheduleGreetingSequence;
+  }, [scheduleGreetingSequence]);
+
+  useEffect(() => {
+    clearIntroSequence();
+    if (activeSeedMode === 'greeting' && simulationRunning) {
+      scheduleGreetingSequence();
+    }
+
+    return clearIntroSequence;
+  }, [activeSeedMode, clearIntroSequence, scheduleGreetingSequence, simulationRunning]);
+
+  useEffect(() => {
+    if (!simulationRunning || activeSeedMode === 'greeting') {
       return;
     }
 
@@ -244,7 +247,7 @@ export function HomeLifePanel() {
     return () => {
       window.clearInterval(timer);
     };
-  }, [simulationRunning]);
+  }, [activeSeedMode, simulationRunning]);
 
   useEffect(() => {
     if (!seedMenuOpen) {
@@ -327,10 +330,9 @@ export function HomeLifePanel() {
 
     if (seedMode === 'greeting') {
       setActiveSeedMode('greeting');
-      setSimulationRunning(false);
+      setSimulationRunning(true);
       setRuntime(createTextRuntime(LIFE_GREETING_LINES));
       setSeedMenuOpen(false);
-      scheduleGreetingSequence();
       return;
     }
 
@@ -343,19 +345,6 @@ export function HomeLifePanel() {
   const toggleSimulation = () => {
     if (simulationRunning) {
       setSimulationRunning(false);
-      return;
-    }
-
-    if (activeSeedMode === 'greeting') {
-      clearIntroSequence();
-      setActiveSeedMode('pulsar');
-      setRuntime(
-        createPatternRuntime('pulsar', {
-          repeatRows: 1,
-          repeatCols: 1,
-        }),
-      );
-      setSimulationRunning(true);
       return;
     }
 
