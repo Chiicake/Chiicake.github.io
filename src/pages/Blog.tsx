@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { FolderTree, Layers3, PenLine, ShieldCheck } from 'lucide-react';
 import { BlogEntryCard } from '../components/blog/BlogEntryCard';
+import { HomeLifePanel } from '../components/home/HomeLifePanel';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
   findBlogCategory,
@@ -280,6 +281,16 @@ export default function Blog() {
             </div>
           </div>
         )}
+      </section>
+
+      <section className="mt-8 flex flex-col items-center gap-4 px-2 text-center">
+        <div className="max-w-2xl">
+          <p className="engineering-kicker">{t('blog.lifeEasterEggEyebrow')}</p>
+        </div>
+
+        <div className="w-full max-w-[31rem]">
+          <HomeLifePanel compact delay={0.12} />
+        </div>
       </section>
     </div>
   );

@@ -106,6 +106,30 @@
   ],
   "articles": [
     {
+      "slug": "go-service-rate-limiting-patterns",
+      "date": "2026-03-10",
+      "tags": [
+        "Go",
+        "Rate Limiting",
+        "Reliability"
+      ],
+      "category": "service-reliability",
+      "collection": "backend-reliability-playbook",
+      "seriesOrder": 1,
+      "title": {
+        "zh": "Go 服务限流的几种落地模式",
+        "en": "Practical Rate Limiting Patterns for Go Services"
+      },
+      "summary": {
+        "zh": "网关、服务节点与 Redis 三层限流如何分工，以及令牌桶和滑动窗口在高并发场景里的取舍。",
+        "en": "How to divide rate limiting across gateway, service nodes, and Redis, and when to choose token bucket vs. sliding window."
+      },
+      "readingTime": {
+        "zh": "10 分钟",
+        "en": "10 min"
+      }
+    },
+    {
       "slug": "jwt-signature-pitfalls",
       "date": "2026-03-08",
       "tags": [
@@ -202,30 +226,6 @@
       "readingTime": {
         "zh": "12 分钟",
         "en": "12 min"
-      }
-    },
-    {
-      "slug": "go-service-rate-limiting-patterns",
-      "date": "2026-03-04",
-      "tags": [
-        "Go",
-        "Rate Limiting",
-        "Reliability"
-      ],
-      "category": "service-reliability",
-      "collection": "rust-lang",
-      "seriesOrder": 1,
-      "title": {
-        "zh": "Go 服务限流的几种落地模式",
-        "en": "Practical Rate Limiting Patterns for Go Services"
-      },
-      "summary": {
-        "zh": "网关、服务节点与 Redis 三层限流如何分工，以及令牌桶和滑动窗口在高并发场景里的取舍。",
-        "en": "How to divide rate limiting across gateway, service nodes, and Redis, and when to choose token bucket vs. sliding window."
-      },
-      "readingTime": {
-        "zh": "10 分钟",
-        "en": "10 min"
       }
     }
   ]

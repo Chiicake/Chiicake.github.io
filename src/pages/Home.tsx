@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'motion/react';
 import { TypewriterText } from '../components/ui/TypewriterText';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
-import { HomeLifePanel } from '../components/home/HomeLifePanel';
 import { HomeRollingUpdatesPanel } from '../components/home/HomeRollingUpdatesPanel';
 import { preloadBlogPageAssets } from '../lib/blogPrefetch';
 
@@ -147,7 +146,7 @@ export default function Home() {
       </div>
 
       <div className="mx-auto w-full max-w-7xl xl:grid xl:grid-cols-[minmax(0,1fr)_34rem] xl:items-stretch xl:gap-6">
-        <div className="relative max-w-4xl xl:flex xl:min-h-[42rem] xl:flex-col xl:pt-8">
+        <div className="relative max-w-4xl xl:flex xl:min-h-[42rem] xl:flex-col xl:justify-center xl:pt-0">
           {bootVisible && (
             <motion.div
               initial={{ opacity: 0, y: -8 }}
@@ -206,10 +205,6 @@ export default function Home() {
               </p>
             </ScrollReveal>
           )}
-
-          <div className="mt-10 max-w-[31rem] xl:mt-31">
-            <HomeLifePanel compact delay={0.48} />
-          </div>
         </div>
 
         <div className="mt-auto xl:mt-auto xl:-translate-x-40 xl:flex xl:justify-self-start xl:self-stretch xl:py-3">

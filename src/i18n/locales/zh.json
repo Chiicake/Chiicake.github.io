@@ -38,7 +38,7 @@
     "bootSequence": [
       "loading hero runtime modules",
       "syncing build fingerprint 2026.03.08",
-      "mounting life simulation panel",
+      "launching terminal shell runtime",
       "prefetching /blog resources"
     ],
     "rollingWindowTitle": "rolling://updates",
@@ -470,7 +470,10 @@
     "emptyCategory": "当前分类下还没有文章。",
     "pageLabel": "第 {{page}} / {{pages}} 页",
     "prevPage": "上一页",
-    "nextPage": "下一页"
+    "nextPage": "下一页",
+    "lifeEasterEggEyebrow": "bonus://cellular-automaton",
+    "lifeEasterEggTitle": "生命游戏被挪到了这里",
+    "lifeEasterEggDescription": "首页不再放第二个交互装置，这块被收成了博客页底部的小实验台。想玩的时候再下来点开。"
   },
   "contact": {
     "title": "联系我",

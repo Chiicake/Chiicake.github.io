@@ -37,7 +37,7 @@
     "bootSequence": [
       "loading hero runtime modules",
       "syncing build fingerprint 2026.03.08",
-      "mounting life simulation panel",
+      "launching terminal shell runtime",
       "prefetching /blog resources"
     ],
     "rollingWindowTitle": "rolling://updates",
@@ -469,7 +469,10 @@
     "emptyCategory": "There are no articles in this category yet.",
     "pageLabel": "Page {{page}} / {{pages}}",
     "prevPage": "Previous",
-    "nextPage": "Next"
+    "nextPage": "Next",
+    "lifeEasterEggEyebrow": "bonus://cellular-automaton",
+    "lifeEasterEggTitle": "The Game of Life lives down here now",
+    "lifeEasterEggDescription": "The homepage no longer carries a second interactive panel. This one now sits at the bottom of the blog as a small lab artifact."
   },
   "contact": {
     "title": "Contact Me",
