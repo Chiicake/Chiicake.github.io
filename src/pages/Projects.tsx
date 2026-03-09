@@ -168,7 +168,7 @@ export default function Projects({ id }: { id?: string }) {
 
                 <div className="engineering-subpanel rounded-2xl px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <span className="project-session-badge mono-data">tty://repo</span>
+                    <span className="project-session-badge mono-data">/dev/pts/0</span>
                     <span className="mono-data text-[11px] uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
                       {content.terminalLabel}
                     </span>

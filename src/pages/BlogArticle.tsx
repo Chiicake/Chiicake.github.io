@@ -80,7 +80,7 @@ function getCodeBlockMeta(language: string) {
     case 'shell':
     case 'sh':
     case 'zsh':
-      return { title: 'tty://zsh', badge: language === 'bash' ? 'bash' : 'zsh' };
+      return { title: '/dev/pts/0', badge: language === 'bash' ? 'bash' : 'zsh' };
     case 'rust':
     case 'rs':
       return { title: 'src/main.rs', badge: 'rust' };
@@ -334,7 +334,7 @@ export default function BlogArticle() {
       return (
         <div className="blog-code-block">
           <div className="blog-code-block__header">
-            <span className="blog-code-block__scope mono-data">tty://code</span>
+            <span className="blog-code-block__scope mono-data">/dev/pts/0</span>
             <span className="blog-code-block__title mono-data">{meta.title}</span>
             <span className="blog-code-block__badge mono-data">{meta.badge}</span>
           </div>

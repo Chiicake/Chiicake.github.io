@@ -575,7 +575,7 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
     <div className="home-rolling-terminal rounded-[1.7rem] p-4 md:p-5">
       <div className="home-rolling-terminal__header">
         <div className="home-rolling-terminal__header-meta">
-          <span className="home-rolling-terminal__tty-badge">tty://pts/0</span>
+          <span className="home-rolling-terminal__tty-badge">/dev/pts/0</span>
         </div>
 
         <div className="home-rolling-terminal__header-signals">
@@ -594,7 +594,7 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
 
       <div ref={viewportRef} className="home-rolling-terminal__viewport scrollbar-hidden">
         <div
-          className="space-y-1.5"
+          className="space-y-0.5"
           onClick={(event) => {
             const target = event.target as HTMLElement;
             if (target.closest('.home-rolling-terminal__line--prompt')) {
