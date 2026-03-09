@@ -4,7 +4,10 @@ import test from 'node:test';
 import {
   areLifeGridsEqual,
   countAliveCells,
+  createEmptyLifeGrid,
   createLifeGrid,
+  createLifePatternGrid,
+  createLifeTextGrid,
   stepLifeGrid,
   toggleLifeCell,
 } from '../src/lib/gameOfLife.ts';
@@ -46,6 +49,66 @@ test('stepLifeGrid evolves a blinker oscillator into its next generation', () =>
   ]);
 });
 
+test('createLifePatternGrid centers a classic pattern on the board', () => {
+  const grid = createLifePatternGrid({
+    rows: 7,
+    cols: 7,
+    patternId: 'glider',
+  });
+
+  assert.equal(countAliveCells(grid), 5);
+  assert.deepEqual(
+    grid.slice(2, 5).map((row) => row.slice(2, 5)),
+    [
+      [false, true, false],
+      [false, false, true],
+      [true, true, true],
+    ],
+  );
+});
+
+test('createLifePatternGrid can tile a classic pattern in a 3x3 layout', () => {
+  const grid = createLifePatternGrid({
+    rows: 15,
+    cols: 15,
+    patternId: 'glider',
+    repeatRows: 3,
+    repeatCols: 3,
+  });
+
+  assert.equal(countAliveCells(grid), 45);
+});
+
+test('createLifeTextGrid renders a centered dot-matrix line', () => {
+  const grid = createLifeTextGrid({
+    rows: 4,
+    cols: 5,
+    lines: ['HI'],
+  });
+
+  assert.deepEqual(grid, [
+    [true, false, true, false, true],
+    [true, false, true, false, true],
+    [true, true, true, false, true],
+    [true, false, true, false, true],
+  ]);
+});
+
+test('createLifeTextGrid supports punctuation and wider greeting characters', () => {
+  const grid = createLifeTextGrid({
+    rows: 4,
+    cols: 13,
+    lines: ['YOU!'],
+  });
+
+  assert.deepEqual(grid, [
+    [true, false, true, false, true, true, true, false, true, false, true, false, true],
+    [true, false, true, false, true, false, true, false, true, false, true, false, true],
+    [false, true, false, false, true, false, true, false, true, false, true, false, false],
+    [false, true, false, false, true, true, true, false, true, true, true, false, true],
+  ]);
+});
+
 test('countAliveCells and areLifeGridsEqual reflect board state correctly', () => {
   const left = [
     [true, false],
@@ -63,6 +126,15 @@ test('countAliveCells and areLifeGridsEqual reflect board state correctly', () =
   assert.equal(countAliveCells(left), 2);
   assert.equal(areLifeGridsEqual(left, right), true);
   assert.equal(areLifeGridsEqual(left, changed), false);
+});
+
+test('createEmptyLifeGrid creates a dead board with the requested dimensions', () => {
+  const grid = createEmptyLifeGrid({ rows: 2, cols: 4 });
+
+  assert.deepEqual(grid, [
+    [false, false, false, false],
+    [false, false, false, false],
+  ]);
 });
 
 test('toggleLifeCell flips the target cell without mutating neighbors', () => {

@@ -72,6 +72,19 @@
     "lifePopulationLabel": "Population",
     "lifeResetLabel": "Reseed",
     "lifeResetAction": "重新初始化",
+    "lifeSeedMenuLabel": "seed selector",
+    "lifeSeedMenuTitle": "选择初始化方式",
+    "lifeSeedGreetingLabel": "Greeting",
+    "lifeSeedRandomLabel": "随机",
+    "lifeSeedRandomHint": "按当前密度随机播种，适合快速生成新的演化状态。",
+    "lifePatternGroupLabel": "经典 Pattern",
+    "lifePatternNames": {
+      "block": "方块",
+      "blinker": "闪烁器",
+      "toad": "蟾蜍",
+      "beacon": "信标",
+      "glider": "滑翔机"
+    },
     "lifeAutoStatus": "auto boot",
     "lifeRunning": "running"
   },

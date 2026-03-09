@@ -72,6 +72,19 @@
     "lifePopulationLabel": "Population",
     "lifeResetLabel": "Reseed",
     "lifeResetAction": "Reinitialize",
+    "lifeSeedMenuLabel": "seed selector",
+    "lifeSeedMenuTitle": "Choose initialization mode",
+    "lifeSeedGreetingLabel": "Greeting",
+    "lifeSeedRandomLabel": "Random",
+    "lifeSeedRandomHint": "Seed the board with the current density for a fresh evolving state.",
+    "lifePatternGroupLabel": "Classic patterns",
+    "lifePatternNames": {
+      "block": "Block",
+      "blinker": "Blinker",
+      "toad": "Toad",
+      "beacon": "Beacon",
+      "glider": "Glider"
+    },
     "lifeAutoStatus": "auto boot",
     "lifeRunning": "running"
   },

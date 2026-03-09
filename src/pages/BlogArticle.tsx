@@ -29,8 +29,27 @@ import {
   stripFrontmatter,
 } from '../lib/blog';
 
+function getViewportFocusY() {
+  const stickyOffset = 112;
+  const visibleTop = window.scrollY + stickyOffset;
+  const visibleHeight = Math.max(window.innerHeight - stickyOffset, 1);
+
+  return visibleTop + visibleHeight * 0.42;
+}
+
 function scrollToSection(sectionId: string) {
-  document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const sectionElement = document.getElementById(sectionId);
+  if (!sectionElement || typeof window === 'undefined') {
+    return;
+  }
+
+  const sectionTop = window.scrollY + sectionElement.getBoundingClientRect().top;
+  const alignOffset = getViewportFocusY() - window.scrollY;
+
+  window.scrollTo({
+    top: Math.max(0, sectionTop - alignOffset),
+    behavior: 'smooth',
+  });
 }
 
 function flattenHeadingChildren(children: ReactNode): string {
@@ -139,7 +158,12 @@ export default function BlogArticle() {
   }, [contentLoading, content, toc]);
 
   useEffect(() => {
-    if (contentLoading || sidebarToc.length === 0) {
+    if (contentLoading || typeof window === 'undefined') {
+      return;
+    }
+
+    const articleElement = articleRef.current;
+    if (!articleElement) {
       return;
     }
 
@@ -147,69 +171,36 @@ export default function BlogArticle() {
       .map((item) => document.getElementById(item.id))
       .filter((element): element is HTMLElement => Boolean(element));
 
-    if (headings.length === 0) {
-      return;
-    }
+    const updateReadingState = () => {
+      const rect = articleElement.getBoundingClientRect();
+      const articleTop = window.scrollY + rect.top;
+      const articleBottom = articleTop + articleElement.offsetHeight;
+      const focusY = Math.min(Math.max(getViewportFocusY(), articleTop + 1), articleBottom - 1);
+      const readableHeight = Math.max(articleBottom - articleTop, 1);
+      const nextProgress = Math.min(1, Math.max(0, (focusY - articleTop) / readableHeight));
 
-    const syncActiveSection = () => {
-      const topOffset = 180;
+      setReadingProgress((current) => (Math.abs(current - nextProgress) < 0.005 ? current : nextProgress));
+
+      if (headings.length === 0) {
+        return;
+      }
+
       let currentId = headings[0].id;
 
-      for (const heading of headings) {
-        const adjustedTop = heading.getBoundingClientRect().top - topOffset;
-        if (adjustedTop <= 0) {
+      for (const [index, heading] of headings.entries()) {
+        const headingTop = window.scrollY + heading.getBoundingClientRect().top;
+        const nextHeadingTop =
+          index < headings.length - 1
+            ? window.scrollY + headings[index + 1].getBoundingClientRect().top
+            : articleBottom + 1;
+
+        if (focusY >= headingTop && focusY < nextHeadingTop) {
           currentId = heading.id;
-        } else {
           break;
         }
       }
 
       setActiveSectionId((current) => (current === currentId ? current : currentId));
-    };
-
-    let frameId = 0;
-    const scheduleSync = () => {
-      if (frameId !== 0) {
-        return;
-      }
-
-      frameId = window.requestAnimationFrame(() => {
-        frameId = 0;
-        syncActiveSection();
-      });
-    };
-
-    window.addEventListener('scroll', scheduleSync, { passive: true });
-    window.addEventListener('resize', scheduleSync);
-    scheduleSync();
-
-    return () => {
-      if (frameId !== 0) {
-        window.cancelAnimationFrame(frameId);
-      }
-      window.removeEventListener('scroll', scheduleSync);
-      window.removeEventListener('resize', scheduleSync);
-    };
-  }, [contentLoading, content, sidebarToc]);
-
-  useEffect(() => {
-    if (contentLoading || typeof window === 'undefined') {
-      return;
-    }
-
-    const updateReadingProgress = () => {
-      const articleElement = articleRef.current;
-      if (!articleElement) {
-        return;
-      }
-
-      const rect = articleElement.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const triggerLine = viewportHeight * 0.18;
-      const readableHeight = Math.max(articleElement.offsetHeight - viewportHeight * 0.38, 1);
-      const nextProgress = Math.min(1, Math.max(0, (triggerLine - rect.top) / readableHeight));
-
-      setReadingProgress((current) => (Math.abs(current - nextProgress) < 0.005 ? current : nextProgress));
     };
 
     let frameId = 0;
@@ -220,7 +211,7 @@ export default function BlogArticle() {
 
       frameId = window.requestAnimationFrame(() => {
         frameId = 0;
-        updateReadingProgress();
+        updateReadingState();
       });
     };
 
@@ -235,7 +226,7 @@ export default function BlogArticle() {
       window.removeEventListener('scroll', scheduleUpdate);
       window.removeEventListener('resize', scheduleUpdate);
     };
-  }, [contentLoading, content]);
+  }, [contentLoading, content, sidebarToc]);
 
   const loading = slug ? indexLoading || contentLoading : false;
   const notFound = !slug || contentError || indexError || (!indexLoading && !meta);
