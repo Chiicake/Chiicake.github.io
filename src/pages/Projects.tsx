@@ -166,13 +166,9 @@ export default function Projects({ id }: { id?: string }) {
                   </p>
                 </div>
 
-                <div className="engineering-subpanel rounded-full px-4 py-2">
+                <div className="engineering-subpanel rounded-2xl px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <div className="flex gap-2">
-                      <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-                    </div>
+                    <span className="project-session-badge mono-data">tty://repo</span>
                     <span className="mono-data text-[11px] uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
                       {content.terminalLabel}
                     </span>

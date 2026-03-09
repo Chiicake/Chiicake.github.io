@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useReducedMotion } from 'motion/react';
@@ -14,6 +14,7 @@ function isString(value: unknown): value is string {
 }
 
 type TerminalTone = 'sync' | 'package' | 'ok' | 'warn' | 'dim';
+type TerminalCommandGroup = 'builtin' | 'navigation' | 'recent';
 
 interface TerminalLine {
   text: string;
@@ -30,6 +31,15 @@ interface HomeRollingShortcut {
   href?: string;
   external?: boolean;
   onClick?: () => void;
+}
+
+interface TerminalCommandSpec {
+  command: string;
+  normalized: string;
+  group: TerminalCommandGroup;
+  description: string;
+  execute?: () => void;
+  successMessage?: string;
 }
 
 const DEFAULT_LINES = [
@@ -57,6 +67,9 @@ const DEFAULT_LINES = [
 const TERMINAL_SCROLL_DELAY_MS = 190;
 const TERMINAL_SCROLL_DELAY_RECENT_MS = 170;
 const TERMINAL_PROMPT_DELAY_MS = 300;
+const PROMPT_HOST = 'chiicake@archlinux';
+const PROMPT_PATH = '~';
+const PROMPT_SYMBOL = '%';
 
 function getLineTone(text: string): TerminalTone {
   if (text.startsWith('[core]') || text.startsWith('[extra]') || text.includes('synchronizing')) {
@@ -78,6 +91,30 @@ function getLineTone(text: string): TerminalTone {
   return 'dim';
 }
 
+function getPromptPrefix(status: 0 | 1) {
+  return `${status} ${PROMPT_HOST} ${PROMPT_PATH} ${PROMPT_SYMBOL}`;
+}
+
+function getCommonPrefix(values: string[]) {
+  if (values.length === 0) {
+    return '';
+  }
+
+  let prefix = values[0];
+
+  for (const value of values.slice(1)) {
+    while (!value.startsWith(prefix) && prefix.length > 0) {
+      prefix = prefix.slice(0, -1);
+    }
+  }
+
+  return prefix;
+}
+
+function formatHelpRow(command: string, description: string) {
+  return `  ${command.padEnd(30, ' ')} ${description}`;
+}
+
 export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingShortcut[] }) {
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
@@ -95,6 +132,7 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
   const commandInputRef = useRef<HTMLInputElement | null>(null);
   const historyIdRef = useRef(0);
   const historyDraftRef = useRef('');
+  const lastCompletionQueryRef = useRef('');
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown> | undefined;
   const heroBundle = isRecord(bundle?.hero) ? bundle.hero : {};
@@ -115,6 +153,7 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
   const recentArticleCommands = latestArticles.map((article) => ({
     command: `open /blog/${article.slug}`,
     label: getLocalizedText(article.title, blogLanguage),
+    date: article.date,
   }));
   const recentBlogLines: TerminalLine[] = blogLoading
     ? []
@@ -137,6 +176,7 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
   const lineSignature = terminalLines.map((line) => line.text).join('\n');
 
   const normalizeCommand = (value: string) => value.replace(/^\$\s*/, '').trim().replace(/\s+/g, ' ').toLowerCase();
+  const stripPromptSigil = (value: string) => value.replace(/^\$\s*/, '').trimStart();
   const nextHistoryId = (prefix: string) => {
     historyIdRef.current += 1;
     return `${prefix}-${historyIdRef.current}`;
@@ -208,6 +248,121 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
       });
     });
   }, [linesReady]);
+
+  const executeShortcut = useCallback(
+    (shortcut: HomeRollingShortcut) => {
+      if (shortcut.href) {
+        if (shortcut.external) {
+          window.open(shortcut.href, '_blank', 'noreferrer');
+          return;
+        }
+
+        navigate(shortcut.href);
+        return;
+      }
+
+      shortcut.onClick?.();
+    },
+    [navigate],
+  );
+
+  const commandSpecs = useMemo<TerminalCommandSpec[]>(() => {
+    const builtinCommands: TerminalCommandSpec[] = [
+      {
+        command: 'help',
+        normalized: 'help',
+        group: 'builtin',
+        description: 'show terminal reference',
+      },
+    ];
+
+    const navigationCommands = shortcuts.map((shortcut) => ({
+      command: shortcut.command.replace(/^\$\s*/, ''),
+      normalized: normalizeCommand(shortcut.command),
+      group: 'navigation' as const,
+      description: shortcut.label,
+      execute: () => executeShortcut(shortcut),
+      successMessage: shortcut.href
+        ? shortcut.external
+          ? `launched ${shortcut.href.replace(/^https?:\/\//, '')}`
+          : `opened ${shortcut.href}`
+        : `moved viewport to ${shortcut.command.replace(/^\$\s*jump\s+/, '')}`,
+    }));
+
+    const recentCommands = recentArticleCommands.map((article) => ({
+      command: article.command,
+      normalized: normalizeCommand(article.command),
+      group: 'recent' as const,
+      description: `${article.date} · ${article.label}`,
+      execute: () => navigate(article.command.replace(/^open\s+/, '')),
+      successMessage: `opened ${article.command.replace(/^open\s+/, '')}`,
+    }));
+
+    return [...builtinCommands, ...navigationCommands, ...recentCommands];
+  }, [executeShortcut, navigate, recentArticleCommands, shortcuts]);
+
+  const getCompletionMatches = useCallback(
+    (input: string) => {
+      const normalizedInput = normalizeCommand(input);
+
+      if (!normalizedInput) {
+        return commandSpecs;
+      }
+
+      return commandSpecs.filter((spec) => spec.normalized.startsWith(normalizedInput));
+    },
+    [commandSpecs],
+  );
+
+  const printHelp = useCallback(
+    (topic?: string) => {
+      const normalizedTopic = topic ? normalizeCommand(topic) : '';
+      const target = normalizedTopic ? commandSpecs.find((spec) => spec.normalized === normalizedTopic) : undefined;
+
+      if (normalizedTopic && !target) {
+        return [
+          { text: `no manual entry for ${normalizedTopic}`, tone: 'warn' as const },
+          { text: 'try: help', tone: 'dim' as const },
+        ];
+      }
+
+      if (target) {
+        return [
+          { text: 'NAME', tone: 'dim' as const },
+          { text: formatHelpRow(target.command, target.description), tone: 'package' as const },
+          { text: 'USAGE', tone: 'dim' as const },
+          { text: `  ${target.command}`, tone: 'package' as const },
+          { text: 'GROUP', tone: 'dim' as const },
+          { text: `  ${target.group}`, tone: 'package' as const },
+        ];
+      }
+
+      const builtins = commandSpecs.filter((spec) => spec.group === 'builtin');
+      const navigation = commandSpecs.filter((spec) => spec.group === 'navigation');
+      const recent = commandSpecs.filter((spec) => spec.group === 'recent');
+
+      return [
+        { text: 'NAME', tone: 'dim' as const },
+        { text: '  home-terminal - interactive navigation shell', tone: 'package' as const },
+        { text: 'SYNOPSIS', tone: 'dim' as const },
+        { text: '  help [command]', tone: 'package' as const },
+        { text: 'BUILTINS', tone: 'dim' as const },
+        ...builtins.map((spec) => ({ text: formatHelpRow(spec.command, spec.description), tone: 'package' as const })),
+        { text: 'NAVIGATION', tone: 'dim' as const },
+        ...navigation.map((spec) => ({ text: formatHelpRow(spec.command, spec.description), tone: 'package' as const })),
+        ...(recent.length > 0
+          ? [
+              { text: 'RECENT ENTRIES', tone: 'dim' as const },
+              ...recent.map((spec) => ({ text: formatHelpRow(spec.command, spec.description), tone: 'package' as const })),
+            ]
+          : []),
+        { text: 'KEYS', tone: 'dim' as const },
+        { text: formatHelpRow('Tab', 'autocomplete commands and recent article paths'), tone: 'package' as const },
+        { text: formatHelpRow('Up / Down', 'browse command history'), tone: 'package' as const },
+      ];
+    },
+    [commandSpecs],
+  );
 
   useEffect(() => {
     if (!linesReady) {
@@ -284,20 +439,6 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
   const promptBeforeCaret = commandInput.slice(0, visibleCaretIndex);
   const promptCursorChar = commandInput.charAt(visibleCaretIndex) || '\u00A0';
   const promptAfterCaret = commandInput.slice(visibleCaretIndex + (commandInput.charAt(visibleCaretIndex) ? 1 : 0));
-  const executeShortcut = (shortcut: HomeRollingShortcut) => {
-    if (shortcut.href) {
-      if (shortcut.external) {
-        window.open(shortcut.href, '_blank', 'noreferrer');
-        return;
-      }
-
-      navigate(shortcut.href);
-      return;
-    }
-
-    shortcut.onClick?.();
-  };
-
   const handleCommandSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -308,14 +449,13 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
 
     const sanitizedInput = rawInput.replace(/^\$\s*/, '');
     const normalizedInput = normalizeCommand(sanitizedInput);
-    const matchedShortcut = shortcuts.find((shortcut) => normalizeCommand(shortcut.command) === normalizedInput);
-    const matchedArticle = blogIndex?.articles.find(
-      (article) => normalizeCommand(`open /blog/${article.slug}`) === normalizedInput,
-    );
-    const helpCommand = normalizedInput === 'help';
+    const promptStatusAtSubmit = lastCommandStatus;
+    const matchedCommand = commandSpecs.find((spec) => spec.normalized === normalizedInput);
+    const helpTopic = normalizedInput.startsWith('help ') ? normalizedInput.slice(5) : '';
+    const helpCommand = normalizedInput === 'help' || normalizedInput.startsWith('help ');
     const inputHistoryEntries: TerminalLine[] = [
       {
-        text: `chiicake@archlinux:~$ ${sanitizedInput}`,
+        text: `${getPromptPrefix(promptStatusAtSubmit)} ${sanitizedInput}`,
         tone: 'package',
       },
     ];
@@ -323,41 +463,20 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
     setSubmittedCommands((previous) => [...previous, sanitizedInput]);
     setHistoryCursor(null);
     historyDraftRef.current = '';
+    lastCompletionQueryRef.current = '';
 
     if (helpCommand) {
       setLastCommandStatus(0);
       appendHistoryEntries([
         ...inputHistoryEntries,
-        { text: 'available commands:', tone: 'dim' },
-        { text: '  help', tone: 'package' },
-        ...shortcuts.map((shortcut) => ({
-          text: `  ${shortcut.command.replace(/^\$\s*/, '')}`,
-          tone: 'package' as const,
-        })),
-        { text: '  open /blog/<slug>', tone: 'package' },
-        ...(recentArticleCommands.length > 0
-          ? [
-              { text: 'recent article entries:', tone: 'dim' as const },
-              ...recentArticleCommands.map((article) => ({
-                text: `  ${article.command}`,
-                tone: 'package' as const,
-              })),
-            ]
-          : []),
+        ...printHelp(helpTopic),
       ]);
-    } else if (matchedShortcut) {
-      executeShortcut(matchedShortcut);
+    } else if (matchedCommand?.execute) {
+      matchedCommand.execute();
       setLastCommandStatus(0);
       appendHistoryEntries([
         ...inputHistoryEntries,
-        { text: `:: ${matchedShortcut.command.replace(/^\$\s*/, '')}`, tone: 'ok' },
-      ]);
-    } else if (matchedArticle) {
-      navigate(`/blog/${matchedArticle.slug}`);
-      setLastCommandStatus(0);
-      appendHistoryEntries([
-        ...inputHistoryEntries,
-        { text: `:: open /blog/${matchedArticle.slug}`, tone: 'ok' },
+        ...(matchedCommand.successMessage ? [{ text: matchedCommand.successMessage, tone: 'ok' as const }] : []),
       ]);
     } else {
       setLastCommandStatus(1);
@@ -374,6 +493,47 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
 
   const handlePromptKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     event.stopPropagation();
+
+    if (event.key === 'Tab') {
+      event.preventDefault();
+
+      const query = stripPromptSigil(commandInput);
+      const matches = getCompletionMatches(query);
+
+      if (matches.length === 0) {
+        return;
+      }
+
+      const matchCommands = matches.map((match) => match.command);
+      const commonPrefix = getCommonPrefix(matchCommands);
+
+      if (matches.length === 1) {
+        const nextValue = matches[0].command;
+        lastCompletionQueryRef.current = '';
+        setPromptValue(nextValue, nextValue.length);
+        return;
+      }
+
+      if (commonPrefix.length > query.length) {
+        lastCompletionQueryRef.current = '';
+        setPromptValue(commonPrefix, commonPrefix.length);
+        return;
+      }
+
+      const completionKey = `${query}:${matchCommands.join('|')}`;
+      if (lastCompletionQueryRef.current !== completionKey) {
+        appendHistoryEntries([
+          { text: 'COMPLETIONS', tone: 'dim' },
+          ...matches.map((match) => ({
+            text: formatHelpRow(match.command, match.description),
+            tone: 'package' as const,
+          })),
+        ]);
+        lastCompletionQueryRef.current = completionKey;
+        scrollViewportToBottom(shouldReduceMotion ? 'auto' : 'smooth');
+      }
+      return;
+    }
 
     if (event.key === 'ArrowUp') {
       event.preventDefault();
@@ -425,16 +585,16 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
       </div>
 
       <div className="home-rolling-terminal__command">
-        <span className="text-sky-300">chiicake@archlinux</span>
-        <span className="text-slate-500">:</span>
-        <span className="text-cyan-200/90">~</span>
-        <span className="text-sky-200">$</span>
+        <span className="home-rolling-terminal__prompt-status is-ok">0</span>
+        <span className="home-rolling-terminal__prompt-host">{PROMPT_HOST}</span>
+        <span className="home-rolling-terminal__prompt-path">{PROMPT_PATH}</span>
+        <span className="home-rolling-terminal__prompt-symbol">{PROMPT_SYMBOL}</span>
         <span className="min-w-0 truncate text-slate-300">{command}</span>
       </div>
 
       <div ref={viewportRef} className="home-rolling-terminal__viewport scrollbar-hidden">
         <div
-          className="space-y-2"
+          className="space-y-1.5"
           onClick={(event) => {
             const target = event.target as HTMLElement;
             if (target.closest('.home-rolling-terminal__line--prompt')) {
@@ -479,17 +639,15 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
               onSubmit={handleCommandSubmit}
               onClick={() => focusPromptInput()}
             >
-              <span className="home-rolling-terminal__line-marker" />
               <label className="home-rolling-terminal__inline-prompt">
                 <span
                   className={`home-rolling-terminal__prompt-status${lastCommandStatus === 0 ? ' is-ok' : ' is-warn'}`}
                 >
                   {lastCommandStatus}
                 </span>
-                <span className="home-rolling-terminal__prompt-host">chiicake@archlinux</span>
-                <span className="text-slate-500">:</span>
-                <span className="text-cyan-200/90">~</span>
-                <span className="text-sky-200">$</span>
+                <span className="home-rolling-terminal__prompt-host">{PROMPT_HOST}</span>
+                <span className="home-rolling-terminal__prompt-path">{PROMPT_PATH}</span>
+                <span className="home-rolling-terminal__prompt-symbol">{PROMPT_SYMBOL}</span>
                 <span className="home-rolling-terminal__prompt-editor">
                   <span className="home-rolling-terminal__prompt-value" aria-hidden="true">
                     {promptBeforeCaret}
@@ -516,6 +674,7 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
                       if (historyCursor !== null) {
                         setHistoryCursor(null);
                       }
+                      lastCompletionQueryRef.current = '';
                       syncCaretIndex(event.target);
                     }}
                     onClick={(event) => syncCaretIndex(event.currentTarget)}

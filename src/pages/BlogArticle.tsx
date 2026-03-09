@@ -334,11 +334,7 @@ export default function BlogArticle() {
       return (
         <div className="blog-code-block">
           <div className="blog-code-block__header">
-            <div className="blog-code-block__lights" aria-hidden="true">
-              <span className="blog-code-block__light is-red" />
-              <span className="blog-code-block__light is-amber" />
-              <span className="blog-code-block__light is-green" />
-            </div>
+            <span className="blog-code-block__scope mono-data">tty://code</span>
             <span className="blog-code-block__title mono-data">{meta.title}</span>
             <span className="blog-code-block__badge mono-data">{meta.badge}</span>
           </div>

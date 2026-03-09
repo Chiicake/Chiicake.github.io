@@ -45,7 +45,7 @@
     "rollingCommand": "sudo pacman -Syu --needed homepage-runtime blog-feed opensource-projects",
     "rollingRecentTitle": "recent://blog",
     "rollingRecentLoading": "fetching latest article index...",
-    "rollingPromptPlaceholder": "Type a command, e.g. open /blog",
+    "rollingPromptPlaceholder": "Type help, or press Tab to complete",
     "rollingPromptNotFound": "command not found",
     "rollingLines": [
       "[core] synchronizing package databases...",
