@@ -72,6 +72,10 @@
     "lifePopulationLabel": "Population",
     "lifeResetLabel": "Reseed",
     "lifeResetAction": "Reinitialize",
+    "lifePlaybackLabel": "Playback",
+    "lifePauseAction": "PAUSE",
+    "lifeResumeAction": "RESUME",
+    "lifeSeedControlLabel": "Seed",
     "lifeSeedMenuLabel": "seed selector",
     "lifeSeedMenuTitle": "Choose initialization mode",
     "lifeSeedGreetingLabel": "Greeting",
@@ -83,7 +87,9 @@
       "blinker": "Blinker",
       "toad": "Toad",
       "beacon": "Beacon",
-      "glider": "Glider"
+      "glider": "Glider",
+      "pulsar": "Pulsar",
+      "rPentomino": "R-pentomino"
     },
     "lifeAutoStatus": "auto boot",
     "lifeRunning": "running"

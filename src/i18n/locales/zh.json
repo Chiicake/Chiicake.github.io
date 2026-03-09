@@ -72,6 +72,10 @@
     "lifePopulationLabel": "Population",
     "lifeResetLabel": "Reseed",
     "lifeResetAction": "重新初始化",
+    "lifePlaybackLabel": "Playback",
+    "lifePauseAction": "PAUSE",
+    "lifeResumeAction": "RESUME",
+    "lifeSeedControlLabel": "Seed",
     "lifeSeedMenuLabel": "seed selector",
     "lifeSeedMenuTitle": "选择初始化方式",
     "lifeSeedGreetingLabel": "Greeting",
@@ -83,7 +87,9 @@
       "blinker": "闪烁器",
       "toad": "蟾蜍",
       "beacon": "信标",
-      "glider": "滑翔机"
+      "glider": "滑翔机",
+      "pulsar": "Pulsar",
+      "rPentomino": "R-pentomino"
     },
     "lifeAutoStatus": "auto boot",
     "lifeRunning": "running"

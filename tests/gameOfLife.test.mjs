@@ -79,33 +79,81 @@ test('createLifePatternGrid can tile a classic pattern in a 3x3 layout', () => {
   assert.equal(countAliveCells(grid), 45);
 });
 
+test('createLifePatternGrid supports the r-pentomino preset', () => {
+  const grid = createLifePatternGrid({
+    rows: 7,
+    cols: 7,
+    patternId: 'rPentomino',
+  });
+
+  assert.equal(countAliveCells(grid), 5);
+  assert.deepEqual(
+    grid.slice(2, 5).map((row) => row.slice(2, 5)),
+    [
+      [false, true, true],
+      [true, true, false],
+      [false, true, false],
+    ],
+  );
+});
+
+test('createLifePatternGrid supports a centered pulsar preset', () => {
+  const grid = createLifePatternGrid({
+    rows: 15,
+    cols: 15,
+    patternId: 'pulsar',
+  });
+
+  assert.equal(countAliveCells(grid), 48);
+  assert.deepEqual(
+    grid.slice(1, 14).map((row) => row.slice(1, 14)),
+    [
+      '0011100011100',
+      '0000000000000',
+      '1000010100001',
+      '1000010100001',
+      '1000010100001',
+      '0011100011100',
+      '0000000000000',
+      '0011100011100',
+      '1000010100001',
+      '1000010100001',
+      '1000010100001',
+      '0000000000000',
+      '0011100011100',
+    ].map((row) => row.split('').map((cell) => cell === '1')),
+  );
+});
+
 test('createLifeTextGrid renders a centered dot-matrix line', () => {
   const grid = createLifeTextGrid({
-    rows: 4,
-    cols: 5,
+    rows: 5,
+    cols: 8,
     lines: ['HI'],
   });
 
   assert.deepEqual(grid, [
-    [true, false, true, false, true],
-    [true, false, true, false, true],
-    [true, true, true, false, true],
-    [true, false, true, false, true],
+    [true, false, false, true, false, true, true, true],
+    [true, false, false, true, false, false, true, false],
+    [true, true, true, true, false, false, true, false],
+    [true, false, false, true, false, false, true, false],
+    [true, false, false, true, false, true, true, true],
   ]);
 });
 
-test('createLifeTextGrid supports punctuation and wider greeting characters', () => {
+test('createLifeTextGrid renders the expanded E glyph without clipping', () => {
   const grid = createLifeTextGrid({
-    rows: 4,
-    cols: 13,
-    lines: ['YOU!'],
+    rows: 5,
+    cols: 4,
+    lines: ['E'],
   });
 
   assert.deepEqual(grid, [
-    [true, false, true, false, true, true, true, false, true, false, true, false, true],
-    [true, false, true, false, true, false, true, false, true, false, true, false, true],
-    [false, true, false, false, true, false, true, false, true, false, true, false, false],
-    [false, true, false, false, true, true, true, false, true, true, true, false, true],
+    [true, true, true, true],
+    [true, false, false, false],
+    [true, true, true, false],
+    [true, false, false, false],
+    [true, true, true, true],
   ]);
 });
 

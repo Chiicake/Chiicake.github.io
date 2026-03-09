@@ -131,7 +131,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl xl:grid xl:grid-cols-[minmax(0,1fr)_30rem] xl:items-start xl:gap-12">
+      <div className="mx-auto w-full max-w-7xl xl:grid xl:grid-cols-[minmax(0,1fr)_35rem] xl:items-start xl:gap-12">
         <div className="relative max-w-4xl">
           {bootVisible && (
             <motion.div
