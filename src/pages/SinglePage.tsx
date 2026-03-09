@@ -5,8 +5,6 @@ import Home from './Home';
 import About from './About';
 import Skills from './Skills';
 import Projects from './Projects';
-import Experience from './Experience';
-import Education from './Education';
 import Contact from './Contact';
 import { BlogPreview } from './sections/BlogPreview';
 
@@ -34,8 +32,6 @@ export default function SinglePage() {
         <Projects id="projects" />
         <Skills id="skills" />
         <About id="about" />
-        <Experience id="experience" />
-        <Education id="education" />
         <Contact id="contact" />
       </div>
     </div>

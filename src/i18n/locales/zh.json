@@ -148,8 +148,7 @@
       }
     ],
     "machineInfoHints": [
-      "man chiicake",
-      "sudo pacman -Syu"
+      "man chiicake"
     ],
     "bio": "我是 Chiicake，一名 2026 届应届后端工程师，目前大约有 2 年后端开发经验。主要使用 Rust、Go、Java，也会接触 Redis、PostgreSQL、Docker 这些后端常用组件。",
     "bioExtra": "我更关注服务可靠性、分布式系统、协议与安全机制、缓存和存储路径这类问题。平时会写博客、做实验项目，也会持续读一些基础设施和系统相关源码。现在还在积累阶段，但会一直保持对技术的热情。",

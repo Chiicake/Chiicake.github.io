@@ -1,6 +1,6 @@
 import avatarImage from '../../avatar.png';
 import { useTranslation } from 'react-i18next';
-import { Github, GraduationCap, MapPin } from 'lucide-react';
+import { Briefcase, Github, GraduationCap, MapPin } from 'lucide-react';
 import { AboutSnakePanel } from '../components/about/AboutSnakePanel';
 import { SectionTitle } from '../components/ui/SectionTitle';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
@@ -18,11 +18,27 @@ interface MachineInfoItem {
   value: string;
 }
 
+interface JobItem {
+  role: string;
+  company: string;
+  period: string;
+  description: string;
+}
+
+interface EducationItem {
+  degree: string;
+  school: string;
+  period: string;
+  description: string;
+}
+
 export default function About({ id }: { id?: string }) {
   const { t, i18n } = useTranslation();
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown> | undefined;
   const aboutBundle = isRecord(bundle?.about) ? bundle.about : {};
+  const experienceBundle = isRecord(bundle?.experience) ? bundle.experience : {};
+  const educationBundle = isRecord(bundle?.education) ? bundle.education : {};
   const profileEyebrow = isString(aboutBundle.profileEyebrow) ? aboutBundle.profileEyebrow.trim() : '';
   const profileMeta = Array.isArray(aboutBundle.profileMeta) ? aboutBundle.profileMeta.filter(isString) : [];
   const machineInfoItems: MachineInfoItem[] = Array.isArray(aboutBundle.machineInfoItems)
@@ -37,6 +53,28 @@ export default function About({ id }: { id?: string }) {
   const machineInfoHints = Array.isArray(aboutBundle.machineInfoHints)
     ? aboutBundle.machineInfoHints.filter(isString)
     : [];
+  const jobs: JobItem[] = Array.isArray(experienceBundle.jobs)
+    ? experienceBundle.jobs
+        .filter(isRecord)
+        .map((job) => ({
+          role: isString(job.role) ? job.role : '',
+          company: isString(job.company) ? job.company : '',
+          period: isString(job.period) ? job.period : '',
+          description: isString(job.description) ? job.description : '',
+        }))
+        .filter((job) => job.role && job.company)
+    : [];
+  const educationItems: EducationItem[] = Array.isArray(educationBundle.items)
+    ? educationBundle.items
+        .filter(isRecord)
+        .map((item) => ({
+          degree: isString(item.degree) ? item.degree : '',
+          school: isString(item.school) ? item.school : '',
+          period: isString(item.period) ? item.period : '',
+          description: isString(item.description) ? item.description : '',
+        }))
+        .filter((item) => item.degree && item.school)
+    : [];
 
   const metaIcons = [Github, MapPin, GraduationCap];
 
@@ -49,12 +87,6 @@ export default function About({ id }: { id?: string }) {
           <ScrollReveal direction="right">
             <div className="engineering-panel overflow-hidden rounded-[2rem] p-5 md:p-6">
               <div className="relative">
-                <div className="mb-4 flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-                </div>
-
                 <div className="overflow-hidden rounded-[1.75rem] border border-gray-200/80 bg-white/70 dark:border-slate-800/70 dark:bg-slate-900/50">
                   <img
                     src={avatarImage}
@@ -112,12 +144,6 @@ export default function About({ id }: { id?: string }) {
                         </div>
                       ))}
                     </div>
-
-                    {machineInfoHints[1] && (
-                      <div className="border-t border-slate-700/35 px-4 py-3">
-                        <code className="mono-data text-xs text-[var(--color-text-secondary)]">{machineInfoHints[1]}</code>
-                      </div>
-                    )}
                   </div>
                 )}
               </div>
@@ -126,6 +152,82 @@ export default function About({ id }: { id?: string }) {
 
           <ScrollReveal delay={0.18} direction="left">
             <AboutSnakePanel />
+          </ScrollReveal>
+        </div>
+
+        <div className="mt-14 grid grid-cols-1 gap-8 xl:grid-cols-2">
+          <ScrollReveal direction="up">
+            <section className="engineering-panel rounded-[2rem] p-5 md:p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
+                  <Briefcase size={18} />
+                </div>
+                <div>
+                  <p className="engineering-kicker">{t('about.title')}</p>
+                  <h3 className="text-xl font-bold text-[var(--color-text-primary)]">{t('experience.title')}</h3>
+                </div>
+              </div>
+
+              <div className="relative mt-6">
+                <div className="absolute bottom-2 left-[1.05rem] top-2 w-px bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)]/50 to-transparent" />
+
+                <div className="space-y-5">
+                  {jobs.map((job) => (
+                    <div key={`${job.company}-${job.period}`} className="relative pl-11">
+                      <div className="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-accent)] text-white ring-4 ring-[var(--color-bg)]">
+                        <Briefcase size={14} />
+                      </div>
+
+                      <div className="engineering-subpanel rounded-[1.5rem] px-4 py-4 md:px-5">
+                        <span className="mono-data text-[11px] uppercase tracking-[0.16em] text-[var(--color-accent)]">
+                          {job.period}
+                        </span>
+                        <h4 className="mt-2 text-lg font-bold text-[var(--color-text-primary)]">{job.role}</h4>
+                        <p className="mt-1 text-sm font-medium text-[var(--color-text-secondary)]">{job.company}</p>
+                        <p className="mt-3 text-sm leading-7 text-[var(--color-text-secondary)]">{job.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.1} direction="up">
+            <section className="engineering-panel rounded-[2rem] p-5 md:p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
+                  <GraduationCap size={18} />
+                </div>
+                <div>
+                  <p className="engineering-kicker">{t('about.title')}</p>
+                  <h3 className="text-xl font-bold text-[var(--color-text-primary)]">{t('education.title')}</h3>
+                </div>
+              </div>
+
+              <div className="relative mt-6">
+                <div className="absolute bottom-2 left-[1.05rem] top-2 w-px bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)]/50 to-transparent" />
+
+                <div className="space-y-5">
+                  {educationItems.map((item) => (
+                    <div key={`${item.school}-${item.period}`} className="relative pl-11">
+                      <div className="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-accent)] text-white ring-4 ring-[var(--color-bg)]">
+                        <GraduationCap size={14} />
+                      </div>
+
+                      <div className="engineering-subpanel rounded-[1.5rem] px-4 py-4 md:px-5">
+                        <span className="mono-data text-[11px] uppercase tracking-[0.16em] text-[var(--color-accent)]">
+                          {item.period}
+                        </span>
+                        <h4 className="mt-2 text-lg font-bold text-[var(--color-text-primary)]">{item.degree}</h4>
+                        <p className="mt-1 text-sm font-medium text-[var(--color-text-secondary)]">{item.school}</p>
+                        <p className="mt-3 text-sm leading-7 text-[var(--color-text-secondary)]">{item.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
           </ScrollReveal>
         </div>
       </div>
