@@ -46,6 +46,8 @@
     "rollingCommand": "sudo pacman -Syu --needed homepage-runtime blog-feed opensource-projects",
     "rollingRecentTitle": "recent://blog",
     "rollingRecentLoading": "正在抓取最新博客索引...",
+    "rollingPromptPlaceholder": "输入命令，例如 open /blog",
+    "rollingPromptNotFound": "未找到命令",
     "rollingLines": [
       "[core] synchronizing package databases...",
       "[extra] synchronizing package databases...",

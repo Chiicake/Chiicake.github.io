@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useReducedMotion } from 'motion/react';
 import { useBlogIndex } from '../../hooks/useBlogIndex';
@@ -18,6 +18,10 @@ type TerminalTone = 'sync' | 'package' | 'ok' | 'warn' | 'dim';
 interface TerminalLine {
   text: string;
   tone: TerminalTone;
+}
+
+interface TerminalHistoryEntry extends TerminalLine {
+  id: string;
 }
 
 interface HomeRollingShortcut {
@@ -50,6 +54,9 @@ const DEFAULT_LINES = [
   '[ALPM] transaction completed',
   ':: system is up to date',
 ];
+const TERMINAL_SCROLL_DELAY_MS = 190;
+const TERMINAL_SCROLL_DELAY_RECENT_MS = 170;
+const TERMINAL_PROMPT_DELAY_MS = 300;
 
 function getLineTone(text: string): TerminalTone {
   if (text.startsWith('[core]') || text.startsWith('[extra]') || text.includes('synchronizing')) {
@@ -72,11 +79,18 @@ function getLineTone(text: string): TerminalTone {
 }
 
 export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingShortcut[] }) {
+  const navigate = useNavigate();
   const { i18n, t } = useTranslation();
   const { index: blogIndex, loading: blogLoading, error: blogError } = useBlogIndex();
   const shouldReduceMotion = useReducedMotion();
   const [visibleCount, setVisibleCount] = useState(1);
+  const [commandInput, setCommandInput] = useState('');
+  const [commandHistory, setCommandHistory] = useState<TerminalHistoryEntry[]>([]);
+  const [promptVisible, setPromptVisible] = useState(false);
+  const [caretIndex, setCaretIndex] = useState(0);
   const viewportRef = useRef<HTMLDivElement | null>(null);
+  const commandInputRef = useRef<HTMLInputElement | null>(null);
+  const historyIdRef = useRef(0);
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown> | undefined;
   const heroBundle = isRecord(bundle?.hero) ? bundle.hero : {};
@@ -89,6 +103,8 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
     : 'sudo pacman -Syu --needed homepage-runtime blog-feed opensource-projects';
   const recentTitle = isString(heroBundle.rollingRecentTitle) ? heroBundle.rollingRecentTitle : 'recent://blog';
   const recentLoading = t('hero.rollingRecentLoading');
+  const promptPlaceholder = t('hero.rollingPromptPlaceholder');
+  const promptNotFound = t('hero.rollingPromptNotFound');
   const localizedLines = Array.isArray(heroBundle.rollingLines) ? heroBundle.rollingLines.filter(isString) : [];
   const staticLines = (localizedLines.length > 0 ? localizedLines : DEFAULT_LINES).map<TerminalLine>((text) => ({
     text,
@@ -111,7 +127,59 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
   const terminalLines = [...staticLines, ...recentBlogLines];
   const displayedCount = shouldReduceMotion ? terminalLines.length : visibleCount;
   const linesReady = !blogLoading;
+  const commandReady = linesReady && displayedCount >= terminalLines.length;
+  const promptActive = commandReady && promptVisible;
   const lineSignature = terminalLines.map((line) => line.text).join('\n');
+
+  const normalizeCommand = (value: string) => value.replace(/^\$\s*/, '').trim().replace(/\s+/g, ' ').toLowerCase();
+  const nextHistoryId = (prefix: string) => {
+    historyIdRef.current += 1;
+    return `${prefix}-${historyIdRef.current}`;
+  };
+  const focusPromptInput = useCallback(
+    (moveToEnd = false) => {
+      const input = commandInputRef.current;
+      if (!input || !promptActive) {
+        return;
+      }
+
+      window.requestAnimationFrame(() => {
+        input.focus();
+
+        if (moveToEnd) {
+          const end = input.value.length;
+          input.setSelectionRange(end, end);
+          setCaretIndex(end);
+        } else {
+          const current = input.selectionStart ?? input.value.length;
+          setCaretIndex(Math.min(current, input.value.length));
+        }
+      });
+    },
+    [promptActive],
+  );
+
+  const syncCaretIndex = useCallback((input: HTMLInputElement | null) => {
+    if (!input) {
+      return;
+    }
+
+    const nextIndex = Math.min(input.selectionStart ?? input.value.length, input.value.length);
+    setCaretIndex(nextIndex);
+  }, []);
+  const scrollViewportToBottom = useCallback((behavior: ScrollBehavior) => {
+    const viewport = viewportRef.current;
+    if (!viewport || !linesReady) {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      viewport.scrollTo({
+        top: viewport.scrollHeight,
+        behavior,
+      });
+    });
+  }, [linesReady]);
 
   useEffect(() => {
     if (!linesReady) {
@@ -139,7 +207,7 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
         return;
       }
 
-      const delay = index >= staticLines.length ? 680 : 760;
+      const delay = index >= staticLines.length ? TERMINAL_SCROLL_DELAY_RECENT_MS : TERMINAL_SCROLL_DELAY_MS;
       timeoutId = window.setTimeout(() => {
         scheduleNext(index + 1);
       }, delay);
@@ -158,18 +226,103 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
   }, [lineSignature, linesReady, shouldReduceMotion, staticLines.length, terminalLines.length]);
 
   useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport || !linesReady) {
+    scrollViewportToBottom(shouldReduceMotion ? 'auto' : 'smooth');
+  }, [commandHistory.length, displayedCount, linesReady, promptActive, scrollViewportToBottom, shouldReduceMotion]);
+
+  useEffect(() => {
+    if (!commandReady) {
       return;
     }
 
-    viewport.scrollTo({
-      top: viewport.scrollHeight,
-      behavior: shouldReduceMotion ? 'auto' : 'smooth',
-    });
-  }, [displayedCount, linesReady, shouldReduceMotion]);
+    const timeoutId = window.setTimeout(() => {
+      setPromptVisible(true);
+    }, shouldReduceMotion ? 0 : TERMINAL_PROMPT_DELAY_MS);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [commandReady, shouldReduceMotion]);
+
+  useEffect(() => {
+    if (!promptActive) {
+      return;
+    }
+
+    focusPromptInput();
+  }, [focusPromptInput, promptActive]);
 
   const renderedLines = linesReady ? terminalLines.slice(0, displayedCount) : [];
+  const visibleCaretIndex = Math.min(caretIndex, commandInput.length);
+  const promptBeforeCaret = commandInput.slice(0, visibleCaretIndex);
+  const promptCursorChar = commandInput.charAt(visibleCaretIndex) || '\u00A0';
+  const promptAfterCaret = commandInput.slice(visibleCaretIndex + (commandInput.charAt(visibleCaretIndex) ? 1 : 0));
+  const executeShortcut = (shortcut: HomeRollingShortcut) => {
+    if (shortcut.href) {
+      if (shortcut.external) {
+        window.open(shortcut.href, '_blank', 'noreferrer');
+        return;
+      }
+
+      navigate(shortcut.href);
+      return;
+    }
+
+    shortcut.onClick?.();
+  };
+
+  const handleCommandSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const rawInput = commandInput.trim();
+    if (!rawInput || !commandReady) {
+      return;
+    }
+
+    const normalizedInput = normalizeCommand(rawInput);
+    const matchedShortcut = shortcuts.find((shortcut) => normalizeCommand(shortcut.command) === normalizedInput);
+    const matchedArticle = blogIndex?.articles.find(
+      (article) => normalizeCommand(`open /blog/${article.slug}`) === normalizedInput,
+    );
+
+    const historyEntries: TerminalHistoryEntry[] = [
+      {
+        id: nextHistoryId('input'),
+        text: `chiicake@archlinux:~$ ${rawInput.replace(/^\$\s*/, '')}`,
+        tone: 'package',
+      },
+    ];
+
+    if (matchedShortcut) {
+      executeShortcut(matchedShortcut);
+      historyEntries.push({
+        id: nextHistoryId('ok'),
+        text: `[exec] ${matchedShortcut.label}`,
+        tone: 'ok',
+      });
+    } else if (matchedArticle) {
+      navigate(`/blog/${matchedArticle.slug}`);
+      historyEntries.push({
+        id: nextHistoryId('ok'),
+        text: `[exec] ${getLocalizedText(matchedArticle.title, blogLanguage)}`,
+        tone: 'ok',
+      });
+    } else {
+      historyEntries.push({
+        id: nextHistoryId('warn'),
+        text: `[exec] ${promptNotFound}: ${rawInput.replace(/^\$\s*/, '')}`,
+        tone: 'warn',
+      });
+    }
+
+    setCommandHistory((previous) => [...previous, ...historyEntries]);
+    setCommandInput('');
+    setCaretIndex(0);
+    scrollViewportToBottom(shouldReduceMotion ? 'auto' : 'smooth');
+  };
+
+  const handlePromptKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    event.stopPropagation();
+  };
 
   return (
     <div className="home-rolling-terminal rounded-[1.7rem] p-4 md:p-5">
@@ -199,9 +352,19 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
       </div>
 
       <div ref={viewportRef} className="home-rolling-terminal__viewport scrollbar-hidden">
-        <div className="space-y-2">
+        <div
+          className="space-y-2"
+          onClick={(event) => {
+            const target = event.target as HTMLElement;
+            if (target.closest('.home-rolling-terminal__line--prompt')) {
+              return;
+            }
+
+            focusPromptInput(true);
+          }}
+        >
           {renderedLines.map((line, index) => {
-            const isActive = !shouldReduceMotion && index === displayedCount - 1;
+            const isActive = !shouldReduceMotion && !promptActive && index === displayedCount - 1;
 
             return (
               <div
@@ -220,6 +383,67 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
               <span className="home-rolling-terminal__line-marker" />
               <span className="min-w-0 break-words">{`[blog] ${recentLoading}`}</span>
             </div>
+          ) : null}
+
+          {commandHistory.map((line) => (
+            <div key={line.id} className={`home-rolling-terminal__line is-${line.tone}`}>
+              <span className="home-rolling-terminal__line-marker" />
+              <span className="min-w-0 break-words">{line.text}</span>
+            </div>
+          ))}
+
+          {promptActive ? (
+            <form
+              className="home-rolling-terminal__line home-rolling-terminal__line--prompt is-active"
+              onSubmit={handleCommandSubmit}
+              onClick={() => focusPromptInput()}
+            >
+              <span className="home-rolling-terminal__line-marker" />
+              <label className="home-rolling-terminal__inline-prompt">
+                <span className="home-rolling-terminal__prompt-host">chiicake@archlinux</span>
+                <span className="text-slate-500">:</span>
+                <span className="text-cyan-200/90">~</span>
+                <span className="text-sky-200">$</span>
+                <span className="home-rolling-terminal__prompt-editor">
+                  <span className="home-rolling-terminal__prompt-value" aria-hidden="true">
+                    {promptBeforeCaret}
+                  </span>
+                  <span className="home-rolling-terminal__prompt-value" aria-hidden="true">
+                    <span className="home-rolling-terminal__cursor home-rolling-terminal__cursor--prompt">
+                      <span className="home-rolling-terminal__cursor-char">{promptCursorChar}</span>
+                    </span>
+                  </span>
+                  <span className="home-rolling-terminal__prompt-value" aria-hidden="true">
+                    {promptAfterCaret}
+                  </span>
+                  {!commandInput ? (
+                    <span className="home-rolling-terminal__prompt-placeholder" aria-hidden="true">
+                      {promptPlaceholder}
+                    </span>
+                  ) : null}
+                  <input
+                    ref={commandInputRef}
+                    type="text"
+                    value={commandInput}
+                    onChange={(event) => {
+                      setCommandInput(event.target.value);
+                      syncCaretIndex(event.target);
+                    }}
+                    onClick={(event) => syncCaretIndex(event.currentTarget)}
+                    onKeyDown={handlePromptKeyDown}
+                    onKeyUp={(event) => syncCaretIndex(event.currentTarget)}
+                    onSelect={(event) => syncCaretIndex(event.currentTarget)}
+                    onFocus={(event) => syncCaretIndex(event.currentTarget)}
+                    className="home-rolling-terminal__prompt-input"
+                    spellCheck={false}
+                    autoCapitalize="off"
+                    autoCorrect="off"
+                    autoComplete="off"
+                    aria-label={promptPlaceholder}
+                  />
+                </span>
+              </label>
+            </form>
           ) : null}
         </div>
       </div>
