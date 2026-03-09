@@ -91,6 +91,17 @@
         "zh": "从限流、幂等到失败恢复，总结生产级后端服务必须具备的生存策略。",
         "en": "A production-oriented series on rate limiting, idempotency, and failure recovery."
       }
+    },
+    {
+      "slug": "rust-lang",
+      "name": {
+        "zh": "Rust 浅析",
+        "en": "Rust Language"
+      },
+      "description": {
+        "zh": "从基础语法、源代码以及生态等角度对 Rust 语言进行的探索。",
+        "en": "An exploration of the Rust language from the perspectives of basic syntax, source code, and its ecosystem."
+      }
     }
   ],
   "articles": [
@@ -202,7 +213,7 @@
         "Reliability"
       ],
       "category": "service-reliability",
-      "collection": "backend-reliability-playbook",
+      "collection": "rust-lang",
       "seriesOrder": 1,
       "title": {
         "zh": "Go 服务限流的几种落地模式",

@@ -6,6 +6,7 @@ import {
   type ReactNode,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { Link, useParams } from 'react-router';
@@ -55,12 +56,14 @@ export default function BlogArticle() {
   const lang = getBlogLanguage(i18n.language);
   const { index, loading: indexLoading, error: indexError } = useBlogIndex();
   const requestKey = slug ? `${slug}:${lang}` : '';
+  const articleRef = useRef<HTMLElement | null>(null);
 
   const [content, setContent] = useState('');
   const [toc, setToc] = useState<ReturnType<typeof parseMarkdownToc>>([]);
   const [loadedRequestKey, setLoadedRequestKey] = useState('');
   const [contentError, setContentError] = useState(false);
   const [activeSectionId, setActiveSectionId] = useState('');
+  const [readingProgress, setReadingProgress] = useState(0);
 
   useEffect(() => {
     if (!slug) {
@@ -93,6 +96,7 @@ export default function BlogArticle() {
         setLoadedRequestKey(requestKey);
         setContentError(false);
         setActiveSectionId('');
+        setReadingProgress(0);
       })
       .catch(() => {
         if (!active) {
@@ -116,6 +120,25 @@ export default function BlogArticle() {
   const contentLoading = Boolean(requestKey) && loadedRequestKey !== requestKey;
 
   useEffect(() => {
+    if (contentLoading || toc.length === 0) {
+      return;
+    }
+
+    const articleElement = articleRef.current;
+    if (!articleElement) {
+      return;
+    }
+
+    const headings = Array.from(articleElement.querySelectorAll<HTMLElement>('h1, h2, h3, h4'));
+    headings.forEach((heading, index) => {
+      const tocItem = toc[index];
+      if (tocItem) {
+        heading.id = tocItem.id;
+      }
+    });
+  }, [contentLoading, content, toc]);
+
+  useEffect(() => {
     if (contentLoading || sidebarToc.length === 0) {
       return;
     }
@@ -129,33 +152,90 @@ export default function BlogArticle() {
     }
 
     const syncActiveSection = () => {
+      const topOffset = 180;
       let currentId = headings[0].id;
 
       for (const heading of headings) {
-        if (heading.getBoundingClientRect().top <= 180) {
+        const adjustedTop = heading.getBoundingClientRect().top - topOffset;
+        if (adjustedTop <= 0) {
           currentId = heading.id;
         } else {
           break;
         }
       }
 
-      setActiveSectionId(currentId);
+      setActiveSectionId((current) => (current === currentId ? current : currentId));
     };
 
-    const observer = new IntersectionObserver(syncActiveSection, {
-      rootMargin: '-120px 0px -60% 0px',
-      threshold: [0, 0.25, 0.5, 1],
-    });
+    let frameId = 0;
+    const scheduleSync = () => {
+      if (frameId !== 0) {
+        return;
+      }
 
-    headings.forEach((heading) => observer.observe(heading));
-    window.addEventListener('scroll', syncActiveSection, { passive: true });
-    syncActiveSection();
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0;
+        syncActiveSection();
+      });
+    };
+
+    window.addEventListener('scroll', scheduleSync, { passive: true });
+    window.addEventListener('resize', scheduleSync);
+    scheduleSync();
 
     return () => {
-      observer.disconnect();
-      window.removeEventListener('scroll', syncActiveSection);
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener('scroll', scheduleSync);
+      window.removeEventListener('resize', scheduleSync);
     };
   }, [contentLoading, content, sidebarToc]);
+
+  useEffect(() => {
+    if (contentLoading || typeof window === 'undefined') {
+      return;
+    }
+
+    const updateReadingProgress = () => {
+      const articleElement = articleRef.current;
+      if (!articleElement) {
+        return;
+      }
+
+      const rect = articleElement.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const triggerLine = viewportHeight * 0.18;
+      const readableHeight = Math.max(articleElement.offsetHeight - viewportHeight * 0.38, 1);
+      const nextProgress = Math.min(1, Math.max(0, (triggerLine - rect.top) / readableHeight));
+
+      setReadingProgress((current) => (Math.abs(current - nextProgress) < 0.005 ? current : nextProgress));
+    };
+
+    let frameId = 0;
+    const scheduleUpdate = () => {
+      if (frameId !== 0) {
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0;
+        updateReadingProgress();
+      });
+    };
+
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
+    scheduleUpdate();
+
+    return () => {
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+    };
+  }, [contentLoading, content]);
 
   const loading = slug ? indexLoading || contentLoading : false;
   const notFound = !slug || contentError || indexError || (!indexLoading && !meta);
@@ -277,7 +357,7 @@ export default function BlogArticle() {
             </div>
           </header>
 
-          <article className="blog-article">
+          <article ref={articleRef} className="blog-article">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkMath]}
               rehypePlugins={[rehypeKatex]}
@@ -306,7 +386,25 @@ export default function BlogArticle() {
 
         <aside className="hidden xl:block">
           <div className="sticky top-28 space-y-4">
-            <div className="rounded-[1.75rem] border border-gray-200/80 bg-white/90 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/75">
+            <div className="blog-progress-panel rounded-[1.75rem] p-5">
+              <div className="mb-5 flex items-center justify-between gap-3">
+                <div>
+                  <p className="engineering-kicker mb-2">{t('blog.readingProgress')}</p>
+                </div>
+                <span className="blog-progress-panel__value mono-data">
+                  {Math.round(readingProgress * 100)}%
+                </span>
+              </div>
+
+              <div className="blog-progress-panel__bar">
+                <div
+                  className="blog-progress-panel__bar-fill"
+                  style={{ width: `${Math.round(readingProgress * 100)}%` }}
+                />
+              </div>
+            </div>
+
+            <div className="flex h-[calc((100vh-15rem)/2)] min-h-[16rem] max-h-[24rem] flex-col rounded-[1.75rem] border border-gray-200/80 bg-white/90 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/75">
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
                   <ListTree size={18} />
@@ -321,27 +419,32 @@ export default function BlogArticle() {
                   {t('blog.noToc')}
                 </p>
               ) : (
-                <nav className="space-y-1">
-                  {sidebarToc.map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      onClick={() => scrollToSection(item.id)}
-                      className={`flex w-full items-start rounded-2xl px-3 py-2 text-left text-sm transition-colors ${
-                        activeSectionId === item.id
-                          ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]'
-                          : 'text-[var(--color-text-secondary)] hover:bg-gray-100 hover:text-[var(--color-text-primary)] dark:hover:bg-slate-800'
-                      } ${item.depth === 3 ? 'pl-6' : ''}`}
-                    >
-                      {item.text}
-                    </button>
-                  ))}
-                </nav>
+                <div className="min-h-0 flex-1 overflow-y-auto pr-1">
+                  <nav className="space-y-1">
+                    {sidebarToc.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => {
+                          setActiveSectionId(item.id);
+                          scrollToSection(item.id);
+                        }}
+                        className={`flex w-full items-start rounded-2xl px-3 py-2 text-left text-sm transition-colors ${
+                          activeSectionId === item.id
+                            ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]'
+                            : 'text-[var(--color-text-secondary)] hover:bg-gray-100 hover:text-[var(--color-text-primary)] dark:hover:bg-slate-800'
+                        } ${item.depth === 3 ? 'pl-6' : ''}`}
+                      >
+                        {item.text}
+                      </button>
+                    ))}
+                  </nav>
+                </div>
               )}
             </div>
 
             {collection && (
-              <div className="rounded-[1.75rem] border border-gray-200/80 bg-white/90 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/75">
+              <div className="flex h-[calc((100vh-15rem)/2)] min-h-[16rem] max-h-[24rem] flex-col rounded-[1.75rem] border border-gray-200/80 bg-white/90 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/75">
                 <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
                   <Layers3 size={18} />
@@ -351,49 +454,51 @@ export default function BlogArticle() {
                 </div>
               </div>
 
-                <div className="mb-5">
-                  <Link
-                    to={`/blog/collections/${collection.slug}`}
-                    className="inline-flex items-center gap-2 text-base font-bold text-[var(--color-text-primary)] mb-2 hover:text-[var(--color-accent)] transition-colors"
-                  >
-                    {getLocalizedText(collection.name, lang)}
-                    <ArrowLeft size={14} className="rotate-180" />
-                  </Link>
-                  <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
-                    {getLocalizedText(collection.description, lang)}
-                  </p>
-                </div>
+                <div className="scrollbar-hidden min-h-0 flex-1 overflow-y-auto pr-1">
+                  <div className="mb-5">
+                    <Link
+                      to={`/blog/collections/${collection.slug}`}
+                      className="inline-flex items-center gap-2 text-base font-bold text-[var(--color-text-primary)] mb-2 hover:text-[var(--color-accent)] transition-colors"
+                    >
+                      {getLocalizedText(collection.name, lang)}
+                      <ArrowLeft size={14} className="rotate-180" />
+                    </Link>
+                    <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                      {getLocalizedText(collection.description, lang)}
+                    </p>
+                  </div>
 
-                <div className="space-y-2">
-                  {collectionArticles.map((article) => {
-                    const isCurrent = article.slug === meta.slug;
+                  <div className="space-y-2">
+                    {collectionArticles.map((article) => {
+                      const isCurrent = article.slug === meta.slug;
 
-                    return (
-                      <Link
-                        key={article.slug}
-                        to={`/blog/${article.slug}`}
-                        className={`block rounded-2xl border px-3 py-3 transition-colors ${
-                          isCurrent
-                            ? 'border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10'
-                            : 'border-gray-200/80 hover:border-[var(--color-accent)]/30 hover:bg-gray-50 dark:border-slate-800/80 dark:hover:bg-slate-900'
-                        }`}
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-black/5 text-xs font-semibold text-[var(--color-text-secondary)] dark:bg-white/10">
-                            {article.seriesOrder ?? '-'}
+                      return (
+                        <Link
+                          key={article.slug}
+                          to={`/blog/${article.slug}`}
+                          className={`block rounded-2xl border px-3 py-3 transition-colors ${
+                            isCurrent
+                              ? 'border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10'
+                              : 'border-gray-200/80 hover:border-[var(--color-accent)]/30 hover:bg-gray-50 dark:border-slate-800/80 dark:hover:bg-slate-900'
+                          }`}
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-black/5 text-xs font-semibold text-[var(--color-text-secondary)] dark:bg-white/10">
+                              {article.seriesOrder ?? '-'}
+                            </div>
+                            <div className="min-w-0">
+                              <p className={`text-sm font-semibold leading-snug ${isCurrent ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-primary)]'}`}>
+                                {getLocalizedText(article.title, lang)}
+                              </p>
+                              <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
+                                {getLocalizedText(article.readingTime, lang)}
+                              </p>
+                            </div>
                           </div>
-                          <div className="min-w-0">
-                            <p className={`text-sm font-semibold leading-snug ${isCurrent ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-primary)]'}`}>
-                              {getLocalizedText(article.title, lang)}
-                            </p>
-                            <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
-                              {getLocalizedText(article.readingTime, lang)}
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
-                    );
-                  })}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}
