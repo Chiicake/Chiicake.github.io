@@ -97,9 +97,29 @@
   "about": {
     "title": "关于我",
     "profileEyebrow": "",
-    "profileMeta": [
-      "@Chiicake",
-      "Beijing, China"
+    "profileMeta": [],
+    "machineInfoTitle": "machine info",
+    "machineInfoItems": [
+      {
+        "label": "user",
+        "value": "chiicake"
+      },
+      {
+        "label": "host",
+        "value": "archlinux"
+      },
+      {
+        "label": "kernel",
+        "value": "linux 6.13"
+      },
+      {
+        "label": "mode",
+        "value": "backend / systems"
+      }
+    ],
+    "machineInfoHints": [
+      "man chiicake",
+      "sudo pacman -Syu"
     ],
     "bio": "我是 Chiicake，一名 2026 届应届后端工程师，目前大约有 2 年后端开发经验。主要使用 Rust、Go、Java，也会接触 Redis、PostgreSQL、Docker 这些后端常用组件。",
     "bioExtra": "我更关注服务可靠性、分布式系统、协议与安全机制、缓存和存储路径这类问题。平时会写博客、做实验项目，也会持续读一些基础设施和系统相关源码。现在还在积累阶段，但会一直保持对技术的热情。",
@@ -123,6 +143,8 @@
     "interests": "我长期在追的问题",
     "interestsList": "分布式系统, 协议与安全机制, 存储与缓存路径, API 设计, 可观测性",
     "snakeTitle": "你好，我是 Chiicake，目标是成为一个优秀的软件工程师！",
+    "snakeFocus": "当前阅读与博客撰写方向：分布式系统",
+    "snakeProjectLabel": "当前工作中项目：",
     "snakeBoardLabel": "Runtime",
     "snakeStatusPanelTitle": "Signals",
     "snakeStatusLabel": "状态",

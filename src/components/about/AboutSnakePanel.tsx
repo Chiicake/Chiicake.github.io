@@ -275,11 +275,23 @@ export function AboutSnakePanel() {
 
   return (
     <div className="engineering-panel flex h-full min-h-[520px] flex-col rounded-[2rem] p-5 md:p-6">
-      <p className="max-w-3xl text-base leading-7 text-[var(--color-text-secondary)] md:text-[1rem]">
-        {t('about.snakeTitle')}
-      </p>
+      <div className="max-w-3xl space-y-2 text-base leading-7 text-[var(--color-text-secondary)] md:text-[1rem]">
+        <p>{t('about.snakeTitle')}</p>
+        <p>{t('about.snakeFocus')}</p>
+        <p>
+          {t('about.snakeProjectLabel')}
+          <a
+            href="https://github.com/Chiicake/hybird-kv"
+            target="_blank"
+            rel="noreferrer"
+            className="ml-2 inline-flex items-center text-[var(--color-accent)] hover:underline"
+          >
+            https://github.com/Chiicake/hybird-kv
+          </a>
+        </p>
+      </div>
 
-      <div className="mt-5 grid flex-1 gap-5 xl:grid-cols-[minmax(0,1fr)_260px]">
+      <div className="mt-6 grid gap-5 xl:mt-auto xl:grid-cols-[minmax(0,1fr)_260px] xl:items-end">
         <div className="engineering-subpanel rounded-[1.75rem] p-4 md:p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>

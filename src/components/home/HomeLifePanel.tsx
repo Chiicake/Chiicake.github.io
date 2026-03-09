@@ -485,7 +485,7 @@ export function HomeLifePanel() {
                                   style={{ height: previewCellSize, width: previewCellSize }}
                                   className={
                                     cell === '1'
-                                      ? 'block rounded-[2px] bg-[var(--color-accent)] shadow-[0_0_10px_rgba(99,102,241,0.32)]'
+                                      ? 'block rounded-[2px] bg-[var(--color-accent)] shadow-[0_0_10px_rgba(23,147,209,0.32)]'
                                       : 'block rounded-[2px] bg-slate-200/80 dark:bg-slate-800/90'
                                   }
                                 />

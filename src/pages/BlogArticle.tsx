@@ -69,6 +69,45 @@ function flattenHeadingChildren(children: ReactNode): string {
   return text.trim();
 }
 
+function getCodeLanguage(className?: string) {
+  const match = /language-([\w-]+)/.exec(className ?? '');
+  return match?.[1]?.toLowerCase() ?? 'text';
+}
+
+function getCodeBlockMeta(language: string) {
+  switch (language) {
+    case 'bash':
+    case 'shell':
+    case 'sh':
+    case 'zsh':
+      return { title: 'tty://zsh', badge: language === 'bash' ? 'bash' : 'zsh' };
+    case 'rust':
+    case 'rs':
+      return { title: 'src/main.rs', badge: 'rust' };
+    case 'go':
+      return { title: 'cmd/main.go', badge: 'go' };
+    case 'java':
+      return { title: 'src/Main.java', badge: 'java' };
+    case 'json':
+      return { title: 'config.json', badge: 'json' };
+    case 'yaml':
+    case 'yml':
+      return { title: 'config.yml', badge: 'yaml' };
+    case 'toml':
+      return { title: 'Cargo.toml', badge: 'toml' };
+    case 'sql':
+      return { title: 'query.sql', badge: 'sql' };
+    case 'typescript':
+    case 'ts':
+      return { title: 'snippet.ts', badge: 'ts' };
+    case 'javascript':
+    case 'js':
+      return { title: 'snippet.js', badge: 'js' };
+    default:
+      return { title: `snippet.${language}`, badge: language };
+  }
+}
+
 export default function BlogArticle() {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
@@ -281,6 +320,32 @@ export default function BlogArticle() {
     h2: (props) => renderHeading('h2', props),
     h3: (props) => renderHeading('h3', props),
     h4: (props) => renderHeading('h4', props),
+    pre: ({ children, ...props }) => {
+      const codeChild = Children.toArray(children).find((child) =>
+        isValidElement<{ className?: string }>(child),
+      );
+      const codeClassName =
+        isValidElement<{ className?: string }>(codeChild) && typeof codeChild.props.className === 'string'
+          ? codeChild.props.className
+          : undefined;
+      const language = getCodeLanguage(codeClassName);
+      const meta = getCodeBlockMeta(language);
+
+      return (
+        <div className="blog-code-block">
+          <div className="blog-code-block__header">
+            <div className="blog-code-block__lights" aria-hidden="true">
+              <span className="blog-code-block__light is-red" />
+              <span className="blog-code-block__light is-amber" />
+              <span className="blog-code-block__light is-green" />
+            </div>
+            <span className="blog-code-block__title mono-data">{meta.title}</span>
+            <span className="blog-code-block__badge mono-data">{meta.badge}</span>
+          </div>
+          <pre {...props}>{children}</pre>
+        </div>
+      );
+    },
   };
 
   return (

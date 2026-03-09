@@ -128,8 +128,8 @@ export default function Home() {
         <div className="absolute left-[8%] top-[34%] hidden h-px w-24 bg-gradient-to-r from-[var(--color-accent)]/45 to-transparent md:block" />
 
         <div className="absolute right-[-8%] top-[-5%] hidden h-[52vh] w-[48vw] min-w-[320px] max-w-[680px] md:block">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(99,102,241,0.14)_1px,transparent_1px),linear-gradient(to_bottom,rgba(99,102,241,0.14)_1px,transparent_1px)] bg-[size:24px_24px] opacity-70 [mask-image:radial-gradient(circle_at_top_right,black_30%,transparent_82%)]"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.25),transparent_68%)] blur-2xl"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(23,147,209,0.16)_1px,transparent_1px),linear-gradient(to_bottom,rgba(23,147,209,0.16)_1px,transparent_1px)] bg-[size:24px_24px] opacity-70 [mask-image:radial-gradient(circle_at_top_right,black_30%,transparent_82%)]"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.22),transparent_68%)] blur-2xl"></div>
         </div>
       </div>
 

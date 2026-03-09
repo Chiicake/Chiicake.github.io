@@ -97,9 +97,29 @@
   "about": {
     "title": "About Me",
     "profileEyebrow": "",
-    "profileMeta": [
-      "@Chiicake",
-      "Beijing, China"
+    "profileMeta": [],
+    "machineInfoTitle": "machine info",
+    "machineInfoItems": [
+      {
+        "label": "user",
+        "value": "chiicake"
+      },
+      {
+        "label": "host",
+        "value": "archlinux"
+      },
+      {
+        "label": "kernel",
+        "value": "linux 6.13"
+      },
+      {
+        "label": "mode",
+        "value": "backend / systems"
+      }
+    ],
+    "machineInfoHints": [
+      "man chiicake",
+      "sudo pacman -Syu"
     ],
     "bio": "I am Chiicake, a 2026 new-grad backend engineer with roughly 2 years of backend experience. I mainly work with Rust, Go, and Java, and I also spend time around Redis, PostgreSQL, and Docker.",
     "bioExtra": "The problems I care about most are service reliability, distributed systems, protocols and security mechanisms, and cache or storage paths. I keep writing blog posts, building small experiments, and reading infrastructure or systems code. I am still early in my career, but the technical curiosity is very real.",
@@ -123,6 +143,8 @@
     "interests": "Questions I Keep Chasing",
     "interestsList": "Distributed Systems, Protocols and Security, Storage and Cache Paths, API Design, Observability",
     "snakeTitle": "Hi, I'm Chiicake. My goal is to become an excellent software engineer!",
+    "snakeFocus": "Current reading and writing focus: distributed systems",
+    "snakeProjectLabel": "Current project at work:",
     "snakeBoardLabel": "Runtime",
     "snakeStatusPanelTitle": "Signals",
     "snakeStatusLabel": "Status",
