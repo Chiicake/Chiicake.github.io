@@ -18,6 +18,7 @@ export default function About({ id }: { id?: string }) {
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown> | undefined;
   const aboutBundle = isRecord(bundle?.about) ? bundle.about : {};
+  const profileEyebrow = isString(aboutBundle.profileEyebrow) ? aboutBundle.profileEyebrow.trim() : '';
   const profileMeta = Array.isArray(aboutBundle.profileMeta) ? aboutBundle.profileMeta.filter(isString) : [];
 
   const metaIcons = [Github, MapPin, GraduationCap];
@@ -46,7 +47,7 @@ export default function About({ id }: { id?: string }) {
                   />
                 </div>
 
-                <p className="engineering-kicker mt-5">{t('about.profileEyebrow')}</p>
+                {profileEyebrow && <p className="engineering-kicker mt-5">{profileEyebrow}</p>}
 
                 <div className="mt-5 space-y-3">
                   {profileMeta.map((meta, index) => {

@@ -96,11 +96,10 @@
   },
   "about": {
     "title": "About Me",
-    "profileEyebrow": "backend / systems / open source",
+    "profileEyebrow": "",
     "profileMeta": [
       "@Chiicake",
-      "Beijing, China",
-      "Backend / Systems"
+      "Beijing, China"
     ],
     "bio": "I am Chiicake, a 2026 new-grad backend engineer with roughly 2 years of backend experience. I mainly work with Rust, Go, and Java, and I also spend time around Redis, PostgreSQL, and Docker.",
     "bioExtra": "The problems I care about most are service reliability, distributed systems, protocols and security mechanisms, and cache or storage paths. I keep writing blog posts, building small experiments, and reading infrastructure or systems code. I am still early in my career, but the technical curiosity is very real.",
