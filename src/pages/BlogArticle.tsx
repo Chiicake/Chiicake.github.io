@@ -317,7 +317,7 @@ export default function BlogArticle() {
               )}
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-[var(--color-text-primary)] leading-tight mb-4">
+            <h1 className="mb-4 text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] md:text-4xl">
               {getLocalizedText(meta.title, lang)}
             </h1>
 
@@ -325,21 +325,13 @@ export default function BlogArticle() {
               {getLocalizedText(meta.summary, lang)}
             </p>
 
-            <div className="mb-6 inline-flex max-w-full items-center gap-3 rounded-[1.15rem] border border-[var(--color-accent)]/18 bg-[var(--color-accent)]/8 px-4 py-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
-                <ShieldCheck size={16} />
-              </div>
-              <div className="min-w-0">
-                <p className="mono-data text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)]">
-                  {t('blog.provenanceEyebrow')}
-                </p>
-                <p className="mt-1 text-sm font-medium leading-relaxed text-[var(--color-text-primary)]">
-                  {t('blog.articleProvenanceBadge')}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--color-text-secondary)] mb-4">
+            <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-[var(--color-text-secondary)]">
+              <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--color-accent)]/18 bg-[var(--color-accent)]/8 px-3 py-1.5 text-[var(--color-text-primary)]">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
+                  <ShieldCheck size={13} />
+                </span>
+                <span className="text-xs font-medium leading-relaxed md:text-sm">{t('blog.articleProvenanceBadge')}</span>
+              </span>
               <span className="inline-flex items-center gap-1.5">
                 <Calendar size={14} />
                 {meta.date}
@@ -348,9 +340,6 @@ export default function BlogArticle() {
                 <Clock size={14} />
                 {getLocalizedText(meta.readingTime, lang)}
               </span>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
               {meta.tags.map((tag) => (
                 <span
                   key={tag}

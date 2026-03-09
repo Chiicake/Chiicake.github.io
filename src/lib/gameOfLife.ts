@@ -63,6 +63,37 @@ export function createLifeGrid({
   return Array.from({ length: rows }, () => Array.from({ length: cols }, () => random() < density));
 }
 
+export function createLifeGridFromLines({
+  rows,
+  cols,
+  lines,
+}: {
+  rows: number;
+  cols: number;
+  lines: string[];
+}): LifeGrid {
+  const grid = createEmptyLifeGrid({ rows, cols });
+  const patternHeight = lines.length;
+  const patternWidth = Math.max(0, ...lines.map((line) => line.length));
+  const startRow = Math.max(0, Math.floor((rows - patternHeight) / 2));
+  const startCol = Math.max(0, Math.floor((cols - patternWidth) / 2));
+
+  lines.forEach((line, rowOffset) => {
+    line.split('').forEach((cell, colOffset) => {
+      const rowIndex = startRow + rowOffset;
+      const colIndex = startCol + colOffset;
+
+      if (cell !== '1' || rowIndex >= rows || colIndex >= cols) {
+        return;
+      }
+
+      grid[rowIndex][colIndex] = true;
+    });
+  });
+
+  return grid;
+}
+
 export function createLifePatternGrid({
   rows,
   cols,

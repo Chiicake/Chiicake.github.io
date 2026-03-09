@@ -396,9 +396,9 @@
     "collectionLabel": "合集",
     "collectionSubtitle": "文章合集列表",
     "provenanceEyebrow": "content manifest",
-    "provenanceTitle": "创作声明 — 博客正文、结构、观点与表达均由本人独立完成",
-    "provenanceDescription": "本站博客未使用 AI 生成正文内容。AI 仅用于事实校验与错漏检查。",
-    "articleProvenanceBadge": "人工撰写 · AI 仅用于事实校验与资料交叉验证",
+    "provenanceTitle": "创作声明 — 博客正文、结构、观点与表达均由人类完成",
+    "provenanceDescription": "本站博客未使用 AI 生成正文内容，如涉及 AI 内容，会使用截图的形式呈现。AI 可能用于信息收集、事实校验与错漏检查。",
+    "articleProvenanceBadge": "人类撰写· AI 仅用于事实校验与资料收集验证",
     "provenanceFields": {
       "authoring": {
         "label": "authoring",

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight, BookOpen, Github } from 'lucide-react';
@@ -18,6 +19,7 @@ function isString(value: unknown): value is string {
 
 export default function Home() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const shouldReduceMotion = useReducedMotion();
   const [bootVisible, setBootVisible] = useState(false);
   const [bootStep, setBootStep] = useState(0);
@@ -222,7 +224,7 @@ export default function Home() {
           <ScrollReveal delay={0.52}>
             <div className="flex flex-wrap gap-4">
               <Button
-                onClick={() => scrollToSection('blog')}
+                onClick={() => navigate('/blog')}
                 variant="outline"
                 size="lg"
                 icon={<BookOpen size={20} />}

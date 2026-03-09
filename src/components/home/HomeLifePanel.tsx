@@ -7,6 +7,7 @@ import {
   countAliveCells,
   createEmptyLifeGrid,
   createLifeGrid,
+  createLifeGridFromLines,
   createLifePatternGrid,
   createLifeTextGrid,
   stepLifeGrid,
@@ -23,9 +24,45 @@ const LIFE_TICK_MS = 500;
 const LIFE_GREETING_HOLD_MS = 2_500;
 const LIFE_BLANK_HOLD_MS = 300;
 const LIFE_MEET_YOU_HOLD_MS = 2_500;
+const LIFE_SIGNATURE_HOLD_MS = 2_500;
 const LIFE_GREETING_LINES = ['HI!', "I'M", 'CHII', 'CAKE'];
 const LIFE_MEET_YOU_LINES = ['NICE', 'TO', 'MEET', 'YOU!'];
-const LIFE_GREETING_PREVIEW = ['10101', '10101', '11101', '10101'];
+const LIFE_SIGNATURE_LINES = [
+  '000000000000000000000000000',
+  '000000000000000000000000000',
+  '000000000000000001000000000',
+  '000000000000000011100000000',
+  '000011110111111110100000000',
+  '000010011100000000100000000',
+  '000011000000000000011000000',
+  '000010000000000000000110000',
+  '000100000010000000000010000',
+  '001000000000000000000001000',
+  '010000000010000011000001100',
+  '010000000100000000011100100',
+  '100000000000011000011100100',
+  '100001111000111000000000100',
+  '100001100000011000000011110',
+  '100000000000010000000011011',
+  '100000000000000000000011011',
+  '110000000000000000000010110',
+  '010000000000000000000100100',
+  '011000000000000000000001000',
+  '001100000000000000000011000',
+  '000101100000000000011111000',
+  '000100111111000000111001100',
+  '000111100111111111110000100',
+  '000010000000001111100000110',
+  '000011000000000000100001110',
+  '000001000000000000100101100',
+];
+const LIFE_GREETING_PREVIEW = [
+  '10010111',
+  '10010010',
+  '11110010',
+  '10010010',
+  '10010111',
+];
 const LIFE_RANDOM_PREVIEW = ['1010', '0110', '1101', '0011'];
 const LIFE_PATTERN_LAYOUTS: Partial<Record<LifePatternId, { repeatRows: number; repeatCols: number }>> = {
   pulsar: {
@@ -66,6 +103,17 @@ function createRuntimeFromGrid(
 function createTextRuntime(lines: string[], previousGrid: LifeGrid | null = createBlankGrid()): LifeRuntime {
   return createRuntimeFromGrid(
     createLifeTextGrid({
+      rows: LIFE_ROWS,
+      cols: LIFE_COLS,
+      lines,
+    }),
+    { previousGrid },
+  );
+}
+
+function createLiteralRuntime(lines: string[], previousGrid: LifeGrid | null = createBlankGrid()): LifeRuntime {
+  return createRuntimeFromGrid(
+    createLifeGridFromLines({
       rows: LIFE_ROWS,
       cols: LIFE_COLS,
       lines,
@@ -145,6 +193,18 @@ export function HomeLifePanel() {
       );
     }, LIFE_GREETING_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_MEET_YOU_HOLD_MS);
 
+    const signatureTimer = window.setTimeout(() => {
+      setRuntime((current) => createLiteralRuntime(LIFE_SIGNATURE_LINES, current.grid));
+    }, LIFE_GREETING_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_MEET_YOU_HOLD_MS + LIFE_BLANK_HOLD_MS);
+
+    const finalBlankTimer = window.setTimeout(() => {
+      setRuntime((current) =>
+        createRuntimeFromGrid(createBlankGrid(), {
+          previousGrid: current.grid,
+        }),
+      );
+    }, LIFE_GREETING_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_MEET_YOU_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_SIGNATURE_HOLD_MS);
+
     const startTimer = window.setTimeout(() => {
       setActiveSeedMode('pulsar');
       setRuntime((current) =>
@@ -155,9 +215,9 @@ export function HomeLifePanel() {
         }),
       );
       setSimulationRunning(true);
-    }, LIFE_GREETING_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_MEET_YOU_HOLD_MS + LIFE_BLANK_HOLD_MS);
+    }, LIFE_GREETING_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_MEET_YOU_HOLD_MS + LIFE_BLANK_HOLD_MS + LIFE_SIGNATURE_HOLD_MS + LIFE_BLANK_HOLD_MS);
 
-    introTimerRefs.current = [clearTimer, meetTimer, blankTimer, startTimer];
+    introTimerRefs.current = [clearTimer, meetTimer, blankTimer, signatureTimer, finalBlankTimer, startTimer];
   };
 
   useEffect(() => {

@@ -71,45 +71,56 @@ export default function Blog() {
 
   return (
     <div className="py-12">
-      <section className="mb-10 rounded-[2rem] border border-gray-200/80 bg-white/85 p-6 shadow-[0_20px_70px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/70 md:p-7">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-3xl">
-            <p className="engineering-kicker">{t('blog.provenanceEyebrow')}</p>
-            <h2 className="mt-3 text-2xl font-black tracking-tight text-[var(--color-text-primary)]">
-              {t('blog.provenanceTitle')}
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)] md:text-[0.95rem]">
-              {t('blog.provenanceDescription')}
-            </p>
+      <section className="mb-7 rounded-[1.6rem] border border-gray-200/80 bg-white/82 p-4 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 md:p-5">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex min-w-0 items-start gap-3">
+            <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
+              <ShieldCheck size={18} />
+            </div>
+
+            <div className="min-w-0">
+              <p className="engineering-kicker">{t('blog.provenanceEyebrow')}</p>
+              <p className="mt-1 text-sm leading-relaxed text-[var(--color-text-primary)] md:text-[0.95rem]">
+                {t('blog.provenanceTitle')}
+              </p>
+              <p className="mt-1.5 text-xs leading-relaxed text-[var(--color-text-secondary)] md:text-sm">
+                {t('blog.provenanceDescription')}
+              </p>
+            </div>
           </div>
 
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
-            <ShieldCheck size={20} />
-          </div>
+          <span className="mono-data inline-flex shrink-0 items-center rounded-full border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)]">
+            human-authored
+          </span>
         </div>
       </section>
 
       <section className="mb-10 grid gap-5 xl:grid-cols-[1.18fr_0.82fr]">
-        <div className="flex h-[16.5rem] flex-col rounded-[2rem] border border-gray-200/80 bg-white/85 p-6 shadow-[0_20px_70px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/70 md:h-[18rem] md:p-7">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
-              <FolderTree size={18} />
+        <div className="flex h-[12.25rem] flex-col rounded-[1.6rem] border border-gray-200/80 bg-white/84 p-4 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 md:h-[13.5rem] md:p-5">
+          <div className="mb-4 flex items-start justify-between gap-3">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
+                <FolderTree size={16} />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-[var(--color-text-primary)]">{t('blog.categoryLabel')}</h3>
+                <p className="text-xs leading-relaxed text-[var(--color-text-secondary)]">{t('blog.filterHint')}</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xl font-bold text-[var(--color-text-primary)]">{t('blog.categoryLabel')}</h3>
-              <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{t('blog.filterHint')}</p>
-            </div>
+            <span className="mono-data shrink-0 rounded-full border border-[var(--color-accent)]/15 bg-[var(--color-accent)]/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)]">
+              {index.categories.length}
+            </span>
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2.5">
               <button
                 type="button"
                 onClick={() => {
                   setSelectedCategory('all');
                   setCurrentPage(1);
                 }}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
                   selectedCategory === 'all'
                     ? 'bg-[var(--color-accent)] text-white shadow-sm'
                     : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
@@ -133,7 +144,7 @@ export default function Blog() {
                       setSelectedCategory(category.id);
                       setCurrentPage(1);
                     }}
-                    className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                    className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
                       active
                         ? 'bg-[var(--color-accent)] text-white shadow-sm'
                         : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
@@ -150,31 +161,36 @@ export default function Blog() {
           </div>
         </div>
 
-        <div className="flex h-[16.5rem] flex-col rounded-[2rem] border border-gray-200/80 bg-white/85 p-6 shadow-[0_20px_70px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/70 md:h-[18rem] md:p-7">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
-              <Layers3 size={18} />
+        <div className="flex h-[12.25rem] flex-col rounded-[1.6rem] border border-gray-200/80 bg-white/84 p-4 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 md:h-[13.5rem] md:p-5">
+          <div className="mb-4 flex items-start justify-between gap-3">
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
+                <Layers3 size={16} />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-[var(--color-text-primary)]">{t('blog.collectionLabel')}</h3>
+                <p className="text-xs leading-relaxed text-[var(--color-text-secondary)]">{t('blog.collectionSubtitle')}</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-xl font-bold text-[var(--color-text-primary)]">{t('blog.collectionLabel')}</h3>
-              <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{t('blog.collectionSubtitle')}</p>
-            </div>
+            <span className="mono-data shrink-0 rounded-full border border-[var(--color-accent)]/15 bg-[var(--color-accent)]/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-[var(--color-accent)]">
+              {collectionEntries.length}
+            </span>
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-            <div className="space-y-3">
+            <div className="space-y-2.5">
             {collectionEntries.length > 0 ? (
               collectionEntries.map(({ collection, articles }) => (
                 <Link
                   key={collection.slug}
                   to={`/blog/collections/${collection.slug}`}
-                  className="group flex items-center justify-between gap-4 rounded-[1.35rem] border border-gray-200/80 bg-white/75 px-4 py-3 transition-colors hover:border-[var(--color-accent)]/35 hover:bg-white dark:border-slate-800/80 dark:bg-slate-900/60 dark:hover:bg-slate-900"
+                  className="group flex items-center justify-between gap-3 rounded-[1.1rem] border border-gray-200/80 bg-white/75 px-3.5 py-2.5 transition-colors hover:border-[var(--color-accent)]/35 hover:bg-white dark:border-slate-800/80 dark:bg-slate-900/60 dark:hover:bg-slate-900"
                 >
-                  <h4 className="min-w-0 text-base font-bold leading-snug text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent)]">
+                  <h4 className="min-w-0 text-sm font-bold leading-snug text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent)]">
                     {getLocalizedText(collection.name, lang)}
                   </h4>
 
-                  <div className="shrink-0 rounded-2xl bg-[var(--color-accent)]/10 px-3 py-2 text-xs font-semibold text-[var(--color-accent)]">
+                  <div className="shrink-0 rounded-2xl bg-[var(--color-accent)]/10 px-2.5 py-1.5 text-[11px] font-semibold text-[var(--color-accent)]">
                     {t('blog.articlesCount', { count: articles.length })}
                   </div>
                 </Link>

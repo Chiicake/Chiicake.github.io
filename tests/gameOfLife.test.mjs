@@ -6,6 +6,7 @@ import {
   countAliveCells,
   createEmptyLifeGrid,
   createLifeGrid,
+  createLifeGridFromLines,
   createLifePatternGrid,
   createLifeTextGrid,
   stepLifeGrid,
@@ -123,6 +124,22 @@ test('createLifePatternGrid supports a centered pulsar preset', () => {
       '0011100011100',
     ].map((row) => row.split('').map((cell) => cell === '1')),
   );
+});
+
+test('createLifeGridFromLines places a literal greeting frame without mutating shape', () => {
+  const grid = createLifeGridFromLines({
+    rows: 5,
+    cols: 5,
+    lines: ['00100', '01110', '00100'],
+  });
+
+  assert.deepEqual(grid, [
+    [false, false, false, false, false],
+    [false, false, true, false, false],
+    [false, true, true, true, false],
+    [false, false, true, false, false],
+    [false, false, false, false, false],
+  ]);
 });
 
 test('createLifeTextGrid renders a centered dot-matrix line', () => {
