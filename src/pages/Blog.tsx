@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { Layers3, PenLine } from 'lucide-react';
+import { FolderTree, Layers3, PenLine } from 'lucide-react';
 import { BlogEntryCard } from '../components/blog/BlogEntryCard';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
@@ -51,7 +51,6 @@ export default function Blog() {
   }
 
   const filteredArticles = getArticlesByCategory(index, selectedCategory);
-  const activeCategory = selectedCategory === 'all' ? null : findBlogCategory(index, selectedCategory);
   const collectionEntries = index.collections
     .map((collection) => ({
       collection,
@@ -74,16 +73,14 @@ export default function Blog() {
     <div className="py-12">
       <section className="mb-10 grid gap-5 xl:grid-cols-[1.18fr_0.82fr]">
         <div className="flex h-[16.5rem] flex-col rounded-[2rem] border border-gray-200/80 bg-white/85 p-6 shadow-[0_20px_70px_rgba(15,23,42,0.06)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/70 md:h-[18rem] md:p-7">
-          <div className="mb-5 max-w-2xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--color-accent)] mb-3">
-              {t('blog.categoryLabel')}
-            </p>
-            <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[var(--color-text-primary)] mb-2">
-              {activeCategory ? getLocalizedText(activeCategory.label, lang) : t('blog.allCategories')}
-            </h2>
-            <p className="text-sm md:text-base text-[var(--color-text-secondary)] leading-relaxed">
-              {activeCategory ? getLocalizedText(activeCategory.description, lang) : t('blog.filterHint')}
-            </p>
+          <div className="flex items-center gap-3 mb-5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
+              <FolderTree size={18} />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-[var(--color-text-primary)]">{t('blog.categoryLabel')}</h3>
+              <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">{t('blog.filterHint')}</p>
+            </div>
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto pr-1">
@@ -175,20 +172,6 @@ export default function Blog() {
       </section>
 
       <section className="rounded-[2rem] border border-gray-200/80 bg-white/80 p-6 shadow-[0_20px_70px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/65 md:p-7">
-        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-8">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[var(--color-accent)] mb-3">
-              {t('blog.title')}
-            </p>
-            <h3 className="text-2xl md:text-3xl font-black tracking-tight text-[var(--color-text-primary)]">
-              {t('blog.timeOrderedTitle')}
-            </h3>
-          </div>
-          <div className="text-sm text-[var(--color-text-secondary)]">
-            {t('blog.articlesCount', { count: filteredArticles.length })}
-          </div>
-        </div>
-
         {paginatedArticles.length === 0 ? (
           <div className="rounded-[1.5rem] border border-dashed border-gray-200/80 px-5 py-10 text-center text-[var(--color-text-secondary)] dark:border-slate-800/80">
             {t('blog.emptyCategory')}
