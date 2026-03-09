@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'motion/react';
 import { TypewriterText } from '../components/ui/TypewriterText';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
+import { HomeLifePanel } from '../components/home/HomeLifePanel';
 import { HomeRollingUpdatesPanel } from '../components/home/HomeRollingUpdatesPanel';
 import { preloadBlogPageAssets } from '../lib/blogPrefetch';
 
@@ -145,8 +146,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl xl:grid xl:grid-cols-[minmax(0,1fr)_35rem] xl:items-center xl:gap-12">
-        <div className="relative max-w-4xl xl:pt-8">
+      <div className="mx-auto w-full max-w-7xl xl:grid xl:grid-cols-[minmax(0,1fr)_34rem] xl:items-center xl:gap-6">
+        <div className="relative max-w-4xl xl:flex xl:min-h-[42rem] xl:flex-col xl:pt-8">
           {bootVisible && (
             <motion.div
               initial={{ opacity: 0, y: -8 }}
@@ -205,9 +206,13 @@ export default function Home() {
               </p>
             </ScrollReveal>
           )}
+
+          <div className="mt-10 max-w-[31rem] xl:mt-auto">
+            <HomeLifePanel compact delay={0.48} />
+          </div>
         </div>
 
-        <div className="mt-12 xl:mt-0 xl:self-center">
+        <div className="mt-12 xl:mt-0 xl:-translate-x-20 xl:justify-self-start xl:self-center">
           <ScrollReveal delay={0.52}>
             <HomeRollingUpdatesPanel shortcuts={terminalShortcuts} />
           </ScrollReveal>

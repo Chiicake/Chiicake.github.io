@@ -6,7 +6,6 @@ import { Card } from '../components/ui/Card';
 import { StaggeredList } from '../components/animations/StaggeredList';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import { getBlogLanguage, getLocalizedText } from '../lib/blog';
-import { HomeLifePanel } from '../components/home/HomeLifePanel';
 
 interface SkillMatrixItem {
   code: string;
@@ -162,9 +161,6 @@ export default function Skills({ id }: { id?: string }) {
             );
           })}
 
-          <div className="h-full xl:justify-self-end">
-            <HomeLifePanel />
-          </div>
         </StaggeredList>
       </div>
     </section>

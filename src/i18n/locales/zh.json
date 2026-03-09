@@ -23,10 +23,10 @@
     "name": "Chiicake",
     "systemLabel": "engineering log / reliability-first",
     "roles": [
+      "人类",
       "后端开发工程师",
       "Rust / Go / Java 开发者",
-      "奶油蘑菇汤食用者",
-      "100% 人类"
+      "奶油蘑菇汤食用者"
     ],
     "description": "",
     "ctaBlog": "博客文章",
