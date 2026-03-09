@@ -84,33 +84,38 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
   const { index: blogIndex, loading: blogLoading, error: blogError } = useBlogIndex();
   const shouldReduceMotion = useReducedMotion();
   const [visibleCount, setVisibleCount] = useState(1);
+  const [lastCommandStatus, setLastCommandStatus] = useState<0 | 1>(0);
   const [commandInput, setCommandInput] = useState('');
   const [commandHistory, setCommandHistory] = useState<TerminalHistoryEntry[]>([]);
+  const [submittedCommands, setSubmittedCommands] = useState<string[]>([]);
   const [promptVisible, setPromptVisible] = useState(false);
   const [caretIndex, setCaretIndex] = useState(0);
+  const [historyCursor, setHistoryCursor] = useState<number | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const commandInputRef = useRef<HTMLInputElement | null>(null);
   const historyIdRef = useRef(0);
+  const historyDraftRef = useRef('');
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown> | undefined;
   const heroBundle = isRecord(bundle?.hero) ? bundle.hero : {};
   const blogLanguage = getBlogLanguage(i18n.language);
 
-  const title = isString(heroBundle.rollingWindowTitle) ? heroBundle.rollingWindowTitle : 'rolling://updates';
-  const status = isString(heroBundle.rollingWindowStatus) ? heroBundle.rollingWindowStatus : 'arch sync';
   const command = isString(heroBundle.rollingCommand)
     ? heroBundle.rollingCommand
     : 'sudo pacman -Syu --needed homepage-runtime blog-feed opensource-projects';
   const recentTitle = isString(heroBundle.rollingRecentTitle) ? heroBundle.rollingRecentTitle : 'recent://blog';
   const recentLoading = t('hero.rollingRecentLoading');
   const promptPlaceholder = t('hero.rollingPromptPlaceholder');
-  const promptNotFound = t('hero.rollingPromptNotFound');
   const localizedLines = Array.isArray(heroBundle.rollingLines) ? heroBundle.rollingLines.filter(isString) : [];
   const staticLines = (localizedLines.length > 0 ? localizedLines : DEFAULT_LINES).map<TerminalLine>((text) => ({
     text,
     tone: getLineTone(text),
   }));
   const latestArticles = blogIndex?.articles.slice(0, 2).reverse() ?? [];
+  const recentArticleCommands = latestArticles.map((article) => ({
+    command: `open /blog/${article.slug}`,
+    label: getLocalizedText(article.title, blogLanguage),
+  }));
   const recentBlogLines: TerminalLine[] = blogLoading
     ? []
     : blogError
@@ -136,6 +141,29 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
     historyIdRef.current += 1;
     return `${prefix}-${historyIdRef.current}`;
   };
+  const appendHistoryEntries = useCallback((entries: TerminalLine[]) => {
+    setCommandHistory((previous) => [
+      ...previous,
+      ...entries.map((entry, index) => ({
+        ...entry,
+        id: nextHistoryId(`entry-${index}`),
+      })),
+    ]);
+  }, []);
+  const setPromptValue = useCallback((nextValue: string, caret = nextValue.length) => {
+    setCommandInput(nextValue);
+
+    window.requestAnimationFrame(() => {
+      const input = commandInputRef.current;
+      if (!input) {
+        return;
+      }
+
+      input.focus();
+      input.setSelectionRange(caret, caret);
+      setCaretIndex(caret);
+    });
+  }, []);
   const focusPromptInput = useCallback(
     (moveToEnd = false) => {
       const input = commandInputRef.current;
@@ -278,43 +306,67 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
       return;
     }
 
-    const normalizedInput = normalizeCommand(rawInput);
+    const sanitizedInput = rawInput.replace(/^\$\s*/, '');
+    const normalizedInput = normalizeCommand(sanitizedInput);
     const matchedShortcut = shortcuts.find((shortcut) => normalizeCommand(shortcut.command) === normalizedInput);
     const matchedArticle = blogIndex?.articles.find(
       (article) => normalizeCommand(`open /blog/${article.slug}`) === normalizedInput,
     );
-
-    const historyEntries: TerminalHistoryEntry[] = [
+    const helpCommand = normalizedInput === 'help';
+    const inputHistoryEntries: TerminalLine[] = [
       {
-        id: nextHistoryId('input'),
-        text: `chiicake@archlinux:~$ ${rawInput.replace(/^\$\s*/, '')}`,
+        text: `chiicake@archlinux:~$ ${sanitizedInput}`,
         tone: 'package',
       },
     ];
 
-    if (matchedShortcut) {
+    setSubmittedCommands((previous) => [...previous, sanitizedInput]);
+    setHistoryCursor(null);
+    historyDraftRef.current = '';
+
+    if (helpCommand) {
+      setLastCommandStatus(0);
+      appendHistoryEntries([
+        ...inputHistoryEntries,
+        { text: 'available commands:', tone: 'dim' },
+        { text: '  help', tone: 'package' },
+        ...shortcuts.map((shortcut) => ({
+          text: `  ${shortcut.command.replace(/^\$\s*/, '')}`,
+          tone: 'package' as const,
+        })),
+        { text: '  open /blog/<slug>', tone: 'package' },
+        ...(recentArticleCommands.length > 0
+          ? [
+              { text: 'recent article entries:', tone: 'dim' as const },
+              ...recentArticleCommands.map((article) => ({
+                text: `  ${article.command}`,
+                tone: 'package' as const,
+              })),
+            ]
+          : []),
+      ]);
+    } else if (matchedShortcut) {
       executeShortcut(matchedShortcut);
-      historyEntries.push({
-        id: nextHistoryId('ok'),
-        text: `[exec] ${matchedShortcut.label}`,
-        tone: 'ok',
-      });
+      setLastCommandStatus(0);
+      appendHistoryEntries([
+        ...inputHistoryEntries,
+        { text: `:: ${matchedShortcut.command.replace(/^\$\s*/, '')}`, tone: 'ok' },
+      ]);
     } else if (matchedArticle) {
       navigate(`/blog/${matchedArticle.slug}`);
-      historyEntries.push({
-        id: nextHistoryId('ok'),
-        text: `[exec] ${getLocalizedText(matchedArticle.title, blogLanguage)}`,
-        tone: 'ok',
-      });
+      setLastCommandStatus(0);
+      appendHistoryEntries([
+        ...inputHistoryEntries,
+        { text: `:: open /blog/${matchedArticle.slug}`, tone: 'ok' },
+      ]);
     } else {
-      historyEntries.push({
-        id: nextHistoryId('warn'),
-        text: `[exec] ${promptNotFound}: ${rawInput.replace(/^\$\s*/, '')}`,
-        tone: 'warn',
-      });
+      setLastCommandStatus(1);
+      appendHistoryEntries([
+        ...inputHistoryEntries,
+        { text: `zsh: command not found: ${sanitizedInput}`, tone: 'warn' },
+      ]);
     }
 
-    setCommandHistory((previous) => [...previous, ...historyEntries]);
     setCommandInput('');
     setCaretIndex(0);
     scrollViewportToBottom(shouldReduceMotion ? 'auto' : 'smooth');
@@ -322,25 +374,54 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
 
   const handlePromptKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     event.stopPropagation();
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+
+      if (submittedCommands.length === 0) {
+        return;
+      }
+
+      const nextCursor = historyCursor === null ? submittedCommands.length - 1 : Math.max(0, historyCursor - 1);
+      if (historyCursor === null) {
+        historyDraftRef.current = commandInput;
+      }
+
+      setHistoryCursor(nextCursor);
+      setPromptValue(submittedCommands[nextCursor]);
+      return;
+    }
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+
+      if (historyCursor === null) {
+        return;
+      }
+
+      if (historyCursor >= submittedCommands.length - 1) {
+        setHistoryCursor(null);
+        setPromptValue(historyDraftRef.current);
+        return;
+      }
+
+      const nextCursor = historyCursor + 1;
+      setHistoryCursor(nextCursor);
+      setPromptValue(submittedCommands[nextCursor]);
+    }
   };
 
   return (
     <div className="home-rolling-terminal rounded-[1.7rem] p-4 md:p-5">
       <div className="home-rolling-terminal__header">
-        <div className="flex items-center gap-3">
-          <div className="flex gap-1.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-rose-400/90" />
-            <span className="h-2.5 w-2.5 rounded-full bg-amber-400/90" />
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/90" />
-          </div>
-          <span className="mono-data text-[11px] uppercase tracking-[0.22em] text-slate-300/90">
-            {title}
-          </span>
+        <div className="home-rolling-terminal__header-meta">
+          <span className="home-rolling-terminal__tty-badge">tty://pts/0</span>
         </div>
 
-        <span className="mono-data rounded-full border border-sky-400/20 bg-sky-400/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-sky-300">
-          {status}
-        </span>
+        <div className="home-rolling-terminal__header-signals">
+          <span className="home-rolling-terminal__header-pill">archlinux</span>
+          <span className="home-rolling-terminal__header-pill is-muted">zsh</span>
+        </div>
       </div>
 
       <div className="home-rolling-terminal__command">
@@ -400,6 +481,11 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
             >
               <span className="home-rolling-terminal__line-marker" />
               <label className="home-rolling-terminal__inline-prompt">
+                <span
+                  className={`home-rolling-terminal__prompt-status${lastCommandStatus === 0 ? ' is-ok' : ' is-warn'}`}
+                >
+                  {lastCommandStatus}
+                </span>
                 <span className="home-rolling-terminal__prompt-host">chiicake@archlinux</span>
                 <span className="text-slate-500">:</span>
                 <span className="text-cyan-200/90">~</span>
@@ -427,6 +513,9 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
                     value={commandInput}
                     onChange={(event) => {
                       setCommandInput(event.target.value);
+                      if (historyCursor !== null) {
+                        setHistoryCursor(null);
+                      }
                       syncCaretIndex(event.target);
                     }}
                     onClick={(event) => syncCaretIndex(event.currentTarget)}

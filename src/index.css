@@ -293,6 +293,54 @@
     border-bottom: 1px solid rgba(51, 65, 85, 0.72);
   }
 
+  .home-rolling-terminal__header-meta {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .home-rolling-terminal__tty-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid rgba(71, 85, 105, 0.72);
+    border-radius: 0.7rem;
+    background: rgba(15, 23, 42, 0.72);
+    font-family: var(--font-mono);
+    font-size: 0.67rem;
+    line-height: 1;
+    color: rgba(148, 163, 184, 0.86);
+    letter-spacing: -0.02em;
+  }
+
+  .home-rolling-terminal__header-signals {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .home-rolling-terminal__header-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.28rem 0.52rem;
+    border: 1px solid rgba(56, 189, 248, 0.16);
+    border-radius: 9999px;
+    background: rgba(8, 47, 73, 0.3);
+    font-family: var(--font-mono);
+    font-size: 0.61rem;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(125, 211, 252, 0.84);
+  }
+
+  .home-rolling-terminal__header-pill.is-muted {
+    border-color: rgba(71, 85, 105, 0.4);
+    background: rgba(15, 23, 42, 0.54);
+    color: rgba(148, 163, 184, 0.78);
+  }
+
   .home-rolling-terminal__command {
     position: relative;
     display: flex;
@@ -321,6 +369,22 @@
   .home-rolling-terminal__prompt-host {
     color: rgba(125, 211, 252, 0.94);
     white-space: nowrap;
+  }
+
+  .home-rolling-terminal__prompt-status {
+    min-width: 0.8rem;
+    font-size: 0.72rem;
+    line-height: 1;
+    color: rgba(148, 163, 184, 0.5);
+    text-align: right;
+  }
+
+  .home-rolling-terminal__prompt-status.is-ok {
+    color: rgba(125, 211, 252, 0.66);
+  }
+
+  .home-rolling-terminal__prompt-status.is-warn {
+    color: rgba(248, 113, 113, 0.72);
   }
 
   .home-rolling-terminal__inline-prompt {
