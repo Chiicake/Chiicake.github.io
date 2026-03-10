@@ -133,11 +133,9 @@ export default function Home() {
   ];
 
   return (
-    <div className="relative flex min-h-screen flex-col justify-center px-6 pb-20 pt-28 xl:pb-20 xl:pt-24">
+    <div className="relative flex min-h-screen flex-col justify-center px-6 pb-20 pt-28 lg:pb-16 lg:pt-24">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[var(--color-accent)]/12 via-transparent to-transparent opacity-70"></div>
-        <div className="absolute left-[6%] top-[22%] hidden h-16 w-16 rounded-full border border-[var(--color-accent)]/15 md:block" />
-        <div className="absolute left-[8%] top-[34%] hidden h-px w-24 bg-gradient-to-r from-[var(--color-accent)]/45 to-transparent md:block" />
 
         <div className="absolute right-[-8%] top-[-5%] hidden h-[52vh] w-[48vw] min-w-[320px] max-w-[680px] md:block">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(23,147,209,0.16)_1px,transparent_1px),linear-gradient(to_bottom,rgba(23,147,209,0.16)_1px,transparent_1px)] bg-[size:24px_24px] opacity-70 [mask-image:radial-gradient(circle_at_top_right,black_30%,transparent_82%)]"></div>
@@ -145,8 +143,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl xl:grid xl:grid-cols-[minmax(0,1fr)_34rem] xl:items-stretch xl:gap-6">
-        <div className="relative max-w-4xl xl:flex xl:min-h-[42rem] xl:flex-col xl:justify-center xl:pt-0">
+      <div className="mx-auto w-full max-w-7xl lg:grid lg:grid-cols-[minmax(0,1fr)_34rem] lg:items-stretch lg:gap-8 xl:grid-cols-[minmax(0,1fr)_40rem] 2xl:grid-cols-[minmax(0,1fr)_42rem]">
+        <div className="relative max-w-4xl lg:flex lg:min-h-[40rem] lg:flex-col lg:justify-center lg:pt-0 xl:min-h-[42rem]">
           {bootVisible && (
             <motion.div
               initial={{ opacity: 0, y: -8 }}
@@ -187,13 +185,13 @@ export default function Home() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.22}>
-            <h1 className="mb-6 text-5xl font-black tracking-tight text-[var(--color-text-primary)] md:text-7xl lg:text-8xl">
+            <h1 className="mb-6 text-5xl font-black tracking-tight text-[var(--color-text-primary)] md:text-7xl lg:text-[4.5rem] xl:text-8xl">
               {t('hero.name')}
             </h1>
           </ScrollReveal>
 
           <ScrollReveal delay={0.3}>
-            <div className="mb-8 h-[1.5em] text-2xl font-bold text-[var(--color-accent)] md:text-4xl">
+            <div className="mb-8 h-[1.5em] text-2xl font-bold text-[var(--color-accent)] md:text-4xl lg:text-[2rem] xl:text-4xl">
               <TypewriterText texts={roles} />
             </div>
           </ScrollReveal>
@@ -207,7 +205,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="mt-auto xl:mt-auto xl:-translate-x-40 xl:flex xl:justify-self-start xl:self-stretch xl:py-3">
+        <div className="mt-12 lg:mt-0 lg:flex lg:w-full lg:max-w-[34rem] lg:justify-self-end lg:self-stretch lg:py-3 xl:max-w-[40rem] 2xl:max-w-[42rem]">
           <ScrollReveal delay={0.52}>
             <div className="h-full">
               <HomeRollingUpdatesPanel shortcuts={terminalShortcuts} />
