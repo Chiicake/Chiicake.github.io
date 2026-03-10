@@ -124,6 +124,8 @@ export function HomeRollingUpdatesPanel({
   showUpdates = true,
   viewportMode = 'internal',
   scrollTargetRef,
+  mode = 'full',
+  onBootComplete,
 }: {
   shortcuts: HomeRollingShortcut[];
   variant?: 'default' | 'embedded';
@@ -131,6 +133,8 @@ export function HomeRollingUpdatesPanel({
   showUpdates?: boolean;
   viewportMode?: 'internal' | 'content';
   scrollTargetRef?: RefObject<HTMLElement | null>;
+  mode?: 'full' | 'updates-only' | 'prompt-only';
+  onBootComplete?: () => void;
 }) {
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
@@ -150,6 +154,7 @@ export function HomeRollingUpdatesPanel({
   const historyDraftRef = useRef('');
   const lastCompletionQueryRef = useRef('');
   const previousScrollHeightRef = useRef(0);
+  const bootCompleteRef = useRef(false);
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown> | undefined;
   const heroBundle = isRecord(bundle?.hero) ? bundle.hero : {};
@@ -185,11 +190,11 @@ export function HomeRollingUpdatesPanel({
             })),
           ]
         : [{ text: '[blog] no recent article updates', tone: 'dim' }];
-  const terminalLines = [...staticLines, ...recentBlogLines];
-  const displayedCount = shouldReduceMotion ? terminalLines.length : visibleCount;
-  const linesReady = !blogLoading;
+  const terminalLines = mode === 'prompt-only' ? [] : [...staticLines, ...recentBlogLines];
+  const displayedCount = mode === 'prompt-only' ? 0 : shouldReduceMotion ? terminalLines.length : visibleCount;
+  const linesReady = mode === 'prompt-only' ? true : !blogLoading;
   const commandReady = linesReady && displayedCount >= terminalLines.length;
-  const promptActive = commandReady && promptVisible;
+  const promptActive = mode !== 'updates-only' && commandReady && promptVisible;
   const lineSignature = terminalLines.map((line) => line.text).join('\n');
 
   const normalizeCommand = (value: string) => value.replace(/^\$\s*/, '').trim().replace(/\s+/g, ' ').toLowerCase();
@@ -252,6 +257,24 @@ export function HomeRollingUpdatesPanel({
     const nextIndex = Math.min(input.selectionStart ?? input.value.length, input.value.length);
     setCaretIndex(nextIndex);
   }, []);
+
+  useEffect(() => {
+    bootCompleteRef.current = false;
+  }, [lineSignature, mode]);
+
+  useEffect(() => {
+    if (viewportMode !== 'content') {
+      return;
+    }
+
+    const scrollTarget = scrollTargetRef?.current;
+    if (!scrollTarget) {
+      return;
+    }
+
+    previousScrollHeightRef.current = scrollTarget.scrollHeight;
+  }, [linesReady, scrollTargetRef, viewportMode]);
+
   const scrollViewportToBottom = useCallback((behavior: ScrollBehavior) => {
     const scrollTarget = viewportMode === 'content' ? scrollTargetRef?.current : viewportRef.current;
     if (!scrollTarget || !linesReady) {
@@ -261,22 +284,25 @@ export function HomeRollingUpdatesPanel({
     window.requestAnimationFrame(() => {
       const currentHeight = scrollTarget.scrollHeight;
       const clientHeight = scrollTarget.clientHeight;
-      const maxScrollTop = currentHeight - clientHeight;
 
       if (viewportMode === 'content') {
         const previousHeight = previousScrollHeightRef.current;
-        const previousOverflow = previousHeight > clientHeight;
-        const deltaHeight = Math.max(0, currentHeight - previousHeight);
+        const currentOverflow = Math.max(0, currentHeight - clientHeight);
+        const previousOverflow = Math.max(0, previousHeight - clientHeight);
+        const overflowDelta = Math.max(0, currentOverflow - previousOverflow);
 
-        if (maxScrollTop <= 0) {
+        if (currentOverflow <= 0) {
           scrollTarget.scrollTop = 0;
           previousScrollHeightRef.current = currentHeight;
           return;
         }
 
-        const nextScrollTop = previousOverflow
-          ? Math.min(maxScrollTop, scrollTarget.scrollTop + deltaHeight)
-          : maxScrollTop;
+        if (overflowDelta <= 0) {
+          previousScrollHeightRef.current = currentHeight;
+          return;
+        }
+
+        const nextScrollTop = Math.min(currentOverflow, scrollTarget.scrollTop + overflowDelta);
 
         scrollTarget.scrollTo({
           top: nextScrollTop,
@@ -285,6 +311,8 @@ export function HomeRollingUpdatesPanel({
         previousScrollHeightRef.current = currentHeight;
         return;
       }
+
+      const maxScrollTop = currentHeight - clientHeight;
 
       if (maxScrollTop <= 0) {
         return;
@@ -413,6 +441,11 @@ export function HomeRollingUpdatesPanel({
   );
 
   useEffect(() => {
+    if (mode === 'prompt-only') {
+      setVisibleCount(0);
+      return undefined;
+    }
+
     if (!linesReady) {
       return undefined;
     }
@@ -454,13 +487,17 @@ export function HomeRollingUpdatesPanel({
         window.clearTimeout(timeoutId);
       }
     };
-  }, [lineSignature, linesReady, shouldReduceMotion, staticLines.length, terminalLines.length]);
+  }, [lineSignature, linesReady, mode, shouldReduceMotion, staticLines.length, terminalLines.length]);
 
   useEffect(() => {
     scrollViewportToBottom(shouldReduceMotion ? 'auto' : 'smooth');
   }, [commandHistory.length, displayedCount, linesReady, promptActive, scrollViewportToBottom, shouldReduceMotion]);
 
   useEffect(() => {
+    if (mode === 'updates-only') {
+      return;
+    }
+
     if (!commandReady) {
       return;
     }
@@ -472,7 +509,16 @@ export function HomeRollingUpdatesPanel({
     return () => {
       window.clearTimeout(timeoutId);
     };
-  }, [commandReady, shouldReduceMotion]);
+  }, [commandReady, mode, shouldReduceMotion]);
+
+  useEffect(() => {
+    if (!commandReady || !onBootComplete || bootCompleteRef.current) {
+      return;
+    }
+
+    bootCompleteRef.current = true;
+    onBootComplete();
+  }, [commandReady, onBootComplete]);
 
   useEffect(() => {
     if (!promptActive) {
@@ -536,7 +582,6 @@ export function HomeRollingUpdatesPanel({
 
     setCommandInput('');
     setCaretIndex(0);
-    scrollViewportToBottom(shouldReduceMotion ? 'auto' : 'smooth');
   };
 
   const handlePromptKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

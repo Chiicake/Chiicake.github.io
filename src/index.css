@@ -821,6 +821,19 @@
     overflow-x: auto;
   }
 
+  .home-cli-shell__command-line {
+    margin-bottom: 0.35rem;
+  }
+
+  .home-cli-shell__command-line .home-rolling-terminal__line-marker {
+    background: rgba(96, 165, 250, 0.92);
+    box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.24);
+  }
+
+  .home-cli-shell__command-line-text {
+    color: rgba(125, 211, 252, 0.96);
+  }
+
   .home-cli-shell__ascii {
     margin: 0;
     overflow-x: auto;
@@ -845,6 +858,32 @@
 
   .home-cli-shell__ascii-block {
     margin: 0.2rem 0 0.55rem;
+  }
+
+  .home-cli-shell__ascii-line-block {
+    margin: 0;
+  }
+
+  .home-cli-shell__ascii-line {
+    margin: 0;
+    overflow-x: auto;
+    color: rgba(226, 232, 240, 0.94);
+    font-size: 0.72rem;
+    line-height: 1.16;
+    letter-spacing: -0.05em;
+    scrollbar-width: none;
+  }
+
+  .home-cli-shell__ascii-line::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-cli-shell__ascii-line--full {
+    display: none;
+  }
+
+  .home-cli-shell__ascii-line--compact {
+    display: block;
   }
 
   .home-cli-shell__comment {
@@ -985,11 +1024,23 @@
       font-size: 0.84rem;
     }
 
+    .home-cli-shell__ascii-line {
+      font-size: 0.84rem;
+    }
+
     .home-cli-shell__ascii--full {
       display: block;
     }
 
     .home-cli-shell__ascii--compact {
+      display: none;
+    }
+
+    .home-cli-shell__ascii-line--full {
+      display: block;
+    }
+
+    .home-cli-shell__ascii-line--compact {
       display: none;
     }
   }

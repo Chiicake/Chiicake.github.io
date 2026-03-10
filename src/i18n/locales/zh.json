@@ -130,28 +130,30 @@
     "cli": {
       "headerEdition": "ASCII Hero Edition",
       "command": "0 chiicake@archlinux ~ % cat /home/chiicake/README",
+      "updatesCommand": "chiicake@archlinux ~ % sudo pacman -Syu --needed homepage-runtime blog-feed opensource-project",
+      "commandsCommand": "chiicake@archlinux ~ % show commands",
       "ascii": [
-        " _   _      _ _         ___   _             ____ _     _ _            _       ",
-        "| | | | ___| | | ___   |_ _| | |_ ___     / ___| |__ (_) | ___  __ _| | _____",
-        "| |_| |/ _ \\ | |/ _ \\   | |  | __/ _ \\   | |   | '_ \\| | |/ _ \\/ _` | |/ / _ \\",
-        "|  _  |  __/ | | (_) |  | |  | ||  __/   | |___| | | | | |  __/ (_| |   <  __/",
-        "|_| |_|\\___|_|_|\\___/  |___|  \\__\\___|    \\____|_| |_|_|_|\\___|\\__,_|_|\\_\\___|"
+        " ██████╗██╗  ██╗██╗██╗ ██████╗ █████╗ ██╗  ██╗███████╗",
+        "██╔════╝██║  ██║██║██║██╔════╝██╔══██╗██║ ██╔╝██╔════╝",
+        "██║     ███████║██║██║██║     ███████║█████╔╝ █████╗  ",
+        "██║     ██╔══██║██║██║██║     ██╔══██║██╔═██╗ ██╔══╝  ",
+        "╚██████╗██║  ██║██║██║╚██████╗██║  ██║██║  ██╗███████╗",
+        " ╚═════╝╚═╝  ╚═╝╚═╝╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝"
       ],
       "asciiCompact": [
-        "+----------------------+",
-        "| HELLO, I'M CHIICAKE. |",
-        "+----------------------+"
+        "+---------------------------+",
+        "| Hello, I'm Chiicake.      |",
+        "| Rust / Go backend engineer|",
+        "+---------------------------+"
       ],
-      "subtitle": "# 后端 / 系统 / 分布式实践",
-      "secondary": "# Rust / Go / Java · human-written notes and projects",
+      "subtitle": "# Hello, I'm Chiicake.",
+      "secondary": "# Rust / Go backend engineer",
       "actionsLabel": "primary commands",
       "actionsHint": "click / enter",
       "runtimeLabel": "interactive shell",
       "runtimeHint": "help · Tab · history",
       "hints": [
-        "# 点击任意命令立即执行对应入口。",
-        "# 可以用 Tab / Shift+Tab 在命令之间切换焦点。",
-        "# 下面的 prompt 保留 help、历史记录和最近文章路径补全。"
+        "# 点击任意命令立即执行对应入口。"
       ]
     }
   },

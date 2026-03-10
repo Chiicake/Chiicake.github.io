@@ -129,28 +129,30 @@
     "cli": {
       "headerEdition": "ASCII Hero Edition",
       "command": "0 chiicake@archlinux ~ % cat /home/chiicake/README",
+      "updatesCommand": "chiicake@archlinux ~ % sudo pacman -Syu --needed homepage-runtime blog-feed opensource-project",
+      "commandsCommand": "chiicake@archlinux ~ % show commands",
       "ascii": [
-        " _   _      _ _         ___   _             ____ _     _ _            _       ",
-        "| | | | ___| | | ___   |_ _| | |_ ___     / ___| |__ (_) | ___  __ _| | _____",
-        "| |_| |/ _ \\ | |/ _ \\   | |  | __/ _ \\   | |   | '_ \\| | |/ _ \\/ _` | |/ / _ \\",
-        "|  _  |  __/ | | (_) |  | |  | ||  __/   | |___| | | | | |  __/ (_| |   <  __/",
-        "|_| |_|\\___|_|_|\\___/  |___|  \\__\\___|    \\____|_| |_|_|_|\\___|\\__,_|_|\\_\\___|"
+        " ██████╗██╗  ██╗██╗██╗ ██████╗ █████╗ ██╗  ██╗███████╗",
+        "██╔════╝██║  ██║██║██║██╔════╝██╔══██╗██║ ██╔╝██╔════╝",
+        "██║     ███████║██║██║██║     ███████║█████╔╝ █████╗  ",
+        "██║     ██╔══██║██║██║██║     ██╔══██║██╔═██╗ ██╔══╝  ",
+        "╚██████╗██║  ██║██║██║╚██████╗██║  ██║██║  ██╗███████╗",
+        " ╚═════╝╚═╝  ╚═╝╚═╝╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝"
       ],
       "asciiCompact": [
-        "+----------------------+",
-        "| HELLO, I'M CHIICAKE. |",
-        "+----------------------+"
+        "+---------------------------+",
+        "| Hello, I'm Chiicake.      |",
+        "| Rust / Go backend engineer|",
+        "+---------------------------+"
       ],
-      "subtitle": "# Rust / Go backend engineer",
-      "secondary": "# systems / tooling / distributed practice",
+      "subtitle": "# Hello, I'm Chiicake.",
+      "secondary": "# Rust / Go backend engineer",
       "actionsLabel": "primary commands",
       "actionsHint": "click / enter",
       "runtimeLabel": "interactive shell",
       "runtimeHint": "help · Tab · history",
       "hints": [
-        "# Click any command to open the matching entry point.",
-        "# Use Tab / Shift+Tab to move focus across primary commands.",
-        "# The prompt below keeps help, history, and recent article path completion."
+        "# Click any command to open the matching entry point."
       ]
     }
   },
