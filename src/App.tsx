@@ -26,7 +26,7 @@ const router = createHashRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Navigate to="/cli" replace /> },
-      { path: 'web', element: <SinglePage /> },
+      { path: 'home', element: <SinglePage /> },
       { path: 'cli', element: <CliHome /> },
       { path: 'blog', element: <Blog /> },
       { path: 'blog/collections/:collectionSlug', element: <BlogCollection /> },

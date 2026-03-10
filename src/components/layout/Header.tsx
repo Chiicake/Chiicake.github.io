@@ -22,7 +22,7 @@ const navItems: NavItem[] = [
   { id: 'contact', label: 'nav.contact' },
 ];
 
-const WEB_HOME_PATH = '/web';
+const WEB_HOME_PATH = '/home';
 
 export function Header() {
   const { t, i18n } = useTranslation();

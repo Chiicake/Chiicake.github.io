@@ -15,12 +15,12 @@ export default function CliHome() {
     {
       command: '$ jump #projects',
       label: t('hero.ctaPrimary'),
-      onClick: () => navigate('/web', { state: { scrollTo: 'projects' } }),
+      onClick: () => navigate('/home', { state: { scrollTo: 'projects' } }),
     },
     {
       command: '$ jump #about',
       label: t('nav.about'),
-      onClick: () => navigate('/web', { state: { scrollTo: 'about' } }),
+      onClick: () => navigate('/home', { state: { scrollTo: 'about' } }),
     },
     {
       command: '$ xdg-open github.com/Chiicake',
@@ -31,7 +31,7 @@ export default function CliHome() {
     {
       command: '$ jump #contact',
       label: t('hero.ctaSecondary'),
-      onClick: () => navigate('/web', { state: { scrollTo: 'contact' } }),
+      onClick: () => navigate('/home', { state: { scrollTo: 'contact' } }),
     },
   ];
 
