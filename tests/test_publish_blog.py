@@ -42,6 +42,27 @@ class PublishBlogTests(unittest.TestCase):
         self.assertNotIn("title: old", rendered)
         self.assertIn("# Hello", rendered)
 
+    def test_build_markdown_document_keeps_thematic_break_content(self):
+        module = load_publish_blog_module()
+        source = (
+            "https://example.com/paper.pdf\n"
+            "# 标题\n\n"
+            "前言\n\n"
+            "---\n\n"
+            "## 第一章\n\n"
+            "内容 A\n\n"
+            "---\n\n"
+            "## 第二章\n\n"
+            "内容 B\n"
+        )
+
+        rendered = module.build_markdown_document(source, "测试标题")
+
+        self.assertIn("## 第一章", rendered)
+        self.assertIn("内容 A", rendered)
+        self.assertIn("## 第二章", rendered)
+        self.assertEqual(rendered.count("## 第一章"), 1)
+
     def test_rewrite_markdown_assets_copies_local_assets_and_rewrites_paths(self):
         module = load_publish_blog_module()
 

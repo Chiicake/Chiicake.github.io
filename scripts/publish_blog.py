@@ -21,7 +21,7 @@ QUESTIONARY_SPEC = "questionary>=2.1,<3"
 CREATE_OPTION = "__create__"
 NONE_OPTION = "__none__"
 NEW_TAG_OPTION = "新建"
-FRONTMATTER_PATTERN = re.compile(r"^---\s*\n[\s\S]*?\n---\s*\n?", re.MULTILINE)
+FRONTMATTER_PATTERN = re.compile(r"\A---\s*\n[\s\S]*?\n---\s*\n?")
 MARKDOWN_IMAGE_PATTERN = re.compile(r"!\[(?P<alt>[^\]]*)\]\((?P<target>[^)\n]+)\)")
 HTML_IMAGE_PATTERN = re.compile(
     r"(?P<prefix><img\b[^>]*?\bsrc=(?P<quote>[\"']))(?P<url>[^\"']+)(?P=quote)",
