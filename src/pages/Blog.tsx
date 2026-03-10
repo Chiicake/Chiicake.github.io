@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { FolderTree, Layers3, PenLine, ShieldCheck } from 'lucide-react';
+import { FolderTree, Layers3, PenLine } from 'lucide-react';
 import { BlogEntryCard } from '../components/blog/BlogEntryCard';
 import { HomeLifePanel } from '../components/home/HomeLifePanel';
 import { useBlogIndex } from '../hooks/useBlogIndex';
@@ -72,30 +72,6 @@ export default function Blog() {
 
   return (
     <div className="py-12">
-      <section className="mb-7 rounded-[1.6rem] border border-gray-200/80 bg-white/82 p-4 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 md:p-5">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="flex min-w-0 items-start gap-3">
-            <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
-              <ShieldCheck size={18} />
-            </div>
-
-            <div className="min-w-0">
-              <p className="engineering-kicker">{t('blog.provenanceEyebrow')}</p>
-              <p className="mt-1 text-sm leading-relaxed text-[var(--color-text-primary)] md:text-[0.95rem]">
-                {t('blog.provenanceTitle')}
-              </p>
-              <p className="mt-1.5 text-xs leading-relaxed text-[var(--color-text-secondary)] md:text-sm">
-                {t('blog.provenanceDescription')}
-              </p>
-            </div>
-          </div>
-
-          <span className="mono-data inline-flex shrink-0 items-center rounded-full border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 px-3 py-1.5 text-[10px] uppercase tracking-[0.22em] text-[var(--color-accent)]">
-            human-authored
-          </span>
-        </div>
-      </section>
-
       <section className="mb-10 grid gap-5 xl:grid-cols-[1.18fr_0.82fr]">
         <div className="flex h-[12.25rem] flex-col rounded-[1.6rem] border border-gray-200/80 bg-white/84 p-4 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 md:h-[13.5rem] md:p-5">
           <div className="mb-4 flex items-start justify-between gap-3">

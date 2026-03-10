@@ -449,39 +449,12 @@
     "latestPosts": "Latest Articles",
     "recommendedEyebrow": "Featured Blog Posts",
     "recommendedTitle": "Recommended Articles",
-    "recommendedSubtitle": "My representative blog posts. No AI-generated content; AI is used only for factual verification.",
     "recommendedEmpty": "More representative posts are being prepared.",
     "allCategories": "All Categories",
     "categoryLabel": "Category",
     "filterHint": "Article category list",
     "collectionLabel": "Collections",
     "collectionSubtitle": "List of article collections",
-    "provenanceEyebrow": "content manifest",
-    "provenanceTitle": "Every post here is authored, structured, and argued by hand",
-    "provenanceDescription": "Blog posts on this site are not AI-generated. AI is used only for fact-checking, source cross-verification, and typo review. Final wording and judgment remain mine.",
-    "articleProvenanceBadge": "Human-authored · AI used only for fact-checking and source cross-checking",
-    "provenanceFields": {
-      "authoring": {
-        "label": "authoring",
-        "value": "human-owned"
-      },
-      "drafting": {
-        "label": "drafting",
-        "value": "manual"
-      },
-      "aiRole": {
-        "label": "ai-role",
-        "value": "fact-check only"
-      },
-      "sources": {
-        "label": "sources",
-        "value": "docs / papers / code"
-      },
-      "owner": {
-        "label": "owner",
-        "value": "Chiicake"
-      }
-    },
     "currentCollection": "Current Collection",
     "readingProgress": "Reading Progress",
     "readingProgressHint": "Updates in real time based on article scroll position.",

@@ -16,7 +16,7 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
-import { ArrowLeft, Calendar, Clock, Layers3, ListTree, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Layers3, ListTree } from 'lucide-react';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
   findBlogCategory,
@@ -387,12 +387,6 @@ export default function BlogArticle() {
             </p>
 
             <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-[var(--color-text-secondary)]">
-              <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--color-accent)]/18 bg-[var(--color-accent)]/8 px-3 py-1.5 text-[var(--color-text-primary)]">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
-                  <ShieldCheck size={13} />
-                </span>
-                <span className="text-xs font-medium leading-relaxed md:text-sm">{t('blog.articleProvenanceBadge')}</span>
-              </span>
               <span className="inline-flex items-center gap-1.5">
                 <Calendar size={14} />
                 {meta.date}
