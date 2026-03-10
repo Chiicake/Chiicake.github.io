@@ -12,6 +12,10 @@
   "common": {
     "toggleTheme": "切换主题",
     "switchLang": "切换语言",
+    "switchToCliHome": "切换到 CLI 首页",
+    "switchToStandardHome": "切换到标准首页",
+    "cliModeLabel": "CLI",
+    "standardModeLabel": "WEB",
     "viewMore": "查看更多",
     "comingSoon": "敬请期待",
     "openMenu": "打开菜单",
@@ -122,7 +126,34 @@
       "rPentomino": "R-pentomino"
     },
     "lifeAutoStatus": "auto boot",
-    "lifeRunning": "running"
+    "lifeRunning": "running",
+    "cli": {
+      "headerEdition": "ASCII Hero Edition",
+      "command": "0 chiicake@archlinux ~ % cat /home/chiicake/README",
+      "ascii": [
+        " _   _      _ _         ___   _             ____ _     _ _            _       ",
+        "| | | | ___| | | ___   |_ _| | |_ ___     / ___| |__ (_) | ___  __ _| | _____",
+        "| |_| |/ _ \\ | |/ _ \\   | |  | __/ _ \\   | |   | '_ \\| | |/ _ \\/ _` | |/ / _ \\",
+        "|  _  |  __/ | | (_) |  | |  | ||  __/   | |___| | | | | |  __/ (_| |   <  __/",
+        "|_| |_|\\___|_|_|\\___/  |___|  \\__\\___|    \\____|_| |_|_|_|\\___|\\__,_|_|\\_\\___|"
+      ],
+      "asciiCompact": [
+        "+----------------------+",
+        "| HELLO, I'M CHIICAKE. |",
+        "+----------------------+"
+      ],
+      "subtitle": "# 后端 / 系统 / 分布式实践",
+      "secondary": "# Rust / Go / Java · human-written notes and projects",
+      "actionsLabel": "primary commands",
+      "actionsHint": "click / enter",
+      "runtimeLabel": "interactive shell",
+      "runtimeHint": "help · Tab · history",
+      "hints": [
+        "# 点击任意命令立即执行对应入口。",
+        "# 可以用 Tab / Shift+Tab 在命令之间切换焦点。",
+        "# 下面的 prompt 保留 help、历史记录和最近文章路径补全。"
+      ]
+    }
   },
   "about": {
     "title": "关于我",

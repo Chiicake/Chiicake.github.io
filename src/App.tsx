@@ -6,6 +6,7 @@ import { LOCAL_BLOG_ADMIN_ROUTE } from './lib/localBlogAdminConfig';
 import './i18n';
 
 const SinglePage = lazy(() => import('./pages/SinglePage'));
+const CliHome = lazy(() => import('./pages/CliHome'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogCollection = lazy(() => import('./pages/BlogCollection'));
 const BlogArticle = lazy(() => import('./pages/BlogArticle'));
@@ -25,6 +26,7 @@ const router = createHashRouter([
     element: <Layout />,
     children: [
       { index: true, element: <SinglePage /> },
+      { path: 'cli', element: <CliHome /> },
       { path: 'blog', element: <Blog /> },
       { path: 'blog/collections/:collectionSlug', element: <BlogCollection /> },
       { path: 'blog/:slug', element: <BlogArticle /> },

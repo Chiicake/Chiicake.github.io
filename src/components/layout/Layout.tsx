@@ -8,24 +8,42 @@ import { PageTransition } from '../animations/PageTransition';
 export function Layout() {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const isCliPage = location.pathname === '/cli';
 
   useEffect(() => {
-    if (!isHomePage) {
+    if (!isHomePage && !isCliPage) {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
-  }, [location.pathname, isHomePage]);
+  }, [isCliPage, isHomePage, location.pathname]);
+
+  useEffect(() => {
+    if (!isCliPage) {
+      return undefined;
+    }
+
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+    };
+  }, [isCliPage]);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className={`flex min-h-screen flex-col${isCliPage ? ' overflow-hidden' : ''}`}>
       <Header />
-      <main className={isHomePage ? 'flex-grow pt-0' : 'flex-grow pt-24 px-6 max-w-7xl mx-auto w-full'}>
+      <main className={isCliPage ? 'flex-grow overflow-hidden pt-0' : isHomePage ? 'flex-grow pt-0' : 'flex-grow pt-24 px-6 max-w-7xl mx-auto w-full'}>
         <AnimatePresence mode="wait">
           <PageTransition key={location.pathname}>
             <Outlet />
           </PageTransition>
         </AnimatePresence>
       </main>
-      <Footer />
+      {!isCliPage ? <Footer /> : null}
     </div>
   );
 }

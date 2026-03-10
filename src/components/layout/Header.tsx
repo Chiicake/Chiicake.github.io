@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, Globe } from 'lucide-react';
+import { Menu, X, Globe, SquareTerminal } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import avatarImage from '../../../avatar.png';
 import { preloadBlogPageAssets } from '../../lib/blogPrefetch';
@@ -132,6 +132,9 @@ export function Header() {
       ? 'bg-[var(--color-surface)]/80 backdrop-blur-md shadow-sm py-3' 
       : 'bg-transparent py-5'
   }`;
+  const isCliPage = location.pathname === '/cli';
+  const homepageModeTitle = isCliPage ? t('common.switchToStandardHome') : t('common.switchToCliHome');
+  const homepageModeLabel = isCliPage ? t('common.standardModeLabel') : t('common.cliModeLabel');
 
   return (
     <header className={headerClasses}>
@@ -168,6 +171,22 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => navigate(isCliPage ? '/' : '/cli')}
+            className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 transition-colors ${
+              isCliPage
+                ? 'border-[var(--color-accent)]/35 bg-[var(--color-accent)]/12 text-[var(--color-accent)]'
+                : 'border-gray-200/80 text-[var(--color-text-secondary)] hover:bg-gray-100 dark:border-slate-800/80 dark:hover:bg-slate-800'
+            }`}
+            aria-label={homepageModeTitle}
+            title={homepageModeTitle}
+          >
+            <SquareTerminal size={18} />
+            <span className="mono-data hidden text-[11px] uppercase tracking-[0.18em] sm:inline">
+              {homepageModeLabel}
+            </span>
+          </button>
+
           <button 
             onClick={toggleLang}
             className="p-2 rounded-full text-[var(--color-text-secondary)] hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"

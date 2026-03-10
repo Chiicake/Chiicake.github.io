@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useReducedMotion } from 'motion/react';
@@ -115,7 +115,23 @@ function formatHelpRow(command: string, description: string) {
   return `  ${command.padEnd(30, ' ')} ${description}`;
 }
 
-export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingShortcut[] }) {
+export type { HomeRollingShortcut };
+
+export function HomeRollingUpdatesPanel({
+  shortcuts,
+  variant = 'default',
+  showShortcuts = true,
+  showUpdates = true,
+  viewportMode = 'internal',
+  scrollTargetRef,
+}: {
+  shortcuts: HomeRollingShortcut[];
+  variant?: 'default' | 'embedded';
+  showShortcuts?: boolean;
+  showUpdates?: boolean;
+  viewportMode?: 'internal' | 'content';
+  scrollTargetRef?: RefObject<HTMLElement | null>;
+}) {
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
   const { index: blogIndex, loading: blogLoading, error: blogError } = useBlogIndex();
@@ -133,6 +149,7 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
   const historyIdRef = useRef(0);
   const historyDraftRef = useRef('');
   const lastCompletionQueryRef = useRef('');
+  const previousScrollHeightRef = useRef(0);
 
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown> | undefined;
   const heroBundle = isRecord(bundle?.hero) ? bundle.hero : {};
@@ -236,18 +253,49 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
     setCaretIndex(nextIndex);
   }, []);
   const scrollViewportToBottom = useCallback((behavior: ScrollBehavior) => {
-    const viewport = viewportRef.current;
-    if (!viewport || !linesReady) {
+    const scrollTarget = viewportMode === 'content' ? scrollTargetRef?.current : viewportRef.current;
+    if (!scrollTarget || !linesReady) {
       return;
     }
 
     window.requestAnimationFrame(() => {
-      viewport.scrollTo({
-        top: viewport.scrollHeight,
+      const currentHeight = scrollTarget.scrollHeight;
+      const clientHeight = scrollTarget.clientHeight;
+      const maxScrollTop = currentHeight - clientHeight;
+
+      if (viewportMode === 'content') {
+        const previousHeight = previousScrollHeightRef.current;
+        const previousOverflow = previousHeight > clientHeight;
+        const deltaHeight = Math.max(0, currentHeight - previousHeight);
+
+        if (maxScrollTop <= 0) {
+          scrollTarget.scrollTop = 0;
+          previousScrollHeightRef.current = currentHeight;
+          return;
+        }
+
+        const nextScrollTop = previousOverflow
+          ? Math.min(maxScrollTop, scrollTarget.scrollTop + deltaHeight)
+          : maxScrollTop;
+
+        scrollTarget.scrollTo({
+          top: nextScrollTop,
+          behavior: 'auto',
+        });
+        previousScrollHeightRef.current = currentHeight;
+        return;
+      }
+
+      if (maxScrollTop <= 0) {
+        return;
+      }
+
+      scrollTarget.scrollTo({
+        top: maxScrollTop,
         behavior,
       });
     });
-  }, [linesReady]);
+  }, [linesReady, scrollTargetRef, viewportMode]);
 
   const executeShortcut = useCallback(
     (shortcut: HomeRollingShortcut) => {
@@ -572,25 +620,31 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
   };
 
   return (
-    <div className="home-rolling-terminal rounded-[1.7rem] p-4 md:p-5">
-      <div className="home-rolling-terminal__header">
-        <div className="home-rolling-terminal__header-meta">
-          <span className="home-rolling-terminal__tty-badge">/dev/pts/0</span>
-        </div>
+    <div
+      className={`home-rolling-terminal rounded-[1.7rem]${variant === 'embedded' ? ' p-0 home-rolling-terminal--embedded' : ' p-4 md:p-5'}${viewportMode === 'content' ? ' home-rolling-terminal--content' : ''}`}
+    >
+      {variant === 'default' ? (
+        <>
+          <div className="home-rolling-terminal__header">
+            <div className="home-rolling-terminal__header-meta">
+              <span className="home-rolling-terminal__tty-badge">/dev/pts/0</span>
+            </div>
 
-        <div className="home-rolling-terminal__header-signals">
-          <span className="home-rolling-terminal__header-pill">archlinux</span>
-          <span className="home-rolling-terminal__header-pill is-muted">zsh</span>
-        </div>
-      </div>
+            <div className="home-rolling-terminal__header-signals">
+              <span className="home-rolling-terminal__header-pill">archlinux</span>
+              <span className="home-rolling-terminal__header-pill is-muted">zsh</span>
+            </div>
+          </div>
 
-      <div className="home-rolling-terminal__command">
-        <span className="home-rolling-terminal__prompt-status is-ok">0</span>
-        <span className="home-rolling-terminal__prompt-host">{PROMPT_HOST}</span>
-        <span className="home-rolling-terminal__prompt-path">{PROMPT_PATH}</span>
-        <span className="home-rolling-terminal__prompt-symbol">{PROMPT_SYMBOL}</span>
-        <span className="min-w-0 truncate text-slate-300">{command}</span>
-      </div>
+          <div className="home-rolling-terminal__command">
+            <span className="home-rolling-terminal__prompt-status is-ok">0</span>
+            <span className="home-rolling-terminal__prompt-host">{PROMPT_HOST}</span>
+            <span className="home-rolling-terminal__prompt-path">{PROMPT_PATH}</span>
+            <span className="home-rolling-terminal__prompt-symbol">{PROMPT_SYMBOL}</span>
+            <span className="min-w-0 truncate text-slate-300">{command}</span>
+          </div>
+        </>
+      ) : null}
 
       <div ref={viewportRef} className="home-rolling-terminal__viewport scrollbar-hidden">
         <div
@@ -696,7 +750,7 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
         </div>
       </div>
 
-      {shortcuts.length > 0 ? (
+      {showShortcuts && shortcuts.length > 0 ? (
         <div className="home-rolling-terminal__shortcuts">
           {shortcuts.map((shortcut) => {
             const content = (
@@ -742,7 +796,7 @@ export function HomeRollingUpdatesPanel({ shortcuts }: { shortcuts: HomeRollingS
         </div>
       ) : null}
 
-      {latestArticles.length > 0 ? (
+      {showUpdates && latestArticles.length > 0 ? (
         <div className="home-rolling-terminal__updates">
           <div className="home-rolling-terminal__updates-header">
             <span className="engineering-kicker">{recentTitle}</span>
