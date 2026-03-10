@@ -29,6 +29,7 @@ type StreamEntry =
 interface TerminalLine {
   text: string;
   tone: TerminalTone;
+  variant?: 'command';
 }
 
 interface TerminalHistoryEntry extends TerminalLine {
@@ -72,6 +73,10 @@ function getCommonPrefix(values: string[]) {
 
 function formatHelpRow(command: string, description: string) {
   return `  ${command.padEnd(30, ' ')} ${description}`;
+}
+
+function formatIndentedHelpRow(command: string, description: string) {
+  return `    ${command.padEnd(30, ' ')} ${description}`;
 }
 
 export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] }) {
@@ -357,11 +362,11 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
       if (target) {
         return [
           { text: 'NAME', tone: 'dim' as const },
-          { text: formatHelpRow(target.command, target.description), tone: 'package' as const },
+          { text: formatIndentedHelpRow(target.command, target.description), tone: 'package' as const },
           { text: 'USAGE', tone: 'dim' as const },
-          { text: `  ${target.command}`, tone: 'package' as const },
+          { text: `    ${target.command}`, tone: 'package' as const },
           { text: 'GROUP', tone: 'dim' as const },
-          { text: `  ${target.group}`, tone: 'package' as const },
+          { text: `    ${target.group}`, tone: 'package' as const },
         ];
       }
 
@@ -371,22 +376,22 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
 
       return [
         { text: 'NAME', tone: 'dim' as const },
-        { text: '  cli-home - single stream terminal homepage', tone: 'package' as const },
+        { text: '    cli-home - single stream terminal homepage', tone: 'package' as const },
         { text: 'SYNOPSIS', tone: 'dim' as const },
-        { text: '  help [command]', tone: 'package' as const },
+        { text: '    help [command]', tone: 'package' as const },
         { text: 'BUILTINS', tone: 'dim' as const },
-        ...builtins.map((spec) => ({ text: formatHelpRow(spec.command, spec.description), tone: 'package' as const })),
+        ...builtins.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
         { text: 'NAVIGATION', tone: 'dim' as const },
-        ...navigation.map((spec) => ({ text: formatHelpRow(spec.command, spec.description), tone: 'package' as const })),
+        ...navigation.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
         ...(recent.length > 0
           ? [
               { text: 'RECENT ENTRIES', tone: 'dim' as const },
-              ...recent.map((spec) => ({ text: formatHelpRow(spec.command, spec.description), tone: 'package' as const })),
+              ...recent.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
             ]
           : []),
         { text: 'KEYS', tone: 'dim' as const },
-        { text: formatHelpRow('Tab', 'autocomplete commands and recent article paths'), tone: 'package' as const },
-        { text: formatHelpRow('Up / Down', 'browse command history'), tone: 'package' as const },
+        { text: formatIndentedHelpRow('Tab', 'autocomplete commands and recent article paths'), tone: 'package' as const },
+        { text: formatIndentedHelpRow('Up / Down', 'browse command history'), tone: 'package' as const },
       ];
     },
     [commandSpecs],
@@ -553,6 +558,7 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
       {
         text: `${getPromptPrefix(promptStatusAtSubmit)} ${sanitizedInput}`,
         tone: 'package',
+        variant: 'command',
       },
     ];
 
@@ -746,7 +752,7 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
                 return (
                   <div key={entry.key} className="home-rolling-terminal__line is-package home-cli-shell__command-line">
                     <span className="home-rolling-terminal__line-marker" />
-                    <span className="home-cli-shell__command-line-text min-w-0 break-words mono-data">{entry.value}</span>
+                    <span className="home-cli-shell__command-line-text min-w-0 break-words whitespace-pre-wrap mono-data">{entry.value}</span>
                   </div>
                 );
               }
@@ -778,7 +784,7 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
                 return (
                   <div key={entry.key} className={`home-rolling-terminal__line is-${entry.tone}${isActive ? ' is-active' : ''}`}>
                     <span className="home-rolling-terminal__line-marker" />
-                    <span className="min-w-0 break-words">{entry.text}</span>
+                    <span className="min-w-0 break-words whitespace-pre-wrap">{entry.text}</span>
                     {isActive ? <span className="home-rolling-terminal__cursor" aria-hidden="true" /> : null}
                   </div>
                 );
@@ -791,12 +797,28 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
               return <div key={entry.key} className="home-cli-shell__gap" aria-hidden="true" />;
             })}
 
-            {commandHistory.map((line) => (
-              <div key={line.id} className={`home-rolling-terminal__line is-${line.tone}`}>
-                <span className="home-rolling-terminal__line-marker" />
-                <span className="min-w-0 break-words">{line.text}</span>
-              </div>
-            ))}
+            {commandHistory.map((line) => {
+              if (line.variant === 'command') {
+                return (
+                  <div
+                    key={line.id}
+                    className="home-rolling-terminal__line is-package home-cli-shell__command-line"
+                  >
+                    <span className="home-rolling-terminal__line-marker" />
+                    <span className="home-cli-shell__command-line-text min-w-0 break-words whitespace-pre-wrap mono-data">
+                      {line.text}
+                    </span>
+                  </div>
+                );
+              }
+
+              return (
+                <div key={line.id} className={`home-rolling-terminal__line is-${line.tone}`}>
+                  <span className="home-rolling-terminal__line-marker" />
+                  <span className="min-w-0 break-words whitespace-pre-wrap">{line.text}</span>
+                </div>
+              );
+            })}
 
             {promptActive ? (
               <form

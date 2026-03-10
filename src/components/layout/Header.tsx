@@ -17,7 +17,6 @@ const navItems: NavItem[] = [
   { id: 'top', label: 'nav.home' },
   { id: 'blog', label: 'nav.blog', isRoute: true, routePath: '/blog' },
   { id: 'projects', label: 'nav.projects' },
-  { id: 'skills', label: 'nav.skills' },
   { id: 'about', label: 'nav.about' },
   { id: 'contact', label: 'nav.contact' },
 ];
@@ -51,7 +50,7 @@ export function Header() {
     if (location.pathname !== WEB_HOME_PATH) return;
 
     const observers = new Map<string, IntersectionObserver>();
-    const sectionIds = ['blog', 'projects', 'skills', 'about', 'contact'];
+    const sectionIds = ['blog', 'projects', 'about', 'contact'];
     
     const handleScrollForTop = () => {
       if (window.scrollY < 200) {

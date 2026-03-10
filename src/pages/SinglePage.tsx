@@ -3,7 +3,6 @@ import { useLocation } from 'react-router';
 
 import Home from './Home';
 import About from './About';
-import Skills from './Skills';
 import Projects from './Projects';
 import Contact from './Contact';
 import { BlogPreview } from './sections/BlogPreview';
@@ -30,7 +29,6 @@ export default function SinglePage() {
       <div className="px-6 max-w-7xl mx-auto w-full">
         <BlogPreview id="blog" />
         <Projects id="projects" />
-        <Skills id="skills" />
         <About id="about" />
         <Contact id="contact" />
       </div>

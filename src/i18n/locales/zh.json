@@ -50,7 +50,7 @@
     "rollingCommand": "sudo pacman -Syu --needed homepage-runtime blog-feed opensource-projects",
     "rollingRecentTitle": "recent://blog",
     "rollingRecentLoading": "正在抓取最新博客索引...",
-    "rollingPromptPlaceholder": "输入 help，或按 Tab 自动补全",
+    "rollingPromptPlaceholder": "输入 help 获取帮助，Tab 可自动补全",
     "rollingPromptNotFound": "未找到命令",
     "rollingLines": [
       "[core] synchronizing package databases...",
@@ -153,7 +153,7 @@
       "runtimeLabel": "interactive shell",
       "runtimeHint": "help · Tab · history",
       "hints": [
-        "# 点击任意命令立即执行对应入口。"
+        "# 点击任意命令立即执行。"
       ]
     }
   },

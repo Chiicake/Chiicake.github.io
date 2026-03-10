@@ -1,9 +1,10 @@
 import avatarImage from '../../avatar.png';
 import { useTranslation } from 'react-i18next';
-import { Briefcase, Github, GraduationCap, MapPin } from 'lucide-react';
+import { Briefcase, Cpu, Github, GraduationCap, MapPin } from 'lucide-react';
 import { AboutSnakePanel } from '../components/about/AboutSnakePanel';
 import { SectionTitle } from '../components/ui/SectionTitle';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
+import { SkillsMatrix } from './Skills';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -152,6 +153,24 @@ export default function About({ id }: { id?: string }) {
 
           <ScrollReveal delay={0.18} direction="left">
             <AboutSnakePanel />
+          </ScrollReveal>
+        </div>
+
+        <div className="mt-14">
+          <ScrollReveal direction="up">
+            <section className="engineering-panel rounded-[2rem] p-5 md:p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
+                  <Cpu size={18} />
+                </div>
+                <div>
+                  <p className="engineering-kicker">{t('about.title')}</p>
+                  <h3 className="text-xl font-bold text-[var(--color-text-primary)]">{t('skills.title')}</h3>
+                </div>
+              </div>
+
+              <SkillsMatrix className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-2" />
+            </section>
           </ScrollReveal>
         </div>
 

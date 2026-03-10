@@ -821,10 +821,6 @@
     overflow-x: auto;
   }
 
-  .home-cli-shell__command-line {
-    margin-bottom: 0.35rem;
-  }
-
   .home-cli-shell__command-line .home-rolling-terminal__line-marker {
     background: rgba(96, 165, 250, 0.92);
     box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.24);

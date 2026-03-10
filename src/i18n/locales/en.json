@@ -49,7 +49,7 @@
     "rollingCommand": "sudo pacman -Syu --needed homepage-runtime blog-feed opensource-projects",
     "rollingRecentTitle": "recent://blog",
     "rollingRecentLoading": "fetching latest article index...",
-    "rollingPromptPlaceholder": "Type help, or press Tab to complete",
+    "rollingPromptPlaceholder": "Type help for guidance, Tab completes input",
     "rollingPromptNotFound": "command not found",
     "rollingLines": [
       "[core] synchronizing package databases...",
@@ -152,7 +152,7 @@
       "runtimeLabel": "interactive shell",
       "runtimeHint": "help · Tab · history",
       "hints": [
-        "# Click any command to open the matching entry point."
+        "# Click any command to run it."
       ]
     }
   },

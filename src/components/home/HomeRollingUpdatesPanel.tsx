@@ -115,6 +115,10 @@ function formatHelpRow(command: string, description: string) {
   return `  ${command.padEnd(30, ' ')} ${description}`;
 }
 
+function formatIndentedHelpRow(command: string, description: string) {
+  return `    ${command.padEnd(30, ' ')} ${description}`;
+}
+
 export type { HomeRollingShortcut };
 
 export function HomeRollingUpdatesPanel({
@@ -405,11 +409,11 @@ export function HomeRollingUpdatesPanel({
       if (target) {
         return [
           { text: 'NAME', tone: 'dim' as const },
-          { text: formatHelpRow(target.command, target.description), tone: 'package' as const },
+          { text: formatIndentedHelpRow(target.command, target.description), tone: 'package' as const },
           { text: 'USAGE', tone: 'dim' as const },
-          { text: `  ${target.command}`, tone: 'package' as const },
+          { text: `    ${target.command}`, tone: 'package' as const },
           { text: 'GROUP', tone: 'dim' as const },
-          { text: `  ${target.group}`, tone: 'package' as const },
+          { text: `    ${target.group}`, tone: 'package' as const },
         ];
       }
 
@@ -419,22 +423,22 @@ export function HomeRollingUpdatesPanel({
 
       return [
         { text: 'NAME', tone: 'dim' as const },
-        { text: '  home-terminal - interactive navigation shell', tone: 'package' as const },
+        { text: '    home-terminal - interactive navigation shell', tone: 'package' as const },
         { text: 'SYNOPSIS', tone: 'dim' as const },
-        { text: '  help [command]', tone: 'package' as const },
+        { text: '    help [command]', tone: 'package' as const },
         { text: 'BUILTINS', tone: 'dim' as const },
-        ...builtins.map((spec) => ({ text: formatHelpRow(spec.command, spec.description), tone: 'package' as const })),
+        ...builtins.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
         { text: 'NAVIGATION', tone: 'dim' as const },
-        ...navigation.map((spec) => ({ text: formatHelpRow(spec.command, spec.description), tone: 'package' as const })),
+        ...navigation.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
         ...(recent.length > 0
           ? [
               { text: 'RECENT ENTRIES', tone: 'dim' as const },
-              ...recent.map((spec) => ({ text: formatHelpRow(spec.command, spec.description), tone: 'package' as const })),
+              ...recent.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
             ]
           : []),
         { text: 'KEYS', tone: 'dim' as const },
-        { text: formatHelpRow('Tab', 'autocomplete commands and recent article paths'), tone: 'package' as const },
-        { text: formatHelpRow('Up / Down', 'browse command history'), tone: 'package' as const },
+        { text: formatIndentedHelpRow('Tab', 'autocomplete commands and recent article paths'), tone: 'package' as const },
+        { text: formatIndentedHelpRow('Up / Down', 'browse command history'), tone: 'package' as const },
       ];
     },
     [commandSpecs],
@@ -712,7 +716,7 @@ export function HomeRollingUpdatesPanel({
                 className={`home-rolling-terminal__line is-${line.tone}${isActive ? ' is-active' : ''}`}
               >
                 <span className="home-rolling-terminal__line-marker" />
-                <span className="min-w-0 break-words">{line.text}</span>
+                <span className="min-w-0 break-words whitespace-pre-wrap">{line.text}</span>
                 {isActive ? <span className="home-rolling-terminal__cursor" aria-hidden="true" /> : null}
               </div>
             );
@@ -721,14 +725,14 @@ export function HomeRollingUpdatesPanel({
           {!linesReady ? (
             <div className="home-rolling-terminal__line is-dim">
               <span className="home-rolling-terminal__line-marker" />
-              <span className="min-w-0 break-words">{`[blog] ${recentLoading}`}</span>
+              <span className="min-w-0 break-words whitespace-pre-wrap">{`[blog] ${recentLoading}`}</span>
             </div>
           ) : null}
 
           {commandHistory.map((line) => (
             <div key={line.id} className={`home-rolling-terminal__line is-${line.tone}`}>
               <span className="home-rolling-terminal__line-marker" />
-              <span className="min-w-0 break-words">{line.text}</span>
+              <span className="min-w-0 break-words whitespace-pre-wrap">{line.text}</span>
             </div>
           ))}
 
