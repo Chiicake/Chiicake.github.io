@@ -22,6 +22,8 @@ const navItems: NavItem[] = [
   { id: 'contact', label: 'nav.contact' },
 ];
 
+const WEB_HOME_PATH = '/web';
+
 export function Header() {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -46,7 +48,7 @@ export function Header() {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (location.pathname !== '/') return;
+    if (location.pathname !== WEB_HOME_PATH) return;
 
     const observers = new Map<string, IntersectionObserver>();
     const sectionIds = ['blog', 'projects', 'skills', 'about', 'contact'];
@@ -101,22 +103,22 @@ export function Header() {
     
     if (item.isRoute) {
       navigate(item.routePath!);
-    } else if (location.pathname === '/') {
+    } else if (location.pathname === WEB_HOME_PATH) {
       if (item.id === 'top') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      navigate('/', { state: { scrollTo: item.id === 'top' ? undefined : item.id } });
+      navigate(WEB_HOME_PATH, { state: { scrollTo: item.id === 'top' ? undefined : item.id } });
     }
   }, [location.pathname, navigate]);
 
   const handleLogoClick = () => {
-    if (location.pathname === '/') {
+    if (location.pathname === WEB_HOME_PATH) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      navigate('/');
+      navigate(WEB_HOME_PATH);
     }
   };
 
@@ -124,7 +126,7 @@ export function Header() {
     if (item.isRoute) {
       return location.pathname.startsWith(item.routePath!);
     }
-    return location.pathname === '/' && activeSection === item.id;
+    return location.pathname === WEB_HOME_PATH && activeSection === item.id;
   };
 
   const headerClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -172,7 +174,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <button
-            onClick={() => navigate(isCliPage ? '/' : '/cli')}
+            onClick={() => navigate(isCliPage ? WEB_HOME_PATH : '/cli')}
             className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 transition-colors ${
               isCliPage
                 ? 'border-[var(--color-accent)]/35 bg-[var(--color-accent)]/12 text-[var(--color-accent)]'

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { createHashRouter, RouterProvider } from 'react-router';
+import { Navigate, createHashRouter, RouterProvider } from 'react-router';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { Layout } from './components/layout/Layout';
 import { LOCAL_BLOG_ADMIN_ROUTE } from './lib/localBlogAdminConfig';
@@ -25,7 +25,8 @@ const router = createHashRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <SinglePage /> },
+      { index: true, element: <Navigate to="/cli" replace /> },
+      { path: 'web', element: <SinglePage /> },
       { path: 'cli', element: <CliHome /> },
       { path: 'blog', element: <Blog /> },
       { path: 'blog/collections/:collectionSlug', element: <BlogCollection /> },

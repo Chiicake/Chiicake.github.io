@@ -7,7 +7,7 @@ import { PageTransition } from '../animations/PageTransition';
 
 export function Layout() {
   const location = useLocation();
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === '/web';
   const isCliPage = location.pathname === '/cli';
 
   useEffect(() => {
