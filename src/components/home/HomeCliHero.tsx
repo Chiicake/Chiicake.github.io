@@ -126,7 +126,6 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
   const secondary = isString(cliBundle.secondary)
     ? cliBundle.secondary
     : '# systems / tooling / distributed practice';
-  const headerEdition = isString(cliBundle.headerEdition) ? cliBundle.headerEdition : 'ASCII Hero Edition';
   const promptPlaceholder = t('hero.rollingPromptPlaceholder');
 
   const recentArticleCommands = useMemo(
@@ -731,7 +730,6 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
             <div className="home-cli-shell__signals">
               <span className="home-cli-shell__signal mono-data">archlinux</span>
               <span className="home-cli-shell__signal mono-data is-muted">zsh</span>
-              <span className="home-cli-shell__signal mono-data is-muted">{headerEdition}</span>
             </div>
           </div>
 
