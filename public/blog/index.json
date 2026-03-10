@@ -130,6 +130,28 @@
       }
     },
     {
+      "slug": "flp-impossible",
+      "date": "2026-03-10",
+      "tags": [
+        "Distributed Systems"
+      ],
+      "title": {
+        "zh": "FLP 不可能性",
+        "en": "FLP 不可能性"
+      },
+      "summary": {
+        "zh": "总结 FLP 不可能性",
+        "en": "总结 FLP 不可能性"
+      },
+      "readingTime": {
+        "zh": "11 分钟",
+        "en": "11 min"
+      },
+      "category": "distributed-systems",
+      "collection": "backend-reliability-playbook",
+      "seriesOrder": 3
+    },
+    {
       "slug": "jwt-signature-pitfalls",
       "date": "2026-03-08",
       "tags": [
