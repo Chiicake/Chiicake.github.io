@@ -5,6 +5,17 @@
   ],
   "categories": [
     {
+      "id": "go-language",
+      "label": {
+        "zh": "Go 语言",
+        "en": "Go Language"
+      },
+      "description": {
+        "zh": "语言特性、工具链、编译器与标准库实践。",
+        "en": "Language features, tooling, compiler, and standard library practice."
+      }
+    },
+    {
       "id": "distributed-systems",
       "label": {
         "zh": "分布式系统",
@@ -52,6 +63,40 @@
     }
   ],
   "articles": [
+    {
+      "slug": "go-source-level-inliner",
+      "date": "2026-03-13",
+      "tags": [
+        "Go"
+      ],
+      "title": {
+        "zh": "//go:fix inline 与源码级内联器",
+        "en": "//go:fix inline and the source-level inliner"
+      },
+      "summary": {
+        "zh": "介绍 Go 1.26 源码级内联器及其自助式 API 迁移能力。",
+        "en": "How Go 1.26's source-level inliner works, and how it can help with self-service API migrations."
+      },
+      "readingTime": {
+        "zh": "15 分钟",
+        "en": "12 min"
+      },
+      "category": "go-language",
+      "contentType": "repost",
+      "source": {
+        "site": "go.dev/blog",
+        "author": "Alan Donovan",
+        "title": {
+          "zh": "//go:fix inline 与源码级内联器",
+          "en": "//go:fix inline and the source-level inliner"
+        },
+        "url": "https://go.dev/blog/inliner",
+        "publishedAt": "2026-03-10",
+        "translator": "Chiicake"
+      },
+      "collection": "go-lang",
+      "seriesOrder": 1
+    },
     {
       "slug": "flp-impossible",
       "date": "2026-03-10",

@@ -48,6 +48,7 @@
 - If the source article includes a summary, adapt it for the post metadata. If it does not, generate a simple Chinese summary of about 20 characters.
 - For English-source articles, write the Chinese translation to `index.zh.md` and keep the original English text in `index.en.md`.
 - Keep article assets under `public/blog/<slug>/assets/` and keep code fences, titles, and section ordering stable across both language files.
+- Do not leave reposted images as remote hotlinks. Download source images into the article’s own `assets/` directory and rewrite Markdown references to local relative paths.
 - Complete the post through the existing local workflow so that the article, metadata, and repost source link all remain compatible with the current blog system.
 
 ## Security & Local Admin Notes

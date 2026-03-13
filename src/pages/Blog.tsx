@@ -51,6 +51,24 @@ export default function Blog() {
         : [],
     [index, selectedCategory, selectedContentType],
   );
+  const contentTypeOptions = useMemo(
+    () =>
+      [
+        { key: 'all' as const, label: t('blog.allContentTypes') },
+        { key: 'original' as const, label: t('blog.originalOnly') },
+        { key: 'repost' as const, label: t('blog.repostOnly') },
+      ].map((option) => ({
+        ...option,
+        count:
+          !index
+            ? 0
+            : selectedCategory === 'all'
+              ? getArticlesByContentType(index, option.key).length
+              : getArticlesByContentType(index, option.key).filter((article) => article.category === selectedCategory)
+                  .length,
+      })),
+    [index, selectedCategory, t],
+  );
 
   if (loading) {
     return (
@@ -88,11 +106,6 @@ export default function Blog() {
   const visiblePages = Array.from({ length: totalPages }, (_, index) => index + 1).filter((page) => {
     return page === 1 || page === totalPages || Math.abs(page - safeCurrentPage) <= 1;
   });
-  const contentTypeOptions = [
-    { key: 'all' as const, label: t('blog.allContentTypes') },
-    { key: 'original' as const, label: t('blog.originalOnly') },
-    { key: 'repost' as const, label: t('blog.repostOnly') },
-  ];
 
   return (
     <div className="py-12">
@@ -135,6 +148,9 @@ export default function Blog() {
                         }`}
                       >
                         {option.label}
+                        <span className="ml-2 rounded-full bg-black/10 px-2 py-0.5 text-[11px] text-current dark:bg-white/10">
+                          {option.count}
+                        </span>
                       </button>
                     );
                   })}
