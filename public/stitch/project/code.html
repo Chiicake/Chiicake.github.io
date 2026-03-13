@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&amp;family=Public+Sans:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff6b00", // Amber accent
+                        "secondary": "#00e5ff", // Cyan accent
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#0a0a0a", // Deep dark background
+                    },
+                    fontFamily: {
+                        "display": ["JetBrains Mono", "monospace"],
+                        "sans": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0px", "lg": "2px", "xl": "4px", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(255, 107, 0, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 229, 255, 0.03);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            pointer-events: none;
+        }
+        .glow-amber {
+            box-shadow: 0 0 15px rgba(255, 107, 0, 0.15);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+        }
+        .border-subtle {
+            border-color: rgba(255, 107, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background-dark font-display text-slate-300 antialiased selection:bg-primary/30">
+<div class="scanline"></div>
+<div class="relative flex min-h-screen flex-col overflow-x-hidden">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-40 border-b border-primary/20 bg-background-dark/80 backdrop-blur-md px-6 py-3">
+<div class="max-w-[1440px] mx-auto flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-3xl">terminal</span>
+<h2 class="text-xl font-bold tracking-tighter uppercase">Kernel_DB <span class="text-secondary/50 font-normal">v4.0.1</span></h2>
+</div>
+<nav class="hidden md:flex items-center gap-6 border-l border-primary/20 pl-6">
+<a class="text-xs font-medium hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-sm">database</span> PROJECTS
+                        </a>
+<a class="text-xs font-medium hover:text-secondary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-sm">hub</span> NODES
+                        </a>
+<a class="text-xs font-medium hover:text-primary transition-colors flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-sm">memory</span> DEPLOYS
+                        </a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary/50 text-sm">search</span>
+<input class="bg-primary/5 border border-primary/20 rounded-lg pl-9 pr-4 py-1.5 text-xs focus:ring-1 focus:ring-primary focus:border-primary outline-none w-64 placeholder:text-primary/30" placeholder="QUERY_SYSTEM..." type="text"/>
+</div>
+<div class="flex gap-1">
+<button class="p-2 border border-primary/20 hover:bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="p-2 border border-primary/20 hover:bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-[1440px] mx-auto w-full p-6 space-y-8">
+<!-- Project Spotlight -->
+<section class="border border-primary/30 bg-primary/5 rounded-xl overflow-hidden glow-amber">
+<div class="grid lg:grid-cols-2">
+<div class="p-8 space-y-6">
+<div class="space-y-2">
+<div class="inline-flex items-center gap-2 px-2 py-0.5 rounded border border-primary/40 bg-primary/10 text-[10px] text-primary font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span> SYSTEM_CRITICAL
+                            </div>
+<h1 class="text-4xl font-black text-slate-100 tracking-tight">HYBRID-KV CORE ARCHITECTURE</h1>
+<p class="text-slate-400 text-sm leading-relaxed max-w-md">
+                                Distributed key-value orchestration layer for high-density kernel operations. 
+                                Optimized for low-latency partition access and atomic synchronization across heterogeneous nodes.
+                            </p>
+</div>
+<div class="grid grid-cols-3 gap-4 border-y border-primary/20 py-4">
+<div>
+<div class="text-[10px] text-primary/60 uppercase">Runtime</div>
+<div class="text-sm font-bold text-slate-200">RUST_V1.75</div>
+</div>
+<div>
+<div class="text-[10px] text-primary/60 uppercase">Cluster</div>
+<div class="text-sm font-bold text-slate-200">OMEGA_BETA</div>
+</div>
+<div>
+<div class="text-[10px] text-primary/60 uppercase">Latency</div>
+<div class="text-sm font-bold text-secondary">0.42ms</div>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="px-6 py-2.5 bg-primary text-background-dark text-xs font-bold rounded-lg hover:bg-primary/90 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">rocket_launch</span> INITIALIZE_DEPLOY
+                            </button>
+<button class="px-6 py-2.5 border border-primary/30 text-primary text-xs font-bold rounded-lg hover:bg-primary/5 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">code</span> VIEW_MANIFEST
+                            </button>
+</div>
+</div>
+<div class="relative min-h-[320px] bg-background-dark border-l border-primary/30 overflow-hidden">
+<!-- Abstract Grid Art Representing Technical Diagram -->
+<div class="absolute inset-0 opacity-40">
+<div class="absolute inset-0 bg-[linear-gradient(rgba(255,107,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,107,0,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<svg class="text-primary/40" height="400" viewbox="0 0 400 400" width="400">
+<circle cx="200" cy="200" fill="none" r="150" stroke="currentColor" stroke-dasharray="10 5" stroke-width="0.5"></circle>
+<path d="M50 200 L350 200 M200 50 L200 350" stroke="currentColor" stroke-width="0.5"></path>
+<rect fill="none" height="100" stroke="currentColor" stroke-width="2" width="100" x="150" y="150"></rect>
+<path d="M100 100 L300 300 M300 100 L100 300" stroke="currentColor" stroke-width="0.5"></path>
+<circle cx="200" cy="200" fill="currentColor" r="10"></circle>
+</svg>
+</div>
+</div>
+<div class="absolute bottom-4 right-4 flex flex-col items-end">
+<span class="text-[10px] text-primary font-bold bg-background-dark px-2 border border-primary/20 mb-1">REALTIME_MAP_RENDER</span>
+<span class="text-[9px] text-primary/40 font-mono tracking-widest uppercase">0x8F22-A109-00B2</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Filter Tabs -->
+<div class="flex border-b border-primary/20 overflow-x-auto no-scrollbar">
+<button class="px-6 py-3 text-xs font-bold text-primary border-b-2 border-primary bg-primary/5 whitespace-nowrap">
+                    ALL_OBJECTS (32)
+                </button>
+<button class="px-6 py-3 text-xs font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
+                    RUNNING
+                </button>
+<button class="px-6 py-3 text-xs font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
+                    STABLE_LTS
+                </button>
+<button class="px-6 py-3 text-xs font-bold text-slate-500 hover:text-slate-300 transition-colors whitespace-nowrap">
+                    EXPERIMENTAL
+                </button>
+<div class="flex-1"></div>
+<div class="hidden sm:flex items-center gap-2 px-4">
+<span class="text-[10px] text-slate-600">SORT_BY:</span>
+<select class="bg-transparent border-none text-[10px] text-primary font-bold focus:ring-0 cursor-pointer">
+<option>LAST_MODIFIED</option>
+<option>RESOURCE_LOAD</option>
+</select>
+</div>
+</div>
+<!-- Project Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Project Card 1: Active -->
+<div class="group border border-secondary bg-secondary/5 rounded-xl p-5 space-y-4 glow-cyan transition-all relative">
+<div class="absolute top-2 right-2 flex gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_8px_#00e5ff]"></div>
+</div>
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-lg font-bold text-slate-100 tracking-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">view_quilt</span>
+                                NEURAL_V_NODE
+                            </h3>
+<div class="flex gap-2">
+<span class="text-[9px] px-1.5 py-0.5 border border-secondary/40 text-secondary font-bold rounded">RUNNING</span>
+<span class="text-[9px] px-1.5 py-0.5 border border-slate-700 text-slate-400 font-bold rounded">V2.1</span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed">
+                        Hardware-accelerated virtualization layer for edge compute nodes. Direct DMA access protocols integrated.
+                    </p>
+<div class="space-y-1 pt-2 border-t border-secondary/20">
+<div class="flex justify-between text-[10px] font-mono">
+<span class="text-slate-600">drwxr-xr-x</span>
+<span class="text-secondary">4.2k stars</span>
+</div>
+<div class="flex justify-between text-[10px] font-mono">
+<span class="text-slate-600">node_master</span>
+<span class="text-secondary">820 forks</span>
+</div>
+<div class="flex justify-between text-[10px] font-mono truncate">
+<span class="text-slate-600">last_commit:</span>
+<span class="text-slate-300">#8a2f1c9</span>
+</div>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="group border border-primary/20 bg-background-dark rounded-xl p-5 space-y-4 hover:border-primary/50 transition-all hover:bg-primary/5">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-lg font-bold text-slate-100 tracking-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-primary/60">cloud_sync</span>
+                                PROTOCOL_STUB
+                            </h3>
+<div class="flex gap-2">
+<span class="text-[9px] px-1.5 py-0.5 border border-primary/40 text-primary font-bold rounded">STABLE</span>
+<span class="text-[9px] px-1.5 py-0.5 border border-slate-700 text-slate-400 font-bold rounded">V0.9-RC</span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed">
+                        JSON-over-TCP optimized serialization format for high-speed inter-process communication between kernels.
+                    </p>
+<div class="space-y-1 pt-2 border-t border-primary/10">
+<div class="flex justify-between text-[10px] font-mono text-slate-500">
+<span>-rw-r--r--</span>
+<span>1.1k stars</span>
+</div>
+<div class="flex justify-between text-[10px] font-mono text-slate-500">
+<span>stub_root</span>
+<span>154 forks</span>
+</div>
+<div class="flex justify-between text-[10px] font-mono truncate">
+<span>last_commit:</span>
+<span class="text-slate-300">#df09a22</span>
+</div>
+</div>
+</div>
+<!-- Project Card 3 -->
+<div class="group border border-primary/20 bg-background-dark rounded-xl p-5 space-y-4 hover:border-primary/50 transition-all hover:bg-primary/5">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-lg font-bold text-slate-100 tracking-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-primary/60">security</span>
+                                ENCRYPT_SHIELD
+                            </h3>
+<div class="flex gap-2">
+<span class="text-[9px] px-1.5 py-0.5 border border-primary/40 text-primary font-bold rounded">STABLE</span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed">
+                        Zero-trust encryption module providing per-sector storage isolation for multi-tenant kernel partitions.
+                    </p>
+<div class="space-y-1 pt-2 border-t border-primary/10">
+<div class="flex justify-between text-[10px] font-mono text-slate-500">
+<span>drwx------</span>
+<span>928 stars</span>
+</div>
+<div class="flex justify-between text-[10px] font-mono text-slate-500">
+<span>vault_sys</span>
+<span>42 forks</span>
+</div>
+<div class="flex justify-between text-[10px] font-mono truncate">
+<span>last_commit:</span>
+<span class="text-slate-300">#cc1100b</span>
+</div>
+</div>
+</div>
+<!-- Project Card 4 -->
+<div class="group border border-primary/20 bg-background-dark rounded-xl p-5 space-y-4 hover:border-primary/50 transition-all hover:bg-primary/5">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-lg font-bold text-slate-100 tracking-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-primary/60">monitoring</span>
+                                ANALYTICS_IO
+                            </h3>
+<div class="flex gap-2">
+<span class="text-[9px] px-1.5 py-0.5 border border-slate-700 text-slate-500 font-bold rounded">DEPRECATED</span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-500 leading-relaxed italic">
+                        Legacy telemetry sink for v1.x kernels. No longer supported for live production environments.
+                    </p>
+<div class="space-y-1 pt-2 border-t border-primary/10 opacity-50">
+<div class="flex justify-between text-[10px] font-mono text-slate-600">
+<span>-r--r--r--</span>
+<span>45 stars</span>
+</div>
+<div class="flex justify-between text-[10px] font-mono text-slate-600">
+<span>archive_bot</span>
+<span>12 forks</span>
+</div>
+<div class="flex justify-between text-[10px] font-mono truncate">
+<span>last_commit:</span>
+<span class="text-slate-300">#0000000</span>
+</div>
+</div>
+</div>
+<!-- Project Card 5 -->
+<div class="group border border-primary/20 bg-background-dark rounded-xl p-5 space-y-4 hover:border-primary/50 transition-all hover:bg-primary/5">
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<h3 class="text-lg font-bold text-slate-100 tracking-tight flex items-center gap-2">
+<span class="material-symbols-outlined text-primary/60">storage</span>
+                                COLD_STORAGE_B3
+                            </h3>
+<div class="flex gap-2">
+<span class="text-[9px] px-1.5 py-0.5 border border-primary/40 text-primary font-bold rounded">STABLE</span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-400 leading-relaxed">
+                        Blob storage implementation designed for infrequent access but massive scale. Part of the core dataset layer.
+                    </p>
+<div class="space-y-1 pt-2 border-t border-primary/10">
+<div class="flex justify-between text-[10px] font-mono text-slate-500">
+<span>drwxrwxrwx</span>
+<span>2.4k stars</span>
+</div>
+<div class="flex justify-between text-[10px] font-mono text-slate-500">
+<span>data_arch</span>
+<span>311 forks</span>
+</div>
+<div class="flex justify-between text-[10px] font-mono truncate">
+<span>last_commit:</span>
+<span class="text-slate-300">#fe99a11</span>
+</div>
+</div>
+</div>
+<!-- Add New Action Card -->
+<button class="border-2 border-dashed border-primary/20 bg-transparent rounded-xl p-5 flex flex-col items-center justify-center gap-3 group hover:border-primary/50 hover:bg-primary/5 transition-all min-h-[220px]">
+<span class="material-symbols-outlined text-4xl text-primary/30 group-hover:text-primary transition-colors">add_circle</span>
+<span class="text-xs font-bold text-primary/50 group-hover:text-primary transition-colors">NEW_SYSTEM_OBJECT</span>
+</button>
+</div>
+</main>
+<!-- Status Footer -->
+<footer class="border-t border-primary/20 bg-background-dark p-4 mt-12">
+<div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] text-slate-500 uppercase tracking-widest font-bold">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                        SYSTEM_STATUS: NOMINAL
+                    </div>
+<div class="flex items-center gap-2">
+                        NODE_LOAD: 24.8%
+                    </div>
+</div>
+<div class="flex items-center gap-8">
+<span>uptime: 4028:12:09</span>
+<span>region: nexus-prime-7</span>
+<span class="text-primary">root@kernel-ui # _</span>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

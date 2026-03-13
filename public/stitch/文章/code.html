@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;family=Public+Sans:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff6b00",
+                        "cyber-cyan": "#00e5ff",
+                        "deep-obsidian": "#0a0a0a",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#0a0a0a",
+                    },
+                    fontFamily: {
+                        "display": ["JetBrains Mono", "monospace"],
+                        "sans": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0a0a;
+            background-image: 
+                linear-gradient(rgba(255, 107, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 107, 0, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 107, 0, 0.5), 0 0 20px rgba(255, 107, 0, 0.3);
+        }
+        .cyan-glow {
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+        .technical-border {
+            border: 1px solid rgba(255, 107, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="font-display text-slate-100 selection:bg-primary/40">
+<div class="relative flex h-auto min-screen w-full flex-col bg-deep-obsidian overflow-x-hidden">
+<header class="flex items-center justify-between border-b border-primary/30 px-6 py-3 bg-deep-obsidian/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<div class="size-6 flex items-center justify-center border border-primary">
+<span class="material-symbols-outlined text-sm">terminal</span>
+</div>
+<h2 class="text-primary text-sm font-bold leading-tight tracking-widest uppercase">Kernel_Core_v3</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-primary/70 hover:text-primary text-xs font-bold transition-colors" href="#">[SYSTEM]</a>
+<a class="text-primary/70 hover:text-primary text-xs font-bold transition-colors" href="#">[INDEX]</a>
+<a class="text-primary/70 hover:text-primary text-xs font-bold transition-colors" href="#">[LOGS]</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="relative hidden sm:block w-64">
+<span class="absolute inset-y-0 left-3 flex items-center text-primary/50">
+<span class="material-symbols-outlined text-sm">search</span>
+</span>
+<input class="w-full bg-primary/5 border border-primary/20 rounded-none py-1.5 pl-10 pr-4 text-xs text-primary focus:outline-none focus:border-primary/60 placeholder:text-primary/30" placeholder="QUERY_DATABASE..." type="text"/>
+</div>
+<div class="flex gap-3">
+<button class="size-8 flex items-center justify-center border border-primary/30 text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-sm">notifications</span>
+</button>
+<button class="size-8 flex items-center justify-center border border-primary/30 text-primary hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-sm">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto w-full px-6 py-8">
+<div class="flex flex-wrap gap-3 mb-8 text-[10px] uppercase tracking-[0.2em]">
+<a class="text-cyber-cyan font-bold" href="#">Root</a>
+<span class="text-primary/30">/</span>
+<a class="text-cyber-cyan font-bold" href="#">Archive_Data</a>
+<span class="text-primary/30">/</span>
+<span class="text-primary font-bold">Protocol_Alpha_99</span>
+</div>
+<section class="mb-12 border-l-4 border-primary pl-8 py-4 bg-primary/5 technical-border border-y-0 border-r-0">
+<div class="flex items-center gap-4 mb-4">
+<span class="px-2 py-0.5 bg-primary text-deep-obsidian text-[10px] font-bold">CLASSIFIED</span>
+<span class="text-primary/50 text-[10px] font-bold tracking-widest">UID: 0x9928-ALPHA</span>
+</div>
+<h1 class="text-white text-5xl md:text-7xl font-bold uppercase leading-none glow-text mb-6">
+                    Neural Kernel<br/>Optimization
+                </h1>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="size-2 bg-cyber-cyan animate-pulse"></div>
+<p class="text-cyber-cyan text-xs font-bold tracking-widest uppercase">System_Status: Stable</p>
+</div>
+<p class="text-primary/60 text-xs font-medium tracking-widest uppercase">Revision: 2024.03.12</p>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+<aside class="lg:col-span-3 space-y-8">
+<div class="technical-border bg-deep-obsidian p-5 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-1 bg-primary/20 text-[8px] text-primary">01</div>
+<h3 class="text-primary text-xs font-bold uppercase tracking-widest mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">list_alt</span> Contents
+                        </h3>
+<nav class="space-y-1">
+<a class="group flex items-center justify-between p-2 bg-primary/10 border-l-2 border-primary" href="#">
+<span class="text-primary text-[11px] font-bold uppercase">Introduction</span>
+<span class="material-symbols-outlined text-xs text-primary">arrow_forward_ios</span>
+</a>
+<a class="group flex items-center justify-between p-2 hover:bg-primary/5 border-l-2 border-transparent hover:border-primary/40 transition-all" href="#">
+<span class="text-primary/60 group-hover:text-primary text-[11px] font-bold uppercase">Core Architecture</span>
+<span class="material-symbols-outlined text-xs text-primary/30 group-hover:text-primary">arrow_forward_ios</span>
+</a>
+<a class="group flex items-center justify-between p-2 hover:bg-primary/5 border-l-2 border-transparent hover:border-primary/40 transition-all" href="#">
+<span class="text-primary/60 group-hover:text-primary text-[11px] font-bold uppercase">Implementation</span>
+<span class="material-symbols-outlined text-xs text-primary/30 group-hover:text-primary">arrow_forward_ios</span>
+</a>
+<a class="group flex items-center justify-between p-2 hover:bg-primary/5 border-l-2 border-transparent hover:border-primary/40 transition-all" href="#">
+<span class="text-primary/60 group-hover:text-primary text-[11px] font-bold uppercase">Data Flow</span>
+<span class="material-symbols-outlined text-xs text-primary/30 group-hover:text-primary">arrow_forward_ios</span>
+</a>
+<a class="group flex items-center justify-between p-2 hover:bg-primary/5 border-l-2 border-transparent hover:border-primary/40 transition-all" href="#">
+<span class="text-primary/60 group-hover:text-primary text-[11px] font-bold uppercase">Summary</span>
+<span class="material-symbols-outlined text-xs text-primary/30 group-hover:text-primary">arrow_forward_ios</span>
+</a>
+</nav>
+</div>
+<div class="technical-border bg-deep-obsidian p-5 relative">
+<div class="absolute top-0 right-0 p-1 bg-cyber-cyan/20 text-[8px] text-cyber-cyan">02</div>
+<h3 class="text-cyber-cyan text-xs font-bold uppercase tracking-widest mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">share_reviews</span> Link_Nodes
+                        </h3>
+<div class="space-y-4">
+<div class="group cursor-pointer">
+<p class="text-[10px] text-primary/40 font-bold uppercase mb-1">Node_772</p>
+<h4 class="text-slate-200 text-xs font-bold group-hover:text-cyber-cyan transition-colors">Quantum State Decryption</h4>
+</div>
+<div class="group cursor-pointer">
+<p class="text-[10px] text-primary/40 font-bold uppercase mb-1">Node_104</p>
+<h4 class="text-slate-200 text-xs font-bold group-hover:text-cyber-cyan transition-colors">Sub-surface Grid Logic</h4>
+</div>
+<div class="group cursor-pointer">
+<p class="text-[10px] text-primary/40 font-bold uppercase mb-1">Node_012</p>
+<h4 class="text-slate-200 text-xs font-bold group-hover:text-cyber-cyan transition-colors">Bypassing Mainframe v2</h4>
+</div>
+</div>
+</div>
+</aside>
+<article class="lg:col-span-9 space-y-12">
+<div class="relative bg-deep-obsidian border border-primary/20 p-8">
+<div class="absolute -top-1 -left-1 size-2 bg-primary"></div>
+<div class="absolute -bottom-1 -right-1 size-2 bg-primary"></div>
+<div class="prose prose-invert max-w-none">
+<p class="text-primary/80 font-bold mb-6 text-sm leading-relaxed tracking-wide uppercase">
+<span class="text-cyber-cyan">[0.1_INIT]</span> The following documentation outlines the strategic protocols for high-density neural kernel optimization within the JetBrains core environment.
+                            </p>
+<div class="w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent my-8"></div>
+<h3 class="text-white text-xl font-bold uppercase flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">memory</span>
+                                System Architecture Overload
+                            </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+<div class="bg-primary/5 p-4 border border-primary/10">
+<p class="text-slate-300 text-sm leading-relaxed mb-4">
+                                        Optimization involves the reconfiguration of neural synaptic weighting across the primary substrate. High-density kernels require significant cooling and power management due to the tactical interface load.
+                                    </p>
+<ul class="space-y-2">
+<li class="flex items-start gap-2 text-xs text-primary/80">
+<span class="material-symbols-outlined text-[14px]">check_box</span>
+                                            PHASE_ONE: INITIALIZATION
+                                        </li>
+<li class="flex items-start gap-2 text-xs text-primary/80">
+<span class="material-symbols-outlined text-[14px]">check_box</span>
+                                            PHASE_TWO: CALIBRATION
+                                        </li>
+</ul>
+</div>
+<div class="relative overflow-hidden border border-cyber-cyan/30">
+<img alt="Detailed circuit board macro with neon lighting" class="w-full h-48 object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-500" data-alt="Detailed macro of computer circuit board with neon accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvnE2KzF2BNx7pywCouqNX29S57PdahAsJcxNAqlvT08To63p7g-Jnuf6aHtHBCSVi30_F5gAr-dUS-PVjoL0mavTsqmeSKeGDIZRYmbv7E7PKIU-1a4rxv_vGYpcaCYtllXb8ki0R9KLslNExsGWwi5A3srJijAW3T_LWblVERvs7KQpK1bLHPSbhiiy6X57Qu0tt0nS0jF0OnK6yZZ20OYGv4iNRNescAZDFnqMnZ0i0FfGX6z7BmfyusrRWWGN-k4OLLvwfV4k"/>
+<div class="absolute inset-0 bg-cyber-cyan/10 pointer-events-none"></div>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 bg-deep-obsidian/80 border border-cyber-cyan/40 text-[8px] text-cyber-cyan">FIG_04A: KERNEL_MAPPING</div>
+</div>
+</div>
+<div class="bg-deep-obsidian border border-primary/20 p-6 relative">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-cyber-cyan">code</span>
+<span class="text-cyber-cyan text-xs font-bold uppercase tracking-widest">Execute_Block: Static_Config</span>
+</div>
+<pre class="text-[11px] text-slate-400 font-mono leading-relaxed overflow-x-auto"><span class="text-primary"># DEFINE_PROTOCOL</span> <span class="text-cyber-cyan">ALPHA_INIT</span>
+{
+    "kernel": "neural_core_v3",
+    "density": "high",
+    "tactical_ui": true,
+    "buffer_size": 2048,
+    "sync_mode": "asynchronous"
+}</pre>
+</div>
+<div class="w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent my-8"></div>
+<h3 class="text-white text-xl font-bold uppercase flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">settings_input_component</span>
+                                Tactical Interface Balance
+                            </h3>
+<p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                The tactical interface must maintain a precise balance between legibility and information density. Using the Amber and Cyber Cyan palette allows for rapid identification of priority markers without inducing visual fatigue during long-duration operations.
+                            </p>
+<div class="grid grid-cols-3 gap-4">
+<div class="h-20 border border-primary/20 bg-primary/5 flex flex-col items-center justify-center p-2 text-center">
+<span class="text-primary text-lg font-bold">99.2%</span>
+<span class="text-[8px] uppercase tracking-widest">Efficiency</span>
+</div>
+<div class="h-20 border border-cyber-cyan/20 bg-cyber-cyan/5 flex flex-col items-center justify-center p-2 text-center">
+<span class="text-cyber-cyan text-lg font-bold">14ms</span>
+<span class="text-[8px] uppercase tracking-widest">Latency</span>
+</div>
+<div class="h-20 border border-slate-500/20 bg-slate-500/5 flex flex-col items-center justify-center p-2 text-center">
+<span class="text-white text-lg font-bold">CORE_0</span>
+<span class="text-[8px] uppercase tracking-widest">Anchor</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-center py-6 border-t border-primary/20">
+<button class="flex items-center gap-3 text-primary/60 hover:text-primary transition-colors uppercase text-xs font-bold">
+<span class="material-symbols-outlined">chevron_left</span>
+                            Previous_Node
+                        </button>
+<div class="flex gap-4">
+<button class="size-10 border border-primary/30 flex items-center justify-center text-primary hover:bg-primary/10">
+<span class="material-symbols-outlined text-sm">download</span>
+</button>
+<button class="size-10 border border-primary/30 flex items-center justify-center text-primary hover:bg-primary/10">
+<span class="material-symbols-outlined text-sm">print</span>
+</button>
+</div>
+<button class="flex items-center gap-3 text-primary/60 hover:text-primary transition-colors uppercase text-xs font-bold">
+                            Next_Node
+                            <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</article>
+</div>
+</main>
+<footer class="mt-20 border-t border-primary/30 bg-deep-obsidian/80 py-10 px-6 backdrop-blur-md">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-4">
+<div class="size-10 border border-primary flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+<div>
+<h4 class="text-primary text-sm font-bold tracking-widest uppercase">Kernel_Core_v3</h4>
+<p class="text-primary/40 text-[10px] uppercase">Automated Intelligence Unit</p>
+</div>
+</div>
+<div class="flex gap-10 text-[10px] font-bold tracking-[0.2em] uppercase">
+<a class="text-primary/60 hover:text-primary transition-colors" href="#">Privacy_Log</a>
+<a class="text-primary/60 hover:text-primary transition-colors" href="#">Security_Wall</a>
+<a class="text-primary/60 hover:text-primary transition-colors" href="#">Access_Terms</a>
+</div>
+<div class="flex items-center gap-4 text-primary/40 text-[10px]">
+<span class="cyan-glow">ACTIVE_SESSION: 104.22.9.11</span>
+<span class="material-symbols-outlined text-sm">bolt</span>
+<span>2024_EST</span>
+</div>
+</div>
+</footer>
+<div class="fixed bottom-6 right-6 z-50">
+<button class="size-12 bg-primary text-deep-obsidian flex items-center justify-center shadow-[0_0_20px_rgba(255,107,0,0.5)] hover:scale-105 transition-transform active:scale-95">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+</div>
+</div>
+</body></html>

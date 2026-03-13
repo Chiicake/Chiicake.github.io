@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff6b00",
+                        "accent": "#00e5ff",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#0a0a0a",
+                        "surface": "#111111",
+                        "border-dim": "#1a1a1a"
+                    },
+                    fontFamily: {
+                        "display": ["JetBrains Mono", "monospace"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {"DEFAULT": "0rem", "lg": "0rem", "xl": "0rem", "full": "0.125rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #0a0a0a;
+            color: #d1d1d1;
+        }
+        .terminal-grid {
+            background-image: radial-gradient(circle, #1a1a1a 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 229, 255, 0.03);
+            position: absolute;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-background-dark text-slate-300 font-mono overflow-x-hidden selection:bg-primary selection:text-black">
+<div class="relative flex min-h-screen w-full flex-col terminal-grid">
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-primary/30 bg-background-dark/90 backdrop-blur-md px-6 py-2">
+<div class="flex items-center gap-4">
+<div class="text-primary">
+<span class="material-symbols-outlined text-2xl">terminal</span>
+</div>
+<div class="flex flex-col">
+<h2 class="text-slate-100 text-xs font-bold leading-none tracking-tighter uppercase">Kernel_Architect // v4.0.2</h2>
+<span class="text-[10px] text-accent font-medium leading-none mt-1">STATUS: OPTIMIZED_STABLE</span>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[11px] text-primary hover:text-white transition-colors" href="#">01_INTRO</a>
+<a class="text-[11px] text-slate-400 hover:text-white transition-colors" href="#">02_SKILLS</a>
+<a class="text-[11px] text-slate-400 hover:text-white transition-colors" href="#">03_HISTORY</a>
+<a class="text-[11px] text-slate-400 hover:text-white transition-colors" href="#">04_EDU</a>
+</nav>
+<div class="flex gap-3">
+<div class="flex flex-col items-end text-[10px] text-slate-500 mr-2">
+<span>CPU: 12%</span>
+<span>MEM: 4.2GB</span>
+</div>
+<button class="flex items-center justify-center h-8 w-8 border border-border-dim bg-surface hover:bg-primary/10 text-slate-400 hover:text-primary transition-all">
+<span class="material-symbols-outlined text-base">settings</span>
+</button>
+</div>
+</header>
+<main class="flex-1 flex flex-col max-w-6xl mx-auto w-full p-6 gap-8">
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-6 border-b border-border-dim pb-8">
+<div class="lg:col-span-8 flex flex-col justify-center">
+<div class="flex items-center gap-2 text-primary mb-4">
+<span class="text-xs">[INIT]</span>
+<div class="h-[1px] w-12 bg-primary"></div>
+</div>
+<h1 class="text-4xl md:text-6xl font-bold text-slate-100 leading-none mb-6">
+                    SYSTEM_ARCHITECT<span class="text-primary">.exe</span>
+</h1>
+<p class="text-lg text-slate-400 max-w-2xl leading-relaxed">
+                    Specializing in <span class="text-accent">high-density kernel development</span> and low-level system optimization. Orchestrating distributed infrastructures with mathematical precision. Currently operating from <span class="underline decoration-primary">127.0.0.1</span>.
+                </p>
+<div class="mt-8 flex gap-4">
+<button class="px-6 py-2 bg-primary text-black font-bold text-sm hover:brightness-110">EXECUTE_CONTRACT</button>
+<button class="px-6 py-2 border border-slate-700 text-slate-400 font-bold text-sm hover:border-accent hover:text-accent">VIEW_SOURCE</button>
+</div>
+</div>
+<div class="lg:col-span-4 flex items-center justify-center">
+<div class="relative group">
+<div class="absolute -inset-2 border border-accent/20 group-hover:border-accent/50 transition-colors"></div>
+<div class="absolute -inset-1 border border-primary/20 group-hover:border-primary/50 transition-colors"></div>
+<div class="h-64 w-64 bg-surface flex items-center justify-center overflow-hidden border border-slate-800">
+<div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+<img alt="Cyberpunk workspace with multiple monitors and blue neon lighting" class="grayscale group-hover:grayscale-0 transition-all duration-700 object-cover h-full w-full opacity-60 group-hover:opacity-100" data-alt="Abstract hardware components and glowing blue circuitry" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnJWDjQtJiYKiq7EWXMjx7LEWhwRHzLImITpKaVr_c8ejgoDMxhERDKlixbNO2ftJKRvJ4as4kt608Jp_Uyg86zSRbwuuJbB0BNe0BJvHB90zc4PWXqqWZiGB2GymwTsd3SNM1ptHnQDMHfaBUjz6JR0ECt4_xwoJVRTVHKPVC4q7HYzklOrI5qtxGX0C4fsV4fah3Vlb3VQZ1FQuFf95OzYGHHJvvCfFV1510jgrTlPnfgQqYqr0g_qFu1ZThhHyQzNh754d4_r4"/>
+</div>
+<div class="absolute bottom-2 right-2 bg-black/80 px-2 py-1 text-[10px] text-accent border border-accent/50">
+                        ID: ALPHA_SEVEN
+                    </div>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">grid_view</span>
+                    02_SYSTEM_COMPONENTS (SKILLS)
+                </h3>
+<span class="text-[10px] text-slate-500">LOAD_FACTOR: 0.88</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-border-dim border border-border-dim">
+<div class="bg-surface p-4 hover:bg-primary/5 transition-colors flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] text-accent">DEV/KERNEL</span>
+<span class="material-symbols-outlined text-slate-600 text-sm">settings_input_component</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-100 uppercase">Rust Engine</div>
+<div class="w-full bg-slate-800 h-1 mt-2">
+<div class="bg-primary h-full w-[94%]"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface p-4 hover:bg-primary/5 transition-colors flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] text-accent">OPS/DOCKER</span>
+<span class="material-symbols-outlined text-slate-600 text-sm">view_in_ar</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-100 uppercase">Containerization</div>
+<div class="w-full bg-slate-800 h-1 mt-2">
+<div class="bg-primary h-full w-[88%]"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface p-4 hover:bg-primary/5 transition-colors flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] text-accent">DB/POSTGRES</span>
+<span class="material-symbols-outlined text-slate-600 text-sm">database</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-100 uppercase">Data Architecture</div>
+<div class="w-full bg-slate-800 h-1 mt-2">
+<div class="bg-primary h-full w-[82%]"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface p-4 hover:bg-primary/5 transition-colors flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] text-accent">NET/TCP_IP</span>
+<span class="material-symbols-outlined text-slate-600 text-sm">hub</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-100 uppercase">Network Protocol</div>
+<div class="w-full bg-slate-800 h-1 mt-2">
+<div class="bg-primary h-full w-[90%]"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface p-4 hover:bg-primary/5 transition-colors flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] text-accent">SEC/CRYPTO</span>
+<span class="material-symbols-outlined text-slate-600 text-sm">lock</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-100 uppercase">Cryptography</div>
+<div class="w-full bg-slate-800 h-1 mt-2">
+<div class="bg-primary h-full w-[76%]"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface p-4 hover:bg-primary/5 transition-colors flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] text-accent">LANG/ASM</span>
+<span class="material-symbols-outlined text-slate-600 text-sm">memory</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-100 uppercase">Assembly (x86)</div>
+<div class="w-full bg-slate-800 h-1 mt-2">
+<div class="bg-primary h-full w-[65%]"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface p-4 hover:bg-primary/5 transition-colors flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] text-accent">CLOUD/AWS</span>
+<span class="material-symbols-outlined text-slate-600 text-sm">cloud</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-100 uppercase">Cloud Infra</div>
+<div class="w-full bg-slate-800 h-1 mt-2">
+<div class="bg-primary h-full w-[92%]"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface p-4 hover:bg-primary/5 transition-colors flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<span class="text-[10px] text-accent">UI/WEBGL</span>
+<span class="material-symbols-outlined text-slate-600 text-sm">grid_on</span>
+</div>
+<div>
+<div class="text-xs font-bold text-slate-100 uppercase">Visualization</div>
+<div class="w-full bg-slate-800 h-1 mt-2">
+<div class="bg-primary h-full w-[70%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-6">
+<h3 class="text-sm font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">history</span>
+                03_COMMIT_LOG (EXPERIENCE)
+            </h3>
+<div class="flex flex-col gap-4">
+<div class="flex gap-4 group">
+<div class="flex flex-col items-center">
+<div class="h-3 w-3 rounded-full bg-accent group-hover:animate-pulse"></div>
+<div class="flex-1 w-px bg-border-dim mt-2"></div>
+</div>
+<div class="pb-8">
+<div class="flex items-center gap-3 mb-1">
+<span class="text-xs font-bold text-slate-100">COMMIT: 8a3f9e2</span>
+<span class="text-[10px] bg-accent/10 text-accent px-1 border border-accent/30">CURRENT_HEAD</span>
+</div>
+<div class="text-sm text-slate-400 mb-2 underline decoration-slate-700 underline-offset-4">Lead Systems Engineer // CyberDyne Systems</div>
+<p class="text-xs text-slate-500 leading-relaxed max-w-2xl">
+                            &gt; Refactored core transaction engine for 40% latency reduction.<br/>
+                            &gt; Architected distributed ledger for military-grade security protocols.<br/>
+                            &gt; Managed a team of 12 kernel developers across 3 time zones.
+                        </p>
+<div class="mt-2 text-[10px] text-slate-600">TIMESTAMP: 2022-04-01 to PRESENT</div>
+</div>
+</div>
+<div class="flex gap-4 group">
+<div class="flex flex-col items-center">
+<div class="h-3 w-3 border border-slate-600 bg-transparent group-hover:bg-slate-600 transition-colors"></div>
+<div class="flex-1 w-px bg-border-dim mt-2"></div>
+</div>
+<div class="pb-8">
+<div class="flex items-center gap-3 mb-1">
+<span class="text-xs font-bold text-slate-100">COMMIT: 4c2b1d0</span>
+</div>
+<div class="text-sm text-slate-400 mb-2 underline decoration-slate-700 underline-offset-4">Senior Backend Architect // NeuralLinker Inc.</div>
+<p class="text-xs text-slate-500 leading-relaxed max-w-2xl">
+                            &gt; Implemented real-time neural data processing pipelines in C++.<br/>
+                            &gt; Developed custom load balancer for high-frequency biometric signals.<br/>
+                            &gt; Secured 3 patents in efficient data compression algorithms.
+                        </p>
+<div class="mt-2 text-[10px] text-slate-600">TIMESTAMP: 2019-08-15 to 2022-03-31</div>
+</div>
+</div>
+<div class="flex gap-4 group">
+<div class="flex flex-col items-center">
+<div class="h-3 w-3 border border-slate-600 bg-transparent"></div>
+</div>
+<div class="pb-4">
+<div class="flex items-center gap-3 mb-1">
+<span class="text-xs font-bold text-slate-100">COMMIT: 1f5a7e9</span>
+</div>
+<div class="text-sm text-slate-400 mb-2 underline decoration-slate-700 underline-offset-4">System Developer // Matrix Nodes</div>
+<p class="text-xs text-slate-500 leading-relaxed max-w-2xl">
+                            &gt; Initial development of the decentralized node discovery protocol.<br/>
+                            &gt; Optimized local caching mechanisms for legacy hardware compatibility.
+                        </p>
+<div class="mt-2 text-[10px] text-slate-600">TIMESTAMP: 2017-06-01 to 2019-07-30</div>
+</div>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-border-dim">
+<div class="flex flex-col gap-6">
+<h3 class="text-sm font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">school</span>
+                    04_EDUCATION_BLOCK
+                </h3>
+<div class="space-y-6">
+<div class="border-l-2 border-primary/30 pl-4 py-1">
+<div class="text-xs font-bold text-slate-100">PHD IN QUANTUM COMPUTING</div>
+<div class="text-[10px] text-accent uppercase tracking-wider">Stanford University // 2017</div>
+<p class="text-[10px] text-slate-500 mt-2 italic">Thesis: "Error correction in non-abelian anyon systems"</p>
+</div>
+<div class="border-l-2 border-primary/30 pl-4 py-1">
+<div class="text-xs font-bold text-slate-100">MSC IN COMPUTER SCIENCE</div>
+<div class="text-[10px] text-accent uppercase tracking-wider">MIT // 2014</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-6 bg-surface border border-slate-800 p-6">
+<div class="flex items-center justify-between">
+<span class="text-[10px] text-primary">TERMINAL_LOG</span>
+<div class="flex gap-1">
+<div class="h-2 w-2 rounded-full bg-red-500/50"></div>
+<div class="h-2 w-2 rounded-full bg-yellow-500/50"></div>
+<div class="h-2 w-2 rounded-full bg-green-500/50"></div>
+</div>
+</div>
+<div class="font-mono text-[10px] space-y-1 text-slate-500">
+<p><span class="text-accent">~</span> uptime</p>
+<p class="text-slate-400">14:24:01 up 238 days, 14:12, 1 user, load average: 0.08, 0.12, 0.15</p>
+<p><span class="text-accent">~</span> grep -i "passion" profile.sys</p>
+<p class="text-slate-400">match found: [efficiency, optimization, scalability, logic]</p>
+<p><span class="text-accent">~</span> systemctl status architect.service</p>
+<p class="text-green-500">● architect.service - High Performance human
+                       Loaded: loaded (/etc/systemd/system/architect.service; enabled; vendor preset: enabled)
+                       Active: active (running) since Tue 2024-01-01 00:00:01 UTC; 5 months 22 days ago</p>
+<p><span class="text-accent">~</span> <span class="animate-pulse">_</span></p>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-border-dim p-4 flex flex-col md:flex-row items-center justify-between text-[10px] text-slate-600 gap-4">
+<div class="flex items-center gap-6">
+<span>© 2024 ARCHITECT_OS</span>
+<span>BUILD: 4.0.2-RELEASE</span>
+<span>LATENCY: 14MS</span>
+</div>
+<div class="flex items-center gap-4">
+<a class="hover:text-primary" href="#">GITHUB</a>
+<a class="hover:text-primary" href="#">LINKEDIN</a>
+<a class="hover:text-primary" href="#">TERMINAL_SSH</a>
+</div>
+<div class="flex items-center gap-2 text-accent">
+<span class="material-symbols-outlined text-xs">encrypted</span>
+<span>END-TO-END_ENCRYPTED</span>
+</div>
+</footer>
+</div>
+</body></html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#ff6b00",
+                "secondary": "#00e5ff",
+                "background-light": "#f5f8f8",
+                "background-dark": "#0a0a0a",
+                "neutral-dark": "#141414",
+                "border-accent": "#262626",
+              },
+              fontFamily: {
+                "display": ["JetBrains Mono", "monospace"],
+                "body": ["Inter", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .grid-bg {
+            background-image: radial-gradient(circle, #262626 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .glow-primary {
+            box-shadow: 0 0 15px rgba(255, 107, 0, 0.2);
+        }
+        .glow-secondary {
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+        }
+        .scanline {
+            background: linear-gradient(to bottom, transparent 50%, rgba(255, 107, 0, 0.02) 50%);
+            background-size: 100% 4px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-body text-slate-900 dark:text-slate-100 selection:bg-primary selection:text-white">
+<div class="relative flex h-auto min-h-screen w-full flex-col grid-bg overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-border-accent bg-background-dark/90 backdrop-blur-md px-6 py-3 font-display">
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-2xl">terminal</span>
+<h2 class="text-sm font-bold tracking-tighter uppercase">CHIICAKE_KERNEL_V2.4</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6 border-l border-border-accent pl-6">
+<a class="text-[10px] font-bold text-slate-400 hover:text-primary transition-colors" href="#">/ENGINES</a>
+<a class="text-[10px] font-bold text-slate-400 hover:text-primary transition-colors" href="#">/LOGS</a>
+<a class="text-[10px] font-bold text-slate-400 hover:text-primary transition-colors" href="#">/REGISTRY</a>
+<a class="text-[10px] font-bold text-slate-400 hover:text-primary transition-colors" href="#">/STATUS</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-neutral-dark border border-border-accent px-3 py-1 gap-2">
+<span class="material-symbols-outlined text-xs text-secondary">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-[10px] w-32 placeholder:text-slate-600 font-display" placeholder="EXEC_SEARCH..."/>
+</div>
+<div class="flex gap-1">
+<button class="bg-neutral-dark border border-border-accent p-1.5 hover:bg-primary/10 transition-colors group">
+<span class="material-symbols-outlined text-sm group-hover:text-primary transition-colors">memory</span>
+</button>
+<button class="bg-neutral-dark border border-border-accent p-1.5 hover:bg-secondary/10 transition-colors group">
+<span class="material-symbols-outlined text-sm group-hover:text-secondary transition-colors">settings_input_component</span>
+</button>
+</div>
+</div>
+</header>
+<div class="flex grow h-full">
+<!-- Sidebar Navigation -->
+<aside class="hidden lg:flex w-64 flex-col border-r border-border-accent bg-background-dark/50 font-display p-4">
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-3 border border-primary/30 p-3 bg-primary/5">
+<div class="size-10 bg-primary/20 flex items-center justify-center border border-primary">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div class="flex flex-col">
+<h3 class="text-xs font-bold text-primary">CHIICAKE.SYS</h3>
+<p class="text-[9px] text-slate-500 uppercase tracking-widest leading-none">Arch_Level: 99</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<p class="text-[9px] text-slate-600 font-bold mb-2 uppercase px-2">System_Modules</p>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary text-background-dark font-bold text-xs uppercase transition-all glow-primary" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+                        DASHBOARD
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-400 hover:bg-neutral-dark hover:text-primary transition-all text-xs uppercase group" href="#">
+<span class="material-symbols-outlined text-lg">description</span>
+                        LATEST_LOGS
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-400 hover:bg-neutral-dark hover:text-primary transition-all text-xs uppercase" href="#">
+<span class="material-symbols-outlined text-lg">deployed_code</span>
+                        PROJECT_REGISTRY
+                    </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-400 hover:bg-neutral-dark hover:text-primary transition-all text-xs uppercase" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+                        KERNEL_CONFIG
+                    </a>
+</div>
+<div class="mt-12">
+<div class="border border-border-accent p-3 bg-neutral-dark/30">
+<p class="text-[10px] text-secondary font-bold uppercase mb-2 flex items-center justify-between">
+                            Resources <span class="size-1.5 bg-secondary rounded-full animate-pulse"></span>
+</p>
+<div class="space-y-2">
+<div class="h-1 bg-slate-800 w-full"><div class="h-full bg-secondary w-3/4"></div></div>
+<div class="h-1 bg-slate-800 w-full"><div class="h-full bg-primary w-1/2"></div></div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col p-6 gap-8 overflow-y-auto scanline">
+<!-- Hero Section: System Greeting -->
+<section class="flex flex-col @container border border-border-accent bg-neutral-dark/40 p-1 md:p-2 relative">
+<div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-primary"></div>
+<div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-primary"></div>
+<div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-primary"></div>
+<div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-primary"></div>
+<div class="flex flex-col md:flex-row gap-6 p-6">
+<div class="w-full md:w-1/2 flex flex-col gap-6 justify-center font-display">
+<div class="space-y-1">
+<p class="text-secondary text-[10px] font-bold uppercase tracking-[0.3em] mb-2">Initialize_Session...</p>
+<h1 class="text-slate-100 text-4xl lg:text-5xl font-bold leading-none tracking-tight">
+                                SYSTEM_GREETING:<br/>
+<span class="text-primary italic">WELCOME_USER</span>
+</h1>
+</div>
+<div class="bg-background-dark border-l-2 border-primary p-4 font-display">
+<p class="text-slate-400 text-xs leading-relaxed uppercase">
+                                [RUNNING] chiicake.sh --bio<br/>
+                                &gt; ARCH: PROFESSIONAL_SYSTEMS_ENGINEER<br/>
+                                &gt; STACK: HIGH_DENSITY_BACKEND_RUST_K8S<br/>
+                                &gt; STATUS: MONITORING_DEVELOPMENT_FLUX<br/>
+                                &gt; UPTIME: 3452_CYCLES
+                            </p>
+</div>
+<div class="flex gap-4">
+<button class="bg-primary hover:bg-primary/80 text-background-dark font-bold px-6 py-2 text-xs uppercase tracking-widest transition-all glow-primary">
+                                INIT_CONNECTION
+                            </button>
+<button class="border border-secondary/50 text-secondary hover:bg-secondary/10 font-bold px-6 py-2 text-xs uppercase tracking-widest transition-all">
+                                VIEW_MANIFEST
+                            </button>
+</div>
+</div>
+<div class="w-full md:w-1/2">
+<div class="relative aspect-video bg-neutral-dark border border-border-accent overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark to-transparent z-10 opacity-60"></div>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" data-alt="Abstract glowing circuit board and server hardware in dark tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1nZQKrLmF0bsk6vkPY67rlgDLFMH4Vwm4eybiMZa3vP2WlFlYYT4Zf4T_8TY8vcQQfxa1-D_iwSC2R4y8-RY16ezXw4k0VkKN09PZ7hQT0dlsc1MT73xnuZCAwmKVBnMWaF_Wp1Cqj_KwGf-zV8PgNXajAf6k0Oci9jpkCwzIg16tXAJRXd6xbd1GCfBkLFRKa6-4_ilWaTXKB6BqFaUipIXCONajfp6kJ1MmWZb24v2l18DGJUMNl371t1zpbyYrjj3Im6VfbSM"/>
+<div class="absolute top-4 left-4 z-20 flex gap-2">
+<span class="bg-primary/20 border border-primary text-primary text-[8px] px-2 py-0.5 font-bold uppercase">LIVE_FEED</span>
+<span class="bg-background-dark/80 text-slate-400 text-[8px] px-2 py-0.5 font-bold uppercase border border-border-accent">CAM_01</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Skills/Core Engines Grid -->
+<section class="flex flex-col gap-4 font-display">
+<div class="flex items-center gap-4">
+<h2 class="text-primary text-sm font-bold tracking-widest uppercase">CORE_ENGINES // SKILLS_DATA</h2>
+<div class="h-[1px] flex-1 bg-border-accent"></div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<div class="border border-border-accent bg-neutral-dark/30 p-4 hover:border-primary/50 transition-all group">
+<div class="flex items-center justify-between mb-3">
+<span class="material-symbols-outlined text-secondary text-2xl group-hover:scale-110 transition-transform">database</span>
+<span class="text-[9px] text-slate-600 font-bold tracking-tighter">01/04</span>
+</div>
+<h3 class="text-slate-100 text-xs font-bold uppercase mb-1">Backend_Architecture</h3>
+<p class="text-slate-500 text-[10px] leading-tight">Rust / Go / Distributed Systems / High throughput data streams</p>
+</div>
+<div class="border border-border-accent bg-neutral-dark/30 p-4 hover:border-primary/50 transition-all group">
+<div class="flex items-center justify-between mb-3">
+<span class="material-symbols-outlined text-primary text-2xl group-hover:scale-110 transition-transform">cloud_done</span>
+<span class="text-[9px] text-slate-600 font-bold tracking-tighter">02/04</span>
+</div>
+<h3 class="text-slate-100 text-xs font-bold uppercase mb-1">Cloud_Infrastructure</h3>
+<p class="text-slate-500 text-[10px] leading-tight">Kubernetes / AWS Core / Terraform / Zero-trust networking</p>
+</div>
+<div class="border border-border-accent bg-neutral-dark/30 p-4 hover:border-primary/50 transition-all group">
+<div class="flex items-center justify-between mb-3">
+<span class="material-symbols-outlined text-secondary text-2xl group-hover:scale-110 transition-transform">frame_inspect</span>
+<span class="text-[9px] text-slate-600 font-bold tracking-tighter">03/04</span>
+</div>
+<h3 class="text-slate-100 text-xs font-bold uppercase mb-1">UI_Kernel_Design</h3>
+<p class="text-slate-500 text-[10px] leading-tight">React / Design Systems / Component Architecture / Motion</p>
+</div>
+<div class="border border-border-accent bg-neutral-dark/30 p-4 hover:border-primary/50 transition-all group">
+<div class="flex items-center justify-between mb-3">
+<span class="material-symbols-outlined text-primary text-2xl group-hover:scale-110 transition-transform">security</span>
+<span class="text-[9px] text-slate-600 font-bold tracking-tighter">04/04</span>
+</div>
+<h3 class="text-slate-100 text-xs font-bold uppercase mb-1">Security_Protocols</h3>
+<p class="text-slate-500 text-[10px] leading-tight">Encryption / OAuth2 / OIDC / Threat modeling &amp; Hardening</p>
+</div>
+</div>
+</section>
+<!-- Latest Logs & Projects Registry -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+<!-- Latest Logs -->
+<div class="lg:col-span-2 flex flex-col gap-4 font-display">
+<div class="flex items-center justify-between">
+<h2 class="text-secondary text-sm font-bold tracking-widest uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">history_edu</span> LATEST_LOGS
+                        </h2>
+<a class="text-[10px] text-slate-500 hover:text-secondary uppercase" href="#">View_all_entries_</a>
+</div>
+<div class="space-y-3">
+<div class="border border-border-accent bg-neutral-dark/50 p-4 hover:bg-neutral-dark transition-all flex items-start gap-4">
+<div class="text-[10px] text-slate-600 flex flex-col items-center">
+<span>OCT</span>
+<span class="text-lg font-bold text-slate-400 leading-none">24</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<h3 class="text-slate-100 text-sm font-bold group-hover:text-primary">Optimizing Rust Binaries for Edge Deployment</h3>
+<p class="text-slate-500 font-body text-[11px] leading-relaxed">A deep dive into reducing binary sizes and optimizing memory footprint for serverless environments...</p>
+<div class="flex gap-2 mt-2">
+<span class="text-[9px] px-2 py-0.5 border border-border-accent text-slate-500 uppercase">#rust</span>
+<span class="text-[9px] px-2 py-0.5 border border-border-accent text-slate-500 uppercase">#devops</span>
+</div>
+</div>
+</div>
+<div class="border border-border-accent bg-neutral-dark/50 p-4 hover:bg-neutral-dark transition-all flex items-start gap-4">
+<div class="text-[10px] text-slate-600 flex flex-col items-center">
+<span>OCT</span>
+<span class="text-lg font-bold text-slate-400 leading-none">12</span>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<h3 class="text-slate-100 text-sm font-bold">The State of Modern Observability in 2024</h3>
+<p class="text-slate-500 font-body text-[11px] leading-relaxed">Transitioning from logging to structured traces. Why your metrics are lying to you about latency.</p>
+<div class="flex gap-2 mt-2">
+<span class="text-[9px] px-2 py-0.5 border border-border-accent text-slate-500 uppercase">#systems</span>
+<span class="text-[9px] px-2 py-0.5 border border-border-accent text-slate-500 uppercase">#scaling</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Project Registry -->
+<div class="flex flex-col gap-4 font-display">
+<h2 class="text-primary text-sm font-bold tracking-widest uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">inventory_2</span> PROJECT_REGISTRY
+                    </h2>
+<div class="flex flex-col border border-border-accent divide-y divide-border-accent">
+<div class="p-4 bg-neutral-dark/20 hover:bg-primary/5 group transition-all">
+<div class="flex justify-between items-start mb-2">
+<h4 class="text-xs font-bold text-slate-100 group-hover:text-primary uppercase">Quantum_DB_Kernel</h4>
+<span class="material-symbols-outlined text-xs text-secondary animate-pulse">link</span>
+</div>
+<p class="text-[10px] text-slate-500 leading-tight mb-3">Distributed key-value store built in pure Rust for low-latency operations.</p>
+<div class="flex items-center gap-3">
+<div class="h-1 bg-slate-800 flex-1"><div class="h-full bg-primary w-[88%]"></div></div>
+<span class="text-[9px] text-primary font-bold">88%</span>
+</div>
+</div>
+<div class="p-4 bg-neutral-dark/20 hover:bg-primary/5 group transition-all">
+<div class="flex justify-between items-start mb-2">
+<h4 class="text-xs font-bold text-slate-100 group-hover:text-primary uppercase">Neon_Visualizer_V2</h4>
+<span class="material-symbols-outlined text-xs text-slate-700">lock</span>
+</div>
+<p class="text-[10px] text-slate-500 leading-tight mb-3">Real-time spectral analyzer for high-density audio monitoring interfaces.</p>
+<div class="flex items-center gap-3">
+<div class="h-1 bg-slate-800 flex-1"><div class="h-full bg-secondary w-[100%]"></div></div>
+<span class="text-[9px] text-secondary font-bold">100%</span>
+</div>
+</div>
+<div class="p-4 bg-neutral-dark/20 hover:bg-primary/5 group transition-all">
+<div class="flex justify-between items-start mb-2">
+<h4 class="text-xs font-bold text-slate-100 group-hover:text-primary uppercase">Void_Shell_Protocol</h4>
+<span class="material-symbols-outlined text-xs text-secondary animate-pulse">link</span>
+</div>
+<p class="text-[10px] text-slate-500 leading-tight mb-3">Encrypted tunneling protocol designed for restricted network environments.</p>
+<div class="flex items-center gap-3">
+<div class="h-1 bg-slate-800 flex-1"><div class="h-full bg-primary w-[42%]"></div></div>
+<span class="text-[9px] text-primary font-bold">42%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Meta -->
+<footer class="mt-auto pt-8 border-t border-border-accent flex flex-col md:flex-row justify-between items-center gap-4 font-display text-[10px] text-slate-600 uppercase tracking-widest pb-8">
+<div class="flex gap-6">
+<span>Build_Hash: 7a82fb90</span>
+<span>Env: Production</span>
+<span>Region: EU-WEST-1</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="size-2 bg-primary animate-ping"></span>
+<span>System_Stable: 99.99% Uptime</span>
+</div>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">GitHub</a>
+<a class="hover:text-secondary transition-colors" href="#">Twitter</a>
+<a class="hover:text-primary transition-colors" href="#">LinkedIn</a>
+</div>
+</footer>
+</main>
+</div>
+</div>
+</body></html>

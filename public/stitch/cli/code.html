@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ROOT@CHIICAKE:~/bin/posts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ff6b00", // Amber
+                        "secondary": "#00e5ff", // Cyber Cyan
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#0a0a0a", // Deep Obsidian
+                    },
+                    fontFamily: {
+                        "display": ["JetBrains Mono", "monospace"],
+                        "sans": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0rem",
+                        "lg": "0rem",
+                        "xl": "0rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0a0a;
+            background-image: 
+                linear-gradient(rgba(255, 107, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 107, 0, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .glow-amber {
+            text-shadow: 0 0 8px rgba(255, 107, 0, 0.6);
+        }
+        .glow-cyan {
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.6);
+        }
+        .border-amber-dim {
+            border-color: rgba(255, 107, 0, 0.2);
+        }
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 107, 0, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
+            position: fixed;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="font-display text-slate-100 min-h-screen">
+<div class="scanline"></div>
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col items-center">
+<div class="w-full max-w-[1100px] px-6 py-4">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-amber-dim py-3 mb-6 bg-background-dark/80 backdrop-blur-sm">
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined glow-amber">terminal</span>
+<h2 class="text-primary text-sm font-bold tracking-tight glow-amber">ROOT@CHIICAKE:~</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-6">
+<a class="text-slate-400 hover:text-primary transition-colors text-xs" href="#">/root</a>
+<a class="text-primary text-xs font-bold border-b border-primary" href="#">/bin/posts</a>
+<a class="text-slate-400 hover:text-primary transition-colors text-xs" href="#">/src/projects</a>
+<a class="text-slate-400 hover:text-primary transition-colors text-xs" href="#">/usr/about</a>
+</nav>
+<div class="flex gap-3 ml-4">
+<button class="flex items-center justify-center rounded border border-amber-dim h-8 w-8 bg-primary/5 text-primary">
+<span class="material-symbols-outlined text-[18px]">memory</span>
+</button>
+<button class="flex items-center justify-center rounded border border-amber-dim h-8 w-8 bg-primary/5 text-primary">
+<span class="material-symbols-outlined text-[18px]">wifi</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Breadcrumb -->
+<div class="flex items-center gap-2 mb-8 text-xs">
+<span class="text-secondary glow-cyan">[SYSTEM]</span>
+<span class="text-slate-500">path:</span>
+<a class="text-slate-400 hover:text-white" href="#">root</a>
+<span class="text-slate-600">/</span>
+<a class="text-slate-400 hover:text-white" href="#">bin</a>
+<span class="text-slate-600">/</span>
+<span class="text-primary font-bold">posts</span>
+</div>
+<!-- ASCII Banner Section -->
+<div class="mb-10">
+<pre class="text-primary leading-none text-[10px] sm:text-xs md:text-sm glow-amber"> ██████╗██╗  ██╗██╗██╗ ██████╗ █████╗ ██╗  ██╗███████╗
+██╔════╝██║  ██║██║██║██╔════╝██╔══██╗██║ ██╔╝██╔════╝
+██║     ███████║██║██║██║     ███████║█████╔╝ █████╗  
+██║     ██╔══██║██║██║██║     ██╔══██║██╔═██╗ ██╔══╝  
+╚██████╗██║  ██║██║██║╚██████╗██║  ██║██║  ██╗███████╗
+ ╚═════╝╚═╝  ╚═╝╚═╝╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
+                    </pre>
+<div class="mt-4 flex items-center gap-4 border-l-2 border-primary pl-4 py-1">
+<p class="text-secondary text-xs glow-cyan font-bold tracking-widest uppercase">Kernel v5.10.0-amber | Status: Operational</p>
+</div>
+</div>
+<!-- Main Terminal Output: 'cat README.md' -->
+<div class="border border-amber-dim bg-background-dark/60 p-6 relative overflow-hidden mb-8">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary/20"></div>
+<div class="flex items-center gap-2 mb-6">
+<span class="text-primary font-bold">#</span>
+<span class="text-slate-100">cat README.md</span>
+</div>
+<div class="space-y-6 text-sm leading-relaxed">
+<div class="space-y-2">
+<h3 class="text-secondary font-bold text-base flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">info</span>
+                                Welcome to my digital workspace
+                            </h3>
+<p class="text-slate-400">
+                                This blog is a decentralized repository of technical insights, architectural decisions, and personal project logs. 
+                                Everything here is written in markdown and deployed via a custom terminal engine.
+                            </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 py-4 border-y border-amber-dim/30">
+<div class="space-y-3">
+<p class="text-primary font-bold text-xs uppercase tracking-widest underline underline-offset-4 decoration-primary/50">Active Projects</p>
+<ul class="space-y-1 text-slate-300">
+<li class="flex items-center gap-2">
+<span class="text-primary">»</span>
+<span>Hydra: Distributed API Gateway</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="text-primary">»</span>
+<span>Z-Shell Custom Theme Engine</span>
+</li>
+<li class="flex items-center gap-2">
+<span class="text-primary">»</span>
+<span>Rust-based Crypto Ledger</span>
+</li>
+</ul>
+</div>
+<div class="space-y-3">
+<p class="text-primary font-bold text-xs uppercase tracking-widest underline underline-offset-4 decoration-primary/50">Core Stack</p>
+<div class="flex flex-wrap gap-2">
+<span class="bg-secondary/10 text-secondary border border-secondary/20 px-2 py-0.5 text-[10px]">RUST</span>
+<span class="bg-secondary/10 text-secondary border border-secondary/20 px-2 py-0.5 text-[10px]">TYPESCRIPT</span>
+<span class="bg-secondary/10 text-secondary border border-secondary/20 px-2 py-0.5 text-[10px]">KUBERNETES</span>
+<span class="bg-secondary/10 text-secondary border border-secondary/20 px-2 py-0.5 text-[10px]">POSTGRES</span>
+<span class="bg-secondary/10 text-secondary border border-secondary/20 px-2 py-0.5 text-[10px]">DOCKER</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<p class="text-secondary font-bold text-xs uppercase tracking-widest">Recent Logs</p>
+<div class="overflow-x-auto">
+<table class="w-full text-xs border-collapse">
+<thead>
+<tr class="text-slate-500 text-left">
+<th class="pb-2 font-normal border-b border-amber-dim/20">PERMS</th>
+<th class="pb-2 font-normal border-b border-amber-dim/20">OWNER</th>
+<th class="pb-2 font-normal border-b border-amber-dim/20">SIZE</th>
+<th class="pb-2 font-normal border-b border-amber-dim/20">MODIFIED</th>
+<th class="pb-2 font-normal border-b border-amber-dim/20">NAME</th>
+</tr>
+</thead>
+<tbody class="text-slate-400">
+<tr>
+<td class="py-2">-rw-r--r--</td>
+<td class="py-2">chiicake</td>
+<td class="py-2">2.4k</td>
+<td class="py-2">Oct 28 23:14</td>
+<td class="py-2 text-primary">optimizing_rust_wasm.md</td>
+</tr>
+<tr>
+<td class="py-2">-rw-r--r--</td>
+<td class="py-2">chiicake</td>
+<td class="py-2">5.1k</td>
+<td class="py-2">Oct 24 10:45</td>
+<td class="py-2 text-primary">k8s_networking_deep_dive.sh</td>
+</tr>
+<tr>
+<td class="py-2">-rw-r--r--</td>
+<td class="py-2">chiicake</td>
+<td class="py-2">1.8k</td>
+<td class="py-2">Oct 20 15:20</td>
+<td class="py-2 text-primary">system_architecture.v2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- Input Prompt Section -->
+<div class="flex items-center gap-4 bg-background-dark border border-amber-dim p-3 px-4">
+<div class="flex items-center gap-2">
+<span class="text-secondary font-bold">chiicake</span>
+<span class="text-slate-500">at</span>
+<span class="text-primary font-bold">host</span>
+<span class="text-slate-500">in</span>
+<span class="text-secondary">~/bin/posts</span>
+</div>
+<div class="flex-1 flex items-center">
+<span class="text-primary mr-2">$</span>
+<div class="flex items-center">
+<span class="text-slate-100">ls -la --color=auto</span>
+<span class="w-2 h-5 bg-primary ml-1 animate-pulse"></span>
+</div>
+</div>
+</div>
+<!-- Footer Status Bar -->
+<footer class="mt-8 flex justify-between items-center text-[10px] text-slate-600 uppercase tracking-widest border-t border-amber-dim/20 pt-4">
+<div class="flex gap-4">
+<span>CPU: 42%</span>
+<span>MEM: 1.2GB/16GB</span>
+<span>NET: ESTABLISHED</span>
+</div>
+<div>
+<span>UTC: 2023.10.29 14:22:56</span>
+</div>
+</footer>
+</div>
+</div>
+</div>
+</body></html>

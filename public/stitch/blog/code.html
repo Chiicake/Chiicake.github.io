@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KERNEL_ARCHIVE // Index</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                        "terminal-cyan": "#00f5ff",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .mono-font { font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace; }
+        .border-terminal { border-color: rgba(236, 91, 19, 0.3); }
+        .bg-obsidian { background-color: #0c0806; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-obsidian overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-terminal px-6 py-3 bg-background-dark/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined">terminal</span>
+<h2 class="text-slate-100 text-lg font-bold leading-tight tracking-tight mono-font">KERNEL_ARCHIVE v4.0.1</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6 mono-font text-xs">
+<a class="text-primary hover:text-terminal-cyan transition-colors" href="#">[ ROOT ]</a>
+<a class="text-slate-400 hover:text-slate-100 transition-colors" href="#">[ LOGS ]</a>
+<a class="text-slate-400 hover:text-slate-100 transition-colors" href="#">[ SYS ]</a>
+<a class="text-slate-400 hover:text-slate-100 transition-colors" href="#">[ AUTH ]</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-4">
+<div class="hidden sm:flex items-center bg-background-dark border border-terminal rounded overflow-hidden h-9 w-64">
+<div class="flex items-center justify-center pl-3 text-slate-500">
+<span class="material-symbols-outlined text-sm">search</span>
+</div>
+<input class="w-full bg-transparent border-none focus:ring-0 text-slate-100 placeholder:text-slate-600 text-xs mono-font" placeholder="grep --path /posts/*" type="text"/>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded bg-primary/20 text-primary hover:bg-primary/30 h-9 w-9 border border-primary/40">
+<span class="material-symbols-outlined text-lg">settings</span>
+</button>
+<button class="flex items-center justify-center rounded bg-primary text-white h-9 w-9 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-lg">account_tree</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col max-w-[1400px] mx-auto w-full px-6 py-6">
+<!-- System Status Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8 border-l-2 border-primary pl-4">
+<div>
+<div class="flex items-center gap-2 text-primary mono-font text-xs mb-1">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                    SYSTEM_ACTIVE: UP_TIME 420:12:09
+                </div>
+<h1 class="text-3xl font-bold tracking-tight text-slate-100 mono-font">/home/usr/archive/posts/</h1>
+<p class="text-slate-500 text-sm mt-1 mono-font">Total objects: 124 | Allocated: 4.2GB | Index: stable</p>
+</div>
+<div class="flex gap-4 mono-font text-[10px] uppercase font-bold tracking-widest text-slate-400">
+<div class="flex flex-col border-r border-terminal pr-4">
+<span>ARCH</span>
+<span class="text-slate-100">x86_64</span>
+</div>
+<div class="flex flex-col border-r border-terminal pr-4">
+<span>LOAD</span>
+<span class="text-terminal-cyan">0.02</span>
+</div>
+<div class="flex flex-col">
+<span>REGION</span>
+<span class="text-slate-100">US-EAST</span>
+</div>
+</div>
+</div>
+<!-- System Tags & Filters -->
+<div class="flex flex-wrap gap-3 mb-6 bg-primary/5 p-4 rounded border border-terminal/20">
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-primary mono-font uppercase">Type:</span>
+<div class="flex rounded border border-terminal overflow-hidden">
+<button class="bg-primary text-white text-[10px] px-3 py-1 mono-font font-bold">ALL</button>
+<button class="bg-transparent text-slate-400 hover:text-slate-100 text-[10px] px-3 py-1 mono-font font-bold border-l border-terminal">ORIGINAL</button>
+<button class="bg-transparent text-slate-400 hover:text-slate-100 text-[10px] px-3 py-1 mono-font font-bold border-l border-terminal">REPOST</button>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-primary mono-font uppercase">Category:</span>
+<select class="bg-background-dark border border-terminal text-slate-100 text-[10px] py-1 pl-2 pr-8 mono-font focus:ring-0 focus:border-terminal rounded uppercase">
+<option>DevLog</option>
+<option>Architecture</option>
+<option>Security</option>
+<option>Neural_Net</option>
+</select>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] font-bold text-primary mono-font uppercase">Collection:</span>
+<select class="bg-background-dark border border-terminal text-slate-100 text-[10px] py-1 pl-2 pr-8 mono-font focus:ring-0 focus:border-terminal rounded uppercase">
+<option>2024_Q4</option>
+<option>2024_Q3</option>
+<option>2023_Legacy</option>
+</select>
+</div>
+</div>
+<!-- High-Density Table (File System Style) -->
+<div class="overflow-x-auto border border-terminal/30 rounded shadow-2xl shadow-black/50">
+<table class="w-full text-left mono-font text-xs border-collapse bg-background-dark/40">
+<thead>
+<tr class="bg-primary/10 border-b border-terminal/50 text-slate-300">
+<th class="px-4 py-3 font-bold uppercase tracking-tighter">PERMISSIONS</th>
+<th class="px-4 py-3 font-bold uppercase tracking-tighter text-terminal-cyan">COMMIT_HASH</th>
+<th class="px-4 py-3 font-bold uppercase tracking-tighter">STATUS</th>
+<th class="px-4 py-3 font-bold uppercase tracking-tighter">READ_TIME</th>
+<th class="px-4 py-3 font-bold uppercase tracking-tighter">MODIFIED_DATE</th>
+<th class="px-4 py-3 font-bold uppercase tracking-tighter">FILENAME</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-terminal/10">
+<tr class="hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-4 py-4 text-slate-500 font-medium">-rwxr-xr-x</td>
+<td class="px-4 py-4 text-terminal-cyan">f2a9b1c</td>
+<td class="px-4 py-4">
+<span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded border border-primary/30 uppercase font-bold">Original</span>
+</td>
+<td class="px-4 py-4 text-slate-400">08m 12s</td>
+<td class="px-4 py-4 text-slate-400">Oct 24 10:22</td>
+<td class="px-4 py-4 text-slate-100 font-bold group-hover:text-primary transition-colors underline decoration-terminal/20 underline-offset-4">post_modern_ui_theory.md</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-4 py-4 text-slate-500 font-medium">-rw-r--r--</td>
+<td class="px-4 py-4 text-terminal-cyan">e102d4f</td>
+<td class="px-4 py-4">
+<span class="bg-slate-800 text-slate-400 text-[10px] px-2 py-0.5 rounded border border-slate-700 uppercase font-bold">Repost</span>
+</td>
+<td class="px-4 py-4 text-slate-400">12m 45s</td>
+<td class="px-4 py-4 text-slate-400">Oct 23 09:15</td>
+<td class="px-4 py-4 text-slate-100 font-bold group-hover:text-primary transition-colors underline decoration-terminal/20 underline-offset-4">distributed_systems_v2.log</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-4 py-4 text-slate-500 font-medium">-rwxr-xr-x</td>
+<td class="px-4 py-4 text-terminal-cyan">a992c32</td>
+<td class="px-4 py-4">
+<span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded border border-primary/30 uppercase font-bold">Original</span>
+</td>
+<td class="px-4 py-4 text-slate-400">05m 30s</td>
+<td class="px-4 py-4 text-slate-400">Oct 22 14:30</td>
+<td class="px-4 py-4 text-slate-100 font-bold group-hover:text-primary transition-colors underline decoration-terminal/20 underline-offset-4">kernel_density_optimization.txt</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-4 py-4 text-slate-500 font-medium">-rwxr-xr-x</td>
+<td class="px-4 py-4 text-terminal-cyan">77f1a09</td>
+<td class="px-4 py-4">
+<span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded border border-primary/30 uppercase font-bold">Original</span>
+</td>
+<td class="px-4 py-4 text-slate-400">15m 00s</td>
+<td class="px-4 py-4 text-slate-400">Oct 20 18:45</td>
+<td class="px-4 py-4 text-slate-100 font-bold group-hover:text-primary transition-colors underline decoration-terminal/20 underline-offset-4">security_protocols_v4.md</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-4 py-4 text-slate-500 font-medium">-rw-r--r--</td>
+<td class="px-4 py-4 text-terminal-cyan">d332e11</td>
+<td class="px-4 py-4">
+<span class="bg-slate-800 text-slate-400 text-[10px] px-2 py-0.5 rounded border border-slate-700 uppercase font-bold">Repost</span>
+</td>
+<td class="px-4 py-4 text-slate-400">03m 15s</td>
+<td class="px-4 py-4 text-slate-400">Oct 19 11:20</td>
+<td class="px-4 py-4 text-slate-100 font-bold group-hover:text-primary transition-colors underline decoration-terminal/20 underline-offset-4">obsidian_theme_specs.json</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-4 py-4 text-slate-500 font-medium">-rwxr-xr-x</td>
+<td class="px-4 py-4 text-terminal-cyan">bc8812a</td>
+<td class="px-4 py-4">
+<span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded border border-primary/30 uppercase font-bold">Original</span>
+</td>
+<td class="px-4 py-4 text-slate-400">20m 05s</td>
+<td class="px-4 py-4 text-slate-400">Oct 18 08:05</td>
+<td class="px-4 py-4 text-slate-100 font-bold group-hover:text-primary transition-colors underline decoration-terminal/20 underline-offset-4">low_level_architectures.pdf</td>
+</tr>
+<tr class="hover:bg-primary/5 transition-colors group cursor-pointer">
+<td class="px-4 py-4 text-slate-500 font-medium">-rwxr-xr-x</td>
+<td class="px-4 py-4 text-terminal-cyan">982da22</td>
+<td class="px-4 py-4">
+<span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded border border-primary/30 uppercase font-bold">Original</span>
+</td>
+<td class="px-4 py-4 text-slate-400">04m 55s</td>
+<td class="px-4 py-4 text-slate-400">Oct 15 22:10</td>
+<td class="px-4 py-4 text-slate-100 font-bold group-hover:text-primary transition-colors underline decoration-terminal/20 underline-offset-4">terminal_styling_best_practices.md</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Terminal Output -->
+<footer class="mt-8 border border-terminal/20 bg-background-dark/80 p-4 rounded mono-font">
+<div class="flex items-center justify-between text-[10px] text-slate-500 mb-2 uppercase tracking-widest">
+<span>Terminal Session: tty1</span>
+<span>Page 1 of 12</span>
+</div>
+<div class="space-y-1 text-xs">
+<p class="text-slate-400"><span class="text-primary">root@kernel:~$</span> tail -n 3 sys.log</p>
+<p class="text-slate-600">[2024-10-24 14:02] Indexing of /posts completed successfully.</p>
+<p class="text-slate-600">[2024-10-24 14:05] New entry detected: f2a9b1c.</p>
+<div class="flex items-center gap-1">
+<span class="text-primary">root@kernel:~$</span>
+<span class="inline-block w-2 h-4 bg-primary animate-pulse"></span>
+</div>
+</div>
+</footer>
+</main>
+</div>
+</body></html>
