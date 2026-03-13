@@ -130,12 +130,6 @@ Using Paxos as an example, on the surface Paxos can reach consensus in distribut
 In other words, Paxos preserves the most important safety property, while placing termination on top of additional engineering conditions.
 
 ---
-
-## VII. Summarizing the Engineering Lessons of FLP
-
-Although FLP is a theoretical result, it
----
-
 ## VI. Conclusion
 
 The value of FLP impossibility does not lie in denying real-world consensus protocols, but in showing that the ability of distributed systems to achieve consensus always has clear boundaries. As a theoretical result, it therefore offers highly practical guidance for engineering system design:
