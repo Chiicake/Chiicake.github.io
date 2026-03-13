@@ -18,6 +18,18 @@ export function createEmptyArticle(index?: BlogIndex): BlogArticleMeta {
       en: '5 min',
     },
     category: index?.categories[0]?.id ?? '',
+    contentType: 'original',
+    source: {
+      site: '',
+      author: '',
+      title: {
+        zh: '',
+        en: '',
+      },
+      url: '',
+      publishedAt: '',
+      translator: '',
+    },
     collection: '',
     seriesOrder: 1,
     featuredRank: undefined,

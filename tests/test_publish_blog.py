@@ -137,6 +137,7 @@ class PublishBlogTests(unittest.TestCase):
 
         self.assertEqual(normalized["tags"], ["Auth", "Go", "Reliability"])
         self.assertEqual([article["slug"] for article in normalized["articles"]], ["a", "b"])
+        self.assertEqual(normalized["articles"][0]["contentType"], "original")
 
     def test_compute_next_series_order(self):
         module = load_publish_blog_module()
@@ -178,6 +179,33 @@ class PublishBlogTests(unittest.TestCase):
 
             self.assertFalse(target_dir.exists())
             self.assertEqual(json.loads(index_path.read_text(encoding="utf-8")), original_index)
+
+    def test_create_article_metadata_supports_repost_source(self):
+        module = load_publish_blog_module()
+
+        article = module.create_article_metadata(
+            slug="go-context",
+            title="Go Context",
+            summary="转载 go.dev/blog/context",
+            date_value="2026-03-13",
+            tags=["Go"],
+            category="distributed-systems",
+            content_type="repost",
+            source={
+                "site": "go.dev/blog",
+                "author": "Sameer Ajmani",
+                "title": {"zh": "Go Context", "en": "Go Context"},
+                "url": "https://go.dev/blog/context",
+                "publishedAt": "2014-07-29",
+            },
+            collection=None,
+            series_order=None,
+            reading_minutes=6,
+        )
+
+        self.assertEqual(article["contentType"], "repost")
+        self.assertEqual(article["source"]["url"], "https://go.dev/blog/context")
+        self.assertEqual(article["readingTime"]["zh"], "6 分钟")
 
 
 if __name__ == "__main__":

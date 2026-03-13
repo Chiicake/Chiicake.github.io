@@ -302,8 +302,17 @@ def sort_articles(articles: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(articles, key=cmp_to_key(compare))
 
 
+def normalize_article_entry(article: dict[str, Any]) -> dict[str, Any]:
+    normalized = dict(article)
+    normalized["tags"] = sort_unique_strings(list(normalized.get("tags", [])))
+    normalized["contentType"] = "repost" if normalized.get("contentType") == "repost" else "original"
+    if normalized["contentType"] != "repost":
+        normalized.pop("source", None)
+    return normalized
+
+
 def normalize_blog_index(index: dict[str, Any]) -> dict[str, Any]:
-    articles = sort_articles(list(index.get("articles", [])))
+    articles = sort_articles([normalize_article_entry(article) for article in list(index.get("articles", []))])
     tags = sort_unique_strings(list(index.get("tags", [])) + [tag for article in articles for tag in article.get("tags", [])])
     return {
         "tags": tags,
@@ -371,6 +380,19 @@ def ask_slug(prompter: QuestionaryPrompter, default_slug: str, index: dict[str, 
 def ask_date(prompter: QuestionaryPrompter, default_date: str) -> str:
     while True:
         value = prompter.text("发布日期（YYYY-MM-DD）:", default=default_date).strip() or default_date
+        try:
+            date.fromisoformat(value)
+        except ValueError:
+            print("日期格式不正确，请使用 YYYY-MM-DD。")
+            continue
+        return value
+
+
+def ask_optional_date(prompter: QuestionaryPrompter, message: str, default_value: str = "") -> str | None:
+    while True:
+        value = prompter.text(message, default=default_value).strip()
+        if not value:
+            return None
         try:
             date.fromisoformat(value)
         except ValueError:
@@ -506,6 +528,37 @@ def ask_collection(prompter: QuestionaryPrompter, index: dict[str, Any]) -> tupl
     return str(created["slug"]), collections
 
 
+def ask_content_type(prompter: QuestionaryPrompter) -> str:
+    return prompter.select(
+        "选择内容类型:",
+        [
+            ("原创", "original"),
+            ("转载", "repost"),
+        ],
+    )
+
+
+def ask_repost_source(prompter: QuestionaryPrompter, default_title: str) -> dict[str, Any]:
+    site = ask_required_text(prompter, "原站点:")
+    author = ask_required_text(prompter, "原作者:")
+    zh_title = ask_required_text(prompter, "原文标题（中文）:", default=default_title)
+    en_title = ask_required_text(prompter, "原文标题（英文）:", default=default_title)
+    url = ask_required_text(prompter, "来源链接:")
+    published_at = ask_optional_date(prompter, "原文发布日期（YYYY-MM-DD，可留空）:")
+
+    source = {
+        "site": site,
+        "author": author,
+        "title": {"zh": zh_title, "en": en_title},
+        "url": url,
+    }
+
+    if published_at:
+        source["publishedAt"] = published_at
+
+    return source
+
+
 def create_article_metadata(
     *,
     slug: str,
@@ -514,6 +567,8 @@ def create_article_metadata(
     date_value: str,
     tags: list[str],
     category: str,
+    content_type: str,
+    source: dict[str, Any] | None,
     collection: str | None,
     series_order: int | None,
     reading_minutes: int,
@@ -526,7 +581,10 @@ def create_article_metadata(
         "summary": {"zh": summary, "en": summary},
         "readingTime": {"zh": f"{reading_minutes} 分钟", "en": f"{reading_minutes} min"},
         "category": category,
+        "contentType": content_type,
     }
+    if source:
+        article["source"] = source
     if collection:
         article["collection"] = collection
     if series_order is not None:
@@ -559,6 +617,8 @@ def prompt_publish_metadata(
 
     collection_slug, next_collections = ask_collection(prompter, next_index)
     next_index["collections"] = next_collections
+    content_type = ask_content_type(prompter)
+    source = ask_repost_source(prompter, title) if content_type == "repost" else None
 
     series_order = None
     if collection_slug:
@@ -576,6 +636,8 @@ def prompt_publish_metadata(
         date_value=date_value,
         tags=tags,
         category=category_id,
+        content_type=content_type,
+        source=source,
         collection=collection_slug,
         series_order=series_order,
         reading_minutes=reading_minutes,

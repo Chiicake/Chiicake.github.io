@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { FolderTree, Layers3, PenLine } from 'lucide-react';
@@ -8,7 +8,7 @@ import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
   findBlogCategory,
   findBlogCollection,
-  getArticlesByCategory,
+  getArticlesByContentType,
   getBlogLanguage,
   getCollectionArticles,
   getLocalizedText,
@@ -20,8 +20,37 @@ export default function Blog() {
   const { t, i18n } = useTranslation();
   const { index, loading, error } = useBlogIndex();
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedContentType, setSelectedContentType] = useState<'all' | 'original' | 'repost'>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const lang = getBlogLanguage(i18n.language);
+
+  const typeFilteredArticles = useMemo(
+    () => (index ? getArticlesByContentType(index, selectedContentType) : []),
+    [index, selectedContentType],
+  );
+  const filteredArticles = useMemo(
+    () =>
+      selectedCategory === 'all'
+        ? typeFilteredArticles
+        : typeFilteredArticles.filter((article) => article.category === selectedCategory),
+    [selectedCategory, typeFilteredArticles],
+  );
+  const collectionEntries = useMemo(
+    () =>
+      index
+        ? index.collections
+            .map((collection) => ({
+              collection,
+              articles: getCollectionArticles(index, collection.slug).filter(
+                (article) =>
+                  (selectedCategory === 'all' || article.category === selectedCategory) &&
+                  (selectedContentType === 'all' || article.contentType === selectedContentType)
+              ),
+            }))
+            .filter((entry) => entry.articles.length > 0)
+        : [],
+    [index, selectedCategory, selectedContentType],
+  );
 
   if (loading) {
     return (
@@ -51,16 +80,6 @@ export default function Blog() {
     );
   }
 
-  const filteredArticles = getArticlesByCategory(index, selectedCategory);
-  const collectionEntries = index.collections
-    .map((collection) => ({
-      collection,
-      articles: getCollectionArticles(index, collection.slug).filter(
-        (article) => selectedCategory === 'all' || article.category === selectedCategory
-      ),
-    }))
-    .filter((entry) => entry.articles.length > 0);
-
   const totalPages = Math.max(1, Math.ceil(filteredArticles.length / BLOG_PAGE_SIZE));
   const safeCurrentPage = Math.min(currentPage, totalPages);
   const pageStart = (safeCurrentPage - 1) * BLOG_PAGE_SIZE;
@@ -69,11 +88,16 @@ export default function Blog() {
   const visiblePages = Array.from({ length: totalPages }, (_, index) => index + 1).filter((page) => {
     return page === 1 || page === totalPages || Math.abs(page - safeCurrentPage) <= 1;
   });
+  const contentTypeOptions = [
+    { key: 'all' as const, label: t('blog.allContentTypes') },
+    { key: 'original' as const, label: t('blog.originalOnly') },
+    { key: 'repost' as const, label: t('blog.repostOnly') },
+  ];
 
   return (
     <div className="py-12">
       <section className="mb-10 grid gap-5 lg:grid-cols-[minmax(0,1.16fr)_minmax(20rem,0.84fr)]">
-        <div className="flex h-[12.25rem] flex-col rounded-[1.6rem] border border-gray-200/80 bg-white/84 p-4 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 md:h-[13.5rem] md:p-5">
+        <div className="flex h-[14.4rem] flex-col rounded-[1.6rem] border border-gray-200/80 bg-white/84 p-4 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 md:h-[15.8rem] md:p-5">
           <div className="mb-4 flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
@@ -90,50 +114,78 @@ export default function Blog() {
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-            <div className="flex flex-wrap gap-2.5">
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedCategory('all');
-                  setCurrentPage(1);
-                }}
-                className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
-                  selectedCategory === 'all'
-                    ? 'bg-[var(--color-accent)] text-white shadow-sm'
-                    : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
-                }`}
-              >
-                {t('blog.allCategories')}
-                <span className="ml-2 rounded-full bg-black/10 px-2 py-0.5 text-[11px] text-current dark:bg-white/10">
-                  {index.articles.length}
-                </span>
-              </button>
+            <div className="grid gap-4 md:grid-cols-[7.5rem_minmax(0,1fr)] md:items-start">
+              <div className="rounded-[1.2rem] border border-gray-200/80 bg-white/75 p-3 dark:border-slate-800/80 dark:bg-slate-900/55">
+                <div className="grid gap-2">
+                  {contentTypeOptions.map((option) => {
+                    const active = selectedContentType === option.key;
 
-              {index.categories.map((category) => {
-                const count = index.articles.filter((article) => article.category === category.id).length;
-                const active = selectedCategory === category.id;
+                    return (
+                      <button
+                        key={option.key}
+                        type="button"
+                        onClick={() => {
+                          setSelectedContentType(option.key);
+                          setCurrentPage(1);
+                        }}
+                        className={`rounded-2xl px-3 py-2 text-left text-xs font-medium transition-colors ${
+                          active
+                            ? 'bg-[var(--color-accent)] text-white shadow-sm'
+                            : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
-                return (
-                  <button
-                    key={category.id}
-                    type="button"
-                    onClick={() => {
-                      setSelectedCategory(category.id);
-                      setCurrentPage(1);
-                    }}
-                    className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
-                      active
-                        ? 'bg-[var(--color-accent)] text-white shadow-sm'
-                        : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
-                    }`}
-                  >
-                    {getLocalizedText(category.label, lang)}
-                    <span className="ml-2 rounded-full bg-black/10 px-2 py-0.5 text-[11px] text-current dark:bg-white/10">
-                      {count}
-                    </span>
-                  </button>
-                );
-              })}
+              <div className="flex flex-wrap gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedCategory('all');
+                    setCurrentPage(1);
+                  }}
+                  className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                    selectedCategory === 'all'
+                      ? 'bg-[var(--color-accent)] text-white shadow-sm'
+                      : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
+                  }`}
+                >
+                  {t('blog.allCategories')}
+                  <span className="ml-2 rounded-full bg-black/10 px-2 py-0.5 text-[11px] text-current dark:bg-white/10">
+                    {typeFilteredArticles.length}
+                  </span>
+                </button>
+
+                {index.categories.map((category) => {
+                  const count = typeFilteredArticles.filter((article) => article.category === category.id).length;
+                  const active = selectedCategory === category.id;
+
+                  return (
+                    <button
+                      key={category.id}
+                      type="button"
+                      onClick={() => {
+                        setSelectedCategory(category.id);
+                        setCurrentPage(1);
+                      }}
+                      className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+                        active
+                          ? 'bg-[var(--color-accent)] text-white shadow-sm'
+                          : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
+                      }`}
+                    >
+                      {getLocalizedText(category.label, lang)}
+                      <span className="ml-2 rounded-full bg-black/10 px-2 py-0.5 text-[11px] text-current dark:bg-white/10">
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

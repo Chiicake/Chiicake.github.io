@@ -27,7 +27,16 @@ import {
   renameTag,
   upsertArticle,
 } from '../lib/blogAdminState';
-import { normalizeBlogIndex, primeBlogIndex, type BlogArticleMeta, type BlogIndex, type LocalizedContent } from '../lib/blog';
+import {
+  getBlogContentType,
+  normalizeBlogIndex,
+  primeBlogIndex,
+  type BlogArticleMeta,
+  type BlogArticleSourceMeta,
+  type BlogContentType,
+  type BlogIndex,
+  type LocalizedContent,
+} from '../lib/blog';
 import {
   deleteLocalArticle,
   fetchLocalBlogAdminState,
@@ -52,6 +61,20 @@ type TaxonomyFieldLinks = {
 
 function uniqueTags(tags: string[]) {
   return [...new Set(tags.map((tag) => tag.trim()).filter(Boolean))];
+}
+
+function createEmptySourceDraft(): BlogArticleSourceMeta {
+  return {
+    site: '',
+    author: '',
+    title: {
+      zh: '',
+      en: '',
+    },
+    url: '',
+    publishedAt: '',
+    translator: '',
+  };
 }
 
 function sanitizeArticleDraft(draft: BlogArticleMeta): BlogArticleMeta {
@@ -85,6 +108,21 @@ function sanitizeArticleDraft(draft: BlogArticleMeta): BlogArticleMeta {
       zh: draft.readingTime.zh.trim(),
       en: draft.readingTime.en.trim(),
     },
+    contentType: draft.contentType === 'repost' ? 'repost' : 'original',
+    source:
+      draft.contentType === 'repost'
+        ? {
+            site: draft.source?.site.trim() ?? '',
+            author: draft.source?.author.trim() ?? '',
+            title: {
+              zh: draft.source?.title.zh.trim() ?? '',
+              en: draft.source?.title.en.trim() ?? '',
+            },
+            url: draft.source?.url.trim() ?? '',
+            publishedAt: draft.source?.publishedAt?.trim() || undefined,
+            translator: draft.source?.translator?.trim() || undefined,
+          }
+        : undefined,
   };
 }
 
@@ -142,6 +180,7 @@ function getArticleDraftFromIndex(index: BlogIndex, slug: string | null) {
 
   return {
     ...targetArticle,
+    source: targetArticle.source ?? createEmptySourceDraft(),
     collection: targetArticle.collection ?? '',
   };
 }
@@ -767,6 +806,10 @@ export default function LocalBlogAdmin() {
       setErrorText('请至少填写 slug、分类以及中英文标题。');
       return;
     }
+    if (sanitizedDraft.contentType === 'repost' && !sanitizedDraft.source?.url) {
+      setErrorText('转载文章至少需要填写来源链接。');
+      return;
+    }
 
     if (!hasArticleFolder(persistedIndex, sanitizedDraft.slug) && pendingFiles.length === 0) {
       setErrorText('当前 slug 尚未对应本地目录；请先选择文章文件夹，或恢复原 slug。');
@@ -798,6 +841,10 @@ export default function LocalBlogAdmin() {
     const sanitizedDraft = sanitizeArticleDraft(articleDraft);
     if (!sanitizedDraft.slug || !sanitizedDraft.category || !sanitizedDraft.title.zh || !sanitizedDraft.title.en) {
       setErrorText('请先完整填写当前文章的基础信息。');
+      return;
+    }
+    if (sanitizedDraft.contentType === 'repost' && !sanitizedDraft.source?.url) {
+      setErrorText('转载文章至少需要填写来源链接。');
       return;
     }
 
@@ -1077,6 +1124,7 @@ export default function LocalBlogAdmin() {
               const collectionName = article.collection
                 ? index.collections.find((item) => item.slug === article.collection)?.name.zh || article.collection
                 : '无合集';
+              const contentType = getBlogContentType(article);
 
               return (
                 <button
@@ -1100,6 +1148,7 @@ export default function LocalBlogAdmin() {
                     <span className="shrink-0 text-xs text-[var(--color-text-secondary)]">{article.date}</span>
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
+                    <StatusChip label={contentType === 'repost' ? '转载' : '原创'} tone={contentType === 'repost' ? 'accent' : 'neutral'} />
                     <StatusChip label={article.category} />
                     <StatusChip label={collectionName} />
                   </div>
@@ -1147,6 +1196,24 @@ export default function LocalBlogAdmin() {
                     onChange={(event) => setArticleDraft((current) => ({ ...current, date: event.target.value }))}
                     className="w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-[var(--color-text-primary)] outline-none transition-colors focus:border-[var(--color-accent)]/50"
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">内容类型</label>
+                  <select
+                    value={articleDraft.contentType}
+                    onChange={(event) =>
+                      setArticleDraft((current) => ({
+                        ...current,
+                        contentType: event.target.value as BlogContentType,
+                        source: current.source ?? createEmptySourceDraft(),
+                      }))
+                    }
+                    className="w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-[var(--color-text-primary)] outline-none transition-colors focus:border-[var(--color-accent)]/50"
+                  >
+                    <option value="original">原创</option>
+                    <option value="repost">转载</option>
+                  </select>
                 </div>
 
                 <div className="space-y-2">
@@ -1285,6 +1352,135 @@ export default function LocalBlogAdmin() {
                   })}
                 </div>
               </div>
+
+              {articleDraft.contentType === 'repost' ? (
+                <div className="rounded-[1.3rem] border border-[var(--color-accent)]/18 bg-[var(--color-accent)]/[0.04] p-4">
+                  <div className="mb-4">
+                    <h3 className="text-sm font-semibold text-[var(--color-text-primary)]">转载来源</h3>
+                    <p className="mt-1 text-xs leading-relaxed text-[var(--color-text-secondary)]">
+                      前台只显示一个来源链接，其他字段保留在元信息里便于整理与追溯。
+                    </p>
+                  </div>
+
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">来源链接</label>
+                      <input
+                        value={articleDraft.source?.url ?? ''}
+                        onChange={(event) =>
+                          setArticleDraft((current) => ({
+                            ...current,
+                            source: {
+                              ...(current.source ?? createEmptySourceDraft()),
+                              url: event.target.value,
+                            },
+                          }))
+                        }
+                        placeholder="https://go.dev/blog/..."
+                        className="w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-[var(--color-text-primary)] outline-none transition-colors focus:border-[var(--color-accent)]/50"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">原站点</label>
+                      <input
+                        value={articleDraft.source?.site ?? ''}
+                        onChange={(event) =>
+                          setArticleDraft((current) => ({
+                            ...current,
+                            source: {
+                              ...(current.source ?? createEmptySourceDraft()),
+                              site: event.target.value,
+                            },
+                          }))
+                        }
+                        placeholder="例如 go.dev/blog"
+                        className="w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-[var(--color-text-primary)] outline-none transition-colors focus:border-[var(--color-accent)]/50"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">原作者</label>
+                      <input
+                        value={articleDraft.source?.author ?? ''}
+                        onChange={(event) =>
+                          setArticleDraft((current) => ({
+                            ...current,
+                            source: {
+                              ...(current.source ?? createEmptySourceDraft()),
+                              author: event.target.value,
+                            },
+                          }))
+                        }
+                        placeholder="例如 Russ Cox"
+                        className="w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-[var(--color-text-primary)] outline-none transition-colors focus:border-[var(--color-accent)]/50"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">原文发布日期</label>
+                      <input
+                        type="date"
+                        value={articleDraft.source?.publishedAt ?? ''}
+                        onChange={(event) =>
+                          setArticleDraft((current) => ({
+                            ...current,
+                            source: {
+                              ...(current.source ?? createEmptySourceDraft()),
+                              publishedAt: event.target.value,
+                            },
+                          }))
+                        }
+                        className="w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-[var(--color-text-primary)] outline-none transition-colors focus:border-[var(--color-accent)]/50"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">原文标题（中文）</label>
+                      <input
+                        value={articleDraft.source?.title.zh ?? ''}
+                        onChange={(event) =>
+                          setArticleDraft((current) => ({
+                            ...current,
+                            source: {
+                              ...(current.source ?? createEmptySourceDraft()),
+                              title: {
+                                ...(current.source?.title ?? createEmptySourceDraft().title),
+                                zh: event.target.value,
+                              },
+                            },
+                          }))
+                        }
+                        placeholder="中文原文标题"
+                        className="w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-[var(--color-text-primary)] outline-none transition-colors focus:border-[var(--color-accent)]/50"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-text-secondary)]">原文标题（英文）</label>
+                      <input
+                        value={articleDraft.source?.title.en ?? ''}
+                        onChange={(event) =>
+                          setArticleDraft((current) => ({
+                            ...current,
+                            source: {
+                              ...(current.source ?? createEmptySourceDraft()),
+                              title: {
+                                ...(current.source?.title ?? createEmptySourceDraft().title),
+                                en: event.target.value,
+                              },
+                            },
+                          }))
+                        }
+                        placeholder="Original title"
+                        className="w-full rounded-2xl border border-white/10 bg-slate-950/90 px-4 py-3 text-sm text-[var(--color-text-primary)] outline-none transition-colors focus:border-[var(--color-accent)]/50"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : null}
 
               <LinkedFieldGroup
                 title="标题"

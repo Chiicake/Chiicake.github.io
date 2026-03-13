@@ -1,4 +1,5 @@
 export type BlogLanguage = 'zh' | 'en';
+export type BlogContentType = 'original' | 'repost';
 
 export interface LocalizedContent {
   zh: string;
@@ -18,6 +19,15 @@ export interface BlogCollectionMeta {
   description: LocalizedContent;
 }
 
+export interface BlogArticleSourceMeta {
+  site: string;
+  author: string;
+  title: LocalizedContent;
+  url: string;
+  publishedAt?: string;
+  translator?: string;
+}
+
 export interface BlogArticleMeta {
   slug: string;
   date: string;
@@ -26,6 +36,8 @@ export interface BlogArticleMeta {
   summary: LocalizedContent;
   readingTime: LocalizedContent;
   category: string;
+  contentType: BlogContentType;
+  source?: BlogArticleSourceMeta;
   collection?: string;
   seriesOrder?: number;
   featuredRank?: number;
@@ -52,8 +64,43 @@ function sortUniqueStrings(values: string[]) {
   );
 }
 
+function normalizeSourceMeta(source?: BlogArticleSourceMeta) {
+  if (!source) {
+    return undefined;
+  }
+
+  const normalized = {
+    site: source.site?.trim?.() ?? '',
+    author: source.author?.trim?.() ?? '',
+    title: {
+      zh: source.title?.zh?.trim?.() ?? '',
+      en: source.title?.en?.trim?.() ?? '',
+    },
+    url: source.url?.trim?.() ?? '',
+    publishedAt: source.publishedAt?.trim?.() || undefined,
+    translator: source.translator?.trim?.() || undefined,
+  } satisfies BlogArticleSourceMeta;
+
+  if (!normalized.url && !normalized.site && !normalized.author && !normalized.title.zh && !normalized.title.en) {
+    return undefined;
+  }
+
+  return normalized;
+}
+
+function normalizeArticle(article: BlogArticleMeta): BlogArticleMeta {
+  const contentType: BlogContentType = article.contentType === 'repost' ? 'repost' : 'original';
+
+  return {
+    ...article,
+    tags: sortUniqueStrings(article.tags ?? []),
+    contentType,
+    source: contentType === 'repost' ? normalizeSourceMeta(article.source) : undefined,
+  };
+}
+
 export function normalizeBlogIndex(index: Partial<BlogIndex>) {
-  const articles = sortArticles(index.articles ?? []);
+  const articles = sortArticles((index.articles ?? []).map(normalizeArticle));
   const tags = sortUniqueStrings([...(index.tags ?? []), ...articles.flatMap((article) => article.tags ?? [])]);
 
   return {
@@ -81,6 +128,10 @@ function sortArticles(articles: BlogArticleMeta[]) {
 
 export function getBlogLanguage(language: string): BlogLanguage {
   return language === 'zh' ? 'zh' : 'en';
+}
+
+export function getBlogContentType(article: BlogArticleMeta): BlogContentType {
+  return article.contentType === 'repost' ? 'repost' : 'original';
 }
 
 export function getLocalizedText(content: LocalizedContent, lang: BlogLanguage) {
@@ -161,6 +212,14 @@ export function getArticlesByCategory(index: BlogIndex, categoryId: string) {
   }
 
   return index.articles.filter((article) => article.category === categoryId);
+}
+
+export function getArticlesByContentType(index: BlogIndex, contentType: 'all' | BlogContentType) {
+  if (contentType === 'all') {
+    return index.articles;
+  }
+
+  return index.articles.filter((article) => getBlogContentType(article) === contentType);
 }
 
 export function stripFrontmatter(markdown: string) {

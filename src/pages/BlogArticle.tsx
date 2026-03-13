@@ -16,11 +16,12 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
-import { ArrowLeft, Calendar, Clock, Layers3, ListTree } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, ExternalLink, Layers3, ListTree } from 'lucide-react';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
   findBlogCategory,
   findBlogCollection,
+  getBlogContentType,
   getBlogLanguage,
   getCollectionArticles,
   getHeadingAnchorId,
@@ -174,6 +175,7 @@ export default function BlogArticle() {
   const category = meta && index ? findBlogCategory(index, meta.category) : undefined;
   const collection = meta?.collection && index ? findBlogCollection(index, meta.collection) : undefined;
   const collectionArticles = meta?.collection && index ? getCollectionArticles(index, meta.collection) : [];
+  const isRepost = meta ? getBlogContentType(meta) === 'repost' : false;
   const sidebarToc = useMemo(() => toc.filter((item) => item.depth >= 2 && item.depth <= 3), [toc]);
   const contentLoading = Boolean(requestKey) && loadedRequestKey !== requestKey;
 
@@ -358,6 +360,11 @@ export default function BlogArticle() {
         <div className="min-w-0">
           <header className="mb-10">
             <div className="flex flex-wrap items-center gap-2 mb-5">
+              {isRepost && (
+                <span className="px-3 py-1.5 text-xs font-semibold rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
+                  {t('blog.repostBadge')}
+                </span>
+              )}
               {category && (
                 <span className="px-3 py-1.5 text-xs font-semibold rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
                   {getLocalizedText(category.label, lang)}
@@ -376,6 +383,17 @@ export default function BlogArticle() {
                   {t('blog.partLabel', { order: meta.seriesOrder })}
                 </span>
               )}
+              {isRepost && meta.source?.url ? (
+                <a
+                  href={meta.source.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-accent)] dark:bg-slate-800"
+                >
+                  {t('blog.sourceLink')}
+                  <ExternalLink size={12} />
+                </a>
+              ) : null}
             </div>
 
             <h1 className="mb-4 text-3xl font-black leading-tight tracking-tight text-[var(--color-text-primary)] md:text-4xl">
