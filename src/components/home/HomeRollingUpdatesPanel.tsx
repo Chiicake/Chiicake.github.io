@@ -119,6 +119,14 @@ function formatIndentedHelpRow(command: string, description: string) {
   return `    ${command.padEnd(30, ' ')} ${description}`;
 }
 
+function focusInputWithoutScroll(input: HTMLInputElement) {
+  try {
+    input.focus({ preventScroll: true });
+  } catch {
+    input.focus();
+  }
+}
+
 export type { HomeRollingShortcut };
 
 export function HomeRollingUpdatesPanel({
@@ -225,7 +233,7 @@ export function HomeRollingUpdatesPanel({
         return;
       }
 
-      input.focus();
+      focusInputWithoutScroll(input);
       input.setSelectionRange(caret, caret);
       setCaretIndex(caret);
     });
@@ -238,7 +246,7 @@ export function HomeRollingUpdatesPanel({
       }
 
       window.requestAnimationFrame(() => {
-        input.focus();
+        focusInputWithoutScroll(input);
 
         if (moveToEnd) {
           const end = input.value.length;
