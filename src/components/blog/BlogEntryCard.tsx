@@ -40,7 +40,7 @@ export function BlogEntryCard({ article, lang, categoryLabel, collectionLabel }:
             </div>
           </div>
 
-          <h3 className="text-xl font-bold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent)]">
+          <h3 className="text-lg font-bold text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent)] md:text-xl">
             {getLocalizedText(article.title, lang)}
           </h3>
 
@@ -48,7 +48,7 @@ export function BlogEntryCard({ article, lang, categoryLabel, collectionLabel }:
             {getLocalizedText(article.summary, lang)}
           </p>
 
-          <div className="mt-auto flex items-end justify-between gap-4">
+          <div className="mt-auto flex items-end justify-between gap-3 md:gap-4">
             <div className="flex flex-wrap items-center gap-2">
               {isRepost && (
                 <span className="px-2.5 py-1 text-[11px] font-semibold rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)]">
@@ -81,8 +81,8 @@ export function BlogEntryCard({ article, lang, categoryLabel, collectionLabel }:
               ) : null}
             </div>
 
-            <div className="blog-log-card__arrow flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] transition-colors shrink-0">
-              <ArrowRight size={18} />
+            <div className="blog-log-card__arrow flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent)] transition-colors md:h-10 md:w-10">
+              <ArrowRight size={16} className="md:h-[18px] md:w-[18px]" />
             </div>
           </div>
         </div>

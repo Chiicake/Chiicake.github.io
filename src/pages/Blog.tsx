@@ -109,8 +109,8 @@ export default function Blog() {
 
   return (
     <div className="pb-12 pt-2 md:pt-3">
-      <section className="mb-10 grid gap-5 lg:grid-cols-[minmax(0,1.16fr)_minmax(20rem,0.84fr)]">
-        <div className="flex h-[14.4rem] flex-col rounded-[1.6rem] border border-gray-200/80 bg-white/84 p-4 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 md:h-[15.8rem] md:p-5">
+      <section className="mb-8 grid gap-4 lg:mb-10 lg:gap-5 lg:grid-cols-[minmax(0,1.16fr)_minmax(20rem,0.84fr)]">
+        <div className="flex min-h-[12.5rem] flex-col rounded-[1.4rem] border border-gray-200/80 bg-white/84 p-3.5 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 sm:p-4 md:h-[15.8rem] md:rounded-[1.6rem] md:p-5">
           <div className="mb-4 flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
@@ -127,8 +127,8 @@ export default function Blog() {
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-            <div className="grid gap-4 md:grid-cols-[7.5rem_minmax(0,1fr)] md:items-start">
-              <div className="rounded-[1.2rem] border border-gray-200/80 bg-white/75 p-3 dark:border-slate-800/80 dark:bg-slate-900/55">
+            <div className="grid gap-3 md:grid-cols-[7.5rem_minmax(0,1fr)] md:gap-4 md:items-start">
+              <div className="rounded-[1.1rem] border border-gray-200/80 bg-white/75 p-2.5 dark:border-slate-800/80 dark:bg-slate-900/55 md:rounded-[1.2rem] md:p-3">
                 <div className="grid gap-2">
                   {contentTypeOptions.map((option) => {
                     const active = selectedContentType === option.key;
@@ -157,7 +157,7 @@ export default function Blog() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2.5">
+              <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
                   onClick={() => {
@@ -206,7 +206,7 @@ export default function Blog() {
           </div>
         </div>
 
-        <div className="flex h-[14.4rem] flex-col rounded-[1.6rem] border border-gray-200/80 bg-white/84 p-4 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 md:h-[15.8rem] md:p-5">
+        <div className="flex min-h-[12.5rem] flex-col rounded-[1.4rem] border border-gray-200/80 bg-white/84 p-3.5 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 sm:p-4 md:h-[15.8rem] md:rounded-[1.6rem] md:p-5">
           <div className="mb-4 flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
@@ -250,7 +250,7 @@ export default function Blog() {
         </div>
       </section>
 
-      <section className="rounded-[2rem] border border-gray-200/80 bg-white/80 p-6 shadow-[0_20px_70px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/65 md:p-7">
+      <section className="rounded-[1.6rem] border border-gray-200/80 bg-white/80 p-4 shadow-[0_20px_70px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/65 sm:p-5 md:rounded-[2rem] md:p-7">
         {paginatedArticles.length === 0 ? (
           <div className="rounded-[1.5rem] border border-dashed border-gray-200/80 px-5 py-10 text-center text-[var(--color-text-secondary)] dark:border-slate-800/80">
             {t('blog.emptyCategory')}

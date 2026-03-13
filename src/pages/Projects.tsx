@@ -123,13 +123,13 @@ export default function Projects({ id }: { id?: string }) {
     <section id={id} className="scroll-mt-20">
       <div className="pb-12 pt-2 md:pt-3">
         <ScrollReveal>
-          <div className="engineering-panel rounded-[2rem] p-5 md:p-7">
+          <div className="engineering-panel rounded-[1.7rem] p-4 sm:p-5 md:rounded-[2rem] md:p-7">
             <div className="relative">
-              <div className="mb-6 flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+              <div className="mb-5 flex flex-col gap-4 md:mb-6 xl:flex-row xl:items-start xl:justify-between">
                 <div className="max-w-3xl">
                   <p className="engineering-kicker mb-3">{content.eyebrow}</p>
                   <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="text-2xl font-black tracking-tight text-[var(--color-text-primary)] md:text-3xl">
+                    <h3 className="text-xl font-black tracking-tight text-[var(--color-text-primary)] sm:text-2xl md:text-3xl">
                       {content.title}
                     </h3>
                     <span className="mono-data inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-300">
@@ -158,12 +158,12 @@ export default function Projects({ id }: { id?: string }) {
                       })}
                     </div>
                   )}
-                  <p className="mt-4 max-w-3xl text-sm leading-7 text-[var(--color-text-secondary)] md:text-[15px]">
+                  <p className="mt-4 max-w-3xl text-sm leading-6 text-[var(--color-text-secondary)] md:text-[15px] md:leading-7">
                     {content.tagline}
                   </p>
                 </div>
 
-                <div className="engineering-subpanel rounded-2xl px-4 py-3">
+                <div className="engineering-subpanel rounded-2xl px-3.5 py-3 md:px-4">
                   <div className="flex items-center gap-3">
                     <span className="project-session-badge mono-data">/dev/pts/0</span>
                     <span className="mono-data text-[11px] uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
@@ -174,7 +174,7 @@ export default function Projects({ id }: { id?: string }) {
               </div>
 
               {content.flowNodes.length > 0 && (
-                <div className="engineering-subpanel mb-4 rounded-[1.5rem] p-5">
+                <div className="engineering-subpanel mb-4 rounded-[1.5rem] p-4 md:p-5">
                   <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                     <p className="engineering-kicker">{content.flowLabel}</p>
                     <p className="mono-data text-[11px] uppercase tracking-[0.16em] text-[var(--color-text-secondary)]">
