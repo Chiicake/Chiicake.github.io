@@ -321,10 +321,10 @@ export default function BlogArticle() {
   };
 
   return (
-    <div className="py-12">
+    <div className="pb-12 pt-1 md:pt-2">
       <Link
         to="/blog"
-        className="inline-flex items-center gap-2 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors mb-8"
+        className="mb-5 inline-flex items-center gap-2 text-sm text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-accent)] md:mb-6"
       >
         <ArrowLeft size={16} />
         {t('blog.backToList')}

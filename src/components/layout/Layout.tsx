@@ -11,6 +11,43 @@ export function Layout() {
   const isCliPage = location.pathname === '/cli';
 
   useEffect(() => {
+    const routeClasses = [
+      'route-home',
+      'route-cli',
+      'route-blog',
+      'route-blog-collection',
+      'route-blog-article',
+      'route-projects',
+      'route-about',
+      'route-generic',
+    ];
+
+    document.body.classList.remove(...routeClasses);
+
+    const routeClass = location.pathname === '/home'
+      ? 'route-home'
+      : location.pathname === '/cli'
+        ? 'route-cli'
+        : location.pathname === '/blog'
+          ? 'route-blog'
+          : location.pathname.startsWith('/blog/collections/')
+            ? 'route-blog-collection'
+            : location.pathname.startsWith('/blog/')
+              ? 'route-blog-article'
+              : location.pathname === '/projects'
+                ? 'route-projects'
+                : location.pathname === '/about'
+                  ? 'route-about'
+                  : 'route-generic';
+
+    document.body.classList.add(routeClass);
+
+    return () => {
+      document.body.classList.remove(...routeClasses);
+    };
+  }, [location.pathname]);
+
+  useEffect(() => {
     if (!isHomePage && !isCliPage) {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }

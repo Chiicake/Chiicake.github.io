@@ -45,18 +45,16 @@
     background-color: var(--color-bg);
     color: var(--color-text-primary);
     font-family: var(--font-sans);
-    transition: background-color 0.3s ease, color 0.3s ease;
     background-image:
-      radial-gradient(circle at top right, rgba(23, 147, 209, 0.12), transparent 30%),
-      linear-gradient(to right, rgba(56, 189, 248, 0.07) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(56, 189, 248, 0.07) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-      radial-gradient(circle, rgba(125, 211, 252, 0.06) 0.6px, transparent 0.7px);
-    background-size: auto, 28px 28px, 28px 28px, 100% 4px, 7px 7px;
-    background-position: top right, top left, top left, top left, top left;
+      radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent 30%),
+      linear-gradient(180deg, rgba(15, 23, 42, 0.15), transparent 34%);
+    background-size: auto, 100% 100%;
+    background-position: top right, top left;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  :root[data-theme="dark"] body {
+  body.route-home,
+  body.route-cli {
     background-image:
       radial-gradient(circle at top right, rgba(56, 189, 248, 0.18), transparent 32%),
       linear-gradient(to right, rgba(56, 189, 248, 0.14) 1px, transparent 1px),
@@ -64,6 +62,28 @@
       linear-gradient(to bottom, rgba(148, 163, 184, 0.035) 1px, transparent 1px),
       radial-gradient(circle, rgba(125, 211, 252, 0.08) 0.6px, transparent 0.7px);
     background-size: auto, 28px 28px, 28px 28px, 100% 4px, 6px 6px;
+    background-position: top right, top left, top left, top left, top left;
+  }
+
+  body.route-blog,
+  body.route-blog-collection,
+  body.route-projects,
+  body.route-about {
+    background-image:
+      radial-gradient(circle at top right, rgba(56, 189, 248, 0.14), transparent 30%),
+      linear-gradient(to right, rgba(56, 189, 248, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(56, 189, 248, 0.06) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(15, 23, 42, 0.12), transparent 38%);
+    background-size: auto, 34px 34px, 34px 34px, 100% 100%;
+    background-position: top right, top left, top left, top left;
+  }
+
+  body.route-blog-article {
+    background-image:
+      radial-gradient(circle at top right, rgba(56, 189, 248, 0.1), transparent 24%),
+      linear-gradient(180deg, rgba(15, 23, 42, 0.12), transparent 32%);
+    background-size: auto, 100% 100%;
+    background-position: top right, top left;
   }
   
   /* Chinese typography adjustments */
