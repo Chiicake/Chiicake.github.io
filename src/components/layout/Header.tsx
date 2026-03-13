@@ -188,13 +188,14 @@ export function Header() {
             </span>
           </button>
 
-          <button 
+          <button
             onClick={toggleLang}
-            className="p-2 rounded-full text-[var(--color-text-secondary)] hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+            className="inline-flex items-center gap-2 rounded-full border border-gray-200/80 px-3 py-2 text-[var(--color-text-secondary)] transition-colors hover:bg-gray-100 dark:border-slate-800/80 dark:hover:bg-slate-800"
             aria-label={t('common.switchLang')}
             title={t('common.switchLang')}
           >
-            <Globe size={20} />
+            <Globe size={18} />
+            <span className="text-sm font-medium text-[var(--color-text-primary)]">中文 / English</span>
           </button>
           
           <button 
