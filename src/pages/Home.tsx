@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'motion/react';
+import { useNavigate } from 'react-router';
 import { TypewriterText } from '../components/ui/TypewriterText';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
 import { HomeRollingUpdatesPanel } from '../components/home/HomeRollingUpdatesPanel';
@@ -16,6 +17,7 @@ function isString(value: unknown): value is string {
 
 export default function Home() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const shouldReduceMotion = useReducedMotion();
   const [bootVisible, setBootVisible] = useState(false);
   const [bootStep, setBootStep] = useState(0);
@@ -104,10 +106,6 @@ export default function Home() {
     };
   }, [bootLines.length, shouldReduceMotion]);
 
-  const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const terminalShortcuts = [
     {
       command: 'open /blog',
@@ -115,20 +113,20 @@ export default function Home() {
       href: '/blog',
     },
     {
-      command: 'jump #projects',
+      command: 'open /projects',
       label: t('hero.ctaPrimary'),
-      onClick: () => scrollToSection('projects'),
+      onClick: () => navigate('/projects'),
+    },
+    {
+      command: 'open /about',
+      label: t('nav.about'),
+      onClick: () => navigate('/about'),
     },
     {
       command: 'xdg-open github.com/Chiicake',
       label: t('hero.ctaGithub'),
       href: 'https://github.com/Chiicake',
       external: true,
-    },
-    {
-      command: 'jump #contact',
-      label: t('hero.ctaSecondary'),
-      onClick: () => scrollToSection('contact'),
     },
   ];
 

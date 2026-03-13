@@ -13,25 +13,20 @@ export default function CliHome() {
       href: '/blog',
     },
     {
-      command: 'jump #projects',
+      command: 'open /projects',
       label: t('hero.ctaPrimary'),
-      onClick: () => navigate('/home', { state: { scrollTo: 'projects' } }),
+      onClick: () => navigate('/projects'),
     },
     {
-      command: 'jump #about',
+      command: 'open /about',
       label: t('nav.about'),
-      onClick: () => navigate('/home', { state: { scrollTo: 'about' } }),
+      onClick: () => navigate('/about'),
     },
     {
       command: 'xdg-open github.com/Chiicake',
       label: t('hero.ctaGithub'),
       href: 'https://github.com/Chiicake',
       external: true,
-    },
-    {
-      command: 'jump #contact',
-      label: t('hero.ctaSecondary'),
-      onClick: () => navigate('/home', { state: { scrollTo: 'contact' } }),
     },
   ];
 

@@ -2,9 +2,6 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 
 import Home from './Home';
-import About from './About';
-import Projects from './Projects';
-import Contact from './Contact';
 import { BlogPreview } from './sections/BlogPreview';
 
 export default function SinglePage() {
@@ -28,9 +25,6 @@ export default function SinglePage() {
       <Home />
       <div className="px-6 max-w-7xl mx-auto w-full">
         <BlogPreview id="blog" />
-        <Projects id="projects" />
-        <About id="about" />
-        <Contact id="contact" />
       </div>
     </div>
   );

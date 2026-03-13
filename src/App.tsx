@@ -7,6 +7,8 @@ import './i18n';
 
 const SinglePage = lazy(() => import('./pages/SinglePage'));
 const CliHome = lazy(() => import('./pages/CliHome'));
+const About = lazy(() => import('./pages/About'));
+const Projects = lazy(() => import('./pages/Projects'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogCollection = lazy(() => import('./pages/BlogCollection'));
 const BlogArticle = lazy(() => import('./pages/BlogArticle'));
@@ -28,6 +30,8 @@ const router = createHashRouter([
       { index: true, element: <Navigate to="/cli" replace /> },
       { path: 'home', element: <SinglePage /> },
       { path: 'cli', element: <CliHome /> },
+      { path: 'projects', element: <Projects /> },
+      { path: 'about', element: <About /> },
       { path: 'blog', element: <Blog /> },
       { path: 'blog/collections/:collectionSlug', element: <BlogCollection /> },
       { path: 'blog/:slug', element: <BlogArticle /> },
