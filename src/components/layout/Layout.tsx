@@ -36,7 +36,7 @@ export function Layout() {
   return (
     <div className={`flex min-h-screen flex-col${isCliPage ? ' overflow-hidden' : ''}`}>
       <Header />
-      <main className={isCliPage ? 'flex-grow overflow-hidden pt-0' : isHomePage ? 'flex-grow pt-0' : 'flex-grow pt-24 px-6 max-w-7xl mx-auto w-full'}>
+      <main className={isCliPage ? 'flex-grow overflow-hidden pt-0' : isHomePage ? 'flex-grow pt-0' : 'flex-grow px-6 pt-16 md:pt-[4.5rem] max-w-7xl mx-auto w-full'}>
         <AnimatePresence mode="wait">
           <PageTransition key={location.pathname}>
             <Outlet />

@@ -108,7 +108,7 @@ export default function Blog() {
   });
 
   return (
-    <div className="py-12">
+    <div className="pb-12 pt-2 md:pt-3">
       <section className="mb-10 grid gap-5 lg:grid-cols-[minmax(0,1.16fr)_minmax(20rem,0.84fr)]">
         <div className="flex h-[14.4rem] flex-col rounded-[1.6rem] border border-gray-200/80 bg-white/84 p-4 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 md:h-[15.8rem] md:p-5">
           <div className="mb-4 flex items-start justify-between gap-3">

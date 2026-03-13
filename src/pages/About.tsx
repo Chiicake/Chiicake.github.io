@@ -2,7 +2,6 @@ import avatarImage from '../../avatar.png';
 import { useTranslation } from 'react-i18next';
 import { Briefcase, Cpu, Github, GraduationCap, MapPin } from 'lucide-react';
 import { AboutSnakePanel } from '../components/about/AboutSnakePanel';
-import { SectionTitle } from '../components/ui/SectionTitle';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
 import { SkillsMatrix } from './Skills';
 
@@ -81,10 +80,8 @@ export default function About({ id }: { id?: string }) {
 
   return (
     <section id={id} className="scroll-mt-20">
-      <div className="py-12">
-        <SectionTitle title={t('about.title')} />
-
-        <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-[340px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
+      <div className="pb-12 pt-2 md:pt-3">
+        <div className="mt-2 grid grid-cols-1 gap-12 md:mt-3 lg:grid-cols-[340px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
           <ScrollReveal direction="right">
             <div className="engineering-panel overflow-hidden rounded-[2rem] p-5 md:p-6">
               <div className="relative">

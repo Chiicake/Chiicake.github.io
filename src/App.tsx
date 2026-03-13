@@ -27,7 +27,7 @@ const router = createHashRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Navigate to="/cli" replace /> },
+      { index: true, element: <Navigate to="/home" replace /> },
       { path: 'home', element: <SinglePage /> },
       { path: 'cli', element: <CliHome /> },
       { path: 'projects', element: <Projects /> },

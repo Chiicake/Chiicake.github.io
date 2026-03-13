@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { BookOpen, Cpu, Eye, GitFork, Github, HardDrive, Star, Waypoints } from 'lucide-react';
-import { SectionTitle } from '../components/ui/SectionTitle';
 import { Button } from '../components/ui/Button';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
 
@@ -122,9 +121,7 @@ export default function Projects({ id }: { id?: string }) {
 
   return (
     <section id={id} className="scroll-mt-20">
-      <div className="py-12">
-        <SectionTitle title={t('projects.title')} />
-
+      <div className="pb-12 pt-2 md:pt-3">
         <ScrollReveal>
           <div className="engineering-panel rounded-[2rem] p-5 md:p-7">
             <div className="relative">

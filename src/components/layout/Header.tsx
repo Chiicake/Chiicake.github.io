@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { Menu, X, Globe, SquareTerminal } from 'lucide-react';
+import { FolderOpen, Globe, History, Menu, SquareTerminal, UserRound, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import avatarImage from '../../../avatar.png';
 import { preloadBlogPageAssets } from '../../lib/blogPrefetch';
 
 interface NavItem {
@@ -127,82 +126,87 @@ export function Header() {
     return location.pathname === WEB_HOME_PATH && activeSection === item.id;
   };
 
-  const headerClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-    isScrolled 
-      ? 'bg-[var(--color-surface)]/80 backdrop-blur-md shadow-sm py-3' 
-      : 'bg-transparent py-5'
+  const headerClasses = `nav-terminal-shell fixed left-0 right-0 top-0 z-50 transition-all duration-300${
+    isScrolled ? ' is-scrolled' : ''
   }`;
   const isCliPage = location.pathname === '/cli';
   const homepageModeTitle = isCliPage ? t('common.switchToStandardHome') : t('common.switchToCliHome');
-  const homepageModeLabel = isCliPage ? t('common.standardModeLabel') : t('common.cliModeLabel');
+  const desktopTabs = navItems.map((item) => ({
+    ...item,
+    pathLabel: item.id === 'top' ? '/home' : item.routePath!,
+    Icon:
+      item.id === 'top'
+        ? FolderOpen
+        : item.id === 'blog'
+          ? History
+          : item.id === 'projects'
+            ? SquareTerminal
+            : UserRound,
+  }));
 
   return (
     <header className={headerClasses}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <button 
-          onClick={handleLogoClick}
-          className="overflow-hidden rounded-full border border-gray-200/80 shadow-[0_10px_25px_rgba(15,23,42,0.08)] transition-transform hover:scale-105 dark:border-slate-800/80"
-          aria-label={t('nav.home')}
-        >
-          <img
-            src={avatarImage}
-            alt="Chiicake avatar"
-            className="h-11 w-11 object-cover"
-            loading="eager"
-          />
-        </button>
-
-        <nav className="hidden md:flex items-center gap-1 lg:gap-2">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleNavClick(item)}
-              onMouseEnter={() => handleNavIntent(item)}
-              onFocus={() => handleNavIntent(item)}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isActive(item)
-                  ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]' 
-                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-gray-100 dark:hover:bg-slate-800'
-              }`}
-            >
-              {t(item.label)}
-            </button>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => navigate(isCliPage ? WEB_HOME_PATH : '/cli')}
-            className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 transition-colors ${
-              isCliPage
-                ? 'border-[var(--color-accent)]/35 bg-[var(--color-accent)]/12 text-[var(--color-accent)]'
-                : 'border-gray-200/80 text-[var(--color-text-secondary)] hover:bg-gray-100 dark:border-slate-800/80 dark:hover:bg-slate-800'
-            }`}
-            aria-label={homepageModeTitle}
-            title={homepageModeTitle}
-          >
-            <SquareTerminal size={18} />
-            <span className="mono-data hidden text-[11px] uppercase tracking-[0.18em] sm:inline">
-              {homepageModeLabel}
+      <div className="nav-terminal-shell__inner">
+        <div className="nav-terminal-shell__left">
+          <button onClick={handleLogoClick} className="nav-terminal-shell__brand" aria-label={t('nav.home')}>
+            <span className="nav-terminal-shell__brand-mark" aria-hidden="true">
+              <SquareTerminal size={15} />
+            </span>
+            <span className="nav-terminal-shell__brand-copy">
+              <span className="nav-terminal-shell__brand-title">Chiicake&apos;s Blog</span>
             </span>
           </button>
 
+          <nav className="nav-terminal-shell__tabs hidden md:flex">
+            {desktopTabs.map((item) => {
+              const active = isActive(item);
+              const Icon = item.Icon;
+
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => handleNavClick(item)}
+                  onMouseEnter={() => handleNavIntent(item)}
+                  onFocus={() => handleNavIntent(item)}
+                  className={`nav-terminal-shell__tab${active ? ' is-active' : ''}`}
+                >
+                  <Icon size={14} />
+                  <span>{item.pathLabel}</span>
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        <div className="nav-terminal-shell__right">
+          <button
+            onClick={() => navigate(isCliPage ? WEB_HOME_PATH : '/cli')}
+            className="nav-terminal-shell__mode-toggle"
+            aria-label={homepageModeTitle}
+            title={homepageModeTitle}
+          >
+            <span className={`nav-terminal-shell__mode-segment${!isCliPage ? ' is-active' : ''}`}>WEB</span>
+            <span className={`nav-terminal-shell__mode-segment${isCliPage ? ' is-active' : ''}`}>CLI</span>
+          </button>
+
+          <span className="nav-terminal-shell__divider hidden sm:block" aria-hidden="true" />
+
           <button
             onClick={toggleLang}
-            className="inline-flex items-center gap-2 rounded-full border border-gray-200/80 px-3 py-2 text-[var(--color-text-secondary)] transition-colors hover:bg-gray-100 dark:border-slate-800/80 dark:hover:bg-slate-800"
+            className="nav-terminal-shell__lang"
             aria-label={t('common.switchLang')}
             title={t('common.switchLang')}
           >
-            <Globe size={18} />
-            <span className="text-sm font-medium text-[var(--color-text-primary)]">中文 / English</span>
+            <Globe size={15} />
+            <span className="mono-data">中文 / EN</span>
           </button>
           
           <button 
-            className="md:hidden p-2 rounded-full text-[var(--color-text-primary)] hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+            className="nav-terminal-shell__mobile-toggle md:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? t('common.closeMenu') : t('common.openMenu')}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </div>
@@ -213,23 +217,25 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[var(--color-surface)] border-b border-gray-200 dark:border-slate-800 overflow-hidden"
+            className="nav-terminal-shell__mobile md:hidden"
           >
-            <nav className="flex flex-col p-4">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item)}
-                  onFocus={() => handleNavIntent(item)}
-                  className={`px-4 py-3 rounded-xl text-base font-medium mb-1 text-left ${
-                    isActive(item)
-                      ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]' 
-                      : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-gray-100 dark:hover:bg-slate-800'
-                  }`}
-                >
-                  {t(item.label)}
-                </button>
-              ))}
+            <nav className="nav-terminal-shell__mobile-list">
+              {desktopTabs.map((item) => {
+                const active = isActive(item);
+                const Icon = item.Icon;
+
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavClick(item)}
+                    onFocus={() => handleNavIntent(item)}
+                    className={`nav-terminal-shell__mobile-tab${active ? ' is-active' : ''}`}
+                  >
+                    <Icon size={14} />
+                    <span>{item.pathLabel}</span>
+                  </button>
+                );
+              })}
             </nav>
           </motion.div>
         )}
