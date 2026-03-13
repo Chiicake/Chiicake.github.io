@@ -131,6 +131,10 @@
       "command": "0 chiicake@archlinux ~ % cat /home/chiicake/README",
       "updatesCommand": "chiicake@archlinux ~ % sudo pacman -Syu --needed homepage-runtime blog-feed opensource-project",
       "commandsCommand": "chiicake@archlinux ~ % show commands",
+      "catalogBlogHeader": "# Blog",
+      "catalogBlogHint": "# Start with the blog index, or jump straight into the latest posts.",
+      "catalogSiteHeader": "# Site",
+      "catalogSiteHint": "# These commands jump back to /home sections or open GitHub.",
       "ascii": [
         " ██████╗██╗  ██╗██╗██╗ ██████╗ █████╗ ██╗  ██╗███████╗",
         "██╔════╝██║  ██║██║██║██╔════╝██╔══██╗██║ ██╔╝██╔════╝",
@@ -152,7 +156,8 @@
       "runtimeLabel": "interactive shell",
       "runtimeHint": "help · Tab · history",
       "hints": [
-        "# Click any command to run it."
+        "# Click any command to run it.",
+        "# Type help for guidance, Tab completes input."
       ]
     }
   },

@@ -132,6 +132,10 @@
       "command": "0 chiicake@archlinux ~ % cat /home/chiicake/README",
       "updatesCommand": "chiicake@archlinux ~ % sudo pacman -Syu --needed homepage-runtime blog-feed opensource-project",
       "commandsCommand": "chiicake@archlinux ~ % show commands",
+      "catalogBlogHeader": "# Blog",
+      "catalogBlogHint": "# 先进入博客总览，或直接打开最近更新的文章。",
+      "catalogSiteHeader": "# Site",
+      "catalogSiteHint": "# 这些命令会跳转到主页分区，或打开 GitHub。",
       "ascii": [
         " ██████╗██╗  ██╗██╗██╗ ██████╗ █████╗ ██╗  ██╗███████╗",
         "██╔════╝██║  ██║██║██║██╔════╝██╔══██╗██║ ██╔╝██╔════╝",
@@ -153,7 +157,8 @@
       "runtimeLabel": "interactive shell",
       "runtimeHint": "help · Tab · history",
       "hints": [
-        "# 点击任意命令立即执行。"
+        "# 点击任意命令立即执行。",
+        "# 输入 help 获取帮助，Tab 可自动补全。"
       ]
     }
   },

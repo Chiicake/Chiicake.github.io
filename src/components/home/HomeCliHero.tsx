@@ -16,7 +16,7 @@ function isString(value: unknown): value is string {
 }
 
 type TerminalTone = 'sync' | 'package' | 'ok' | 'warn' | 'dim';
-type TerminalCommandGroup = 'builtin' | 'navigation' | 'recent';
+type TerminalCommandGroup = 'builtin' | 'blog' | 'site';
 
 type StreamEntry =
   | { type: 'command'; key: string; value: string }
@@ -127,6 +127,14 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
     ? cliBundle.secondary
     : '# systems / tooling / distributed practice';
   const promptPlaceholder = t('hero.rollingPromptPlaceholder');
+  const catalogBlogHeader = isString(cliBundle.catalogBlogHeader) ? cliBundle.catalogBlogHeader : '# Blog';
+  const catalogBlogHint = isString(cliBundle.catalogBlogHint)
+    ? cliBundle.catalogBlogHint
+    : '# Start with the blog index, or jump straight into the latest posts.';
+  const catalogSiteHeader = isString(cliBundle.catalogSiteHeader) ? cliBundle.catalogSiteHeader : '# Site';
+  const catalogSiteHint = isString(cliBundle.catalogSiteHint)
+    ? cliBundle.catalogSiteHint
+    : '# These commands jump back to /home sections or open GitHub.';
 
   const recentArticleCommands = useMemo(
     () =>
@@ -148,6 +156,75 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
     [recentArticleCommands],
   );
 
+  const blogShortcut = useMemo(
+    () => shortcuts.find((shortcut) => normalizeCommand(shortcut.command) === 'open /blog') ?? null,
+    [shortcuts],
+  );
+
+  const siteShortcuts = useMemo(
+    () => shortcuts.filter((shortcut) => normalizeCommand(shortcut.command) !== 'open /blog'),
+    [shortcuts],
+  );
+
+  const catalogStreamEntries = useMemo<StreamEntry[]>(() => {
+    const entries: StreamEntry[] = [];
+    let shortcutIndex = 0;
+
+    const pushShortcut = (shortcut: HomeRollingShortcut) => {
+      entries.push({
+        type: 'shortcut',
+        key: `catalog-shortcut-${shortcutIndex}-${shortcut.command}`,
+        shortcut,
+        index: shortcutIndex,
+      });
+      shortcutIndex += 1;
+    };
+
+    if (blogShortcut || recentArticleShortcuts.length > 0) {
+      entries.push({ type: 'comment', key: 'catalog-blog-header', value: catalogBlogHeader });
+      entries.push({ type: 'comment', key: 'catalog-blog-hint', value: catalogBlogHint, muted: true });
+
+      if (blogShortcut) {
+        pushShortcut(blogShortcut);
+      }
+
+      recentArticleShortcuts.forEach(pushShortcut);
+    }
+
+    if (siteShortcuts.length > 0) {
+      if (entries.length > 0) {
+        entries.push({ type: 'gap', key: 'catalog-gap-site' });
+      }
+
+      entries.push({ type: 'comment', key: 'catalog-site-header', value: catalogSiteHeader });
+      entries.push({ type: 'comment', key: 'catalog-site-hint', value: catalogSiteHint, muted: true });
+      siteShortcuts.forEach(pushShortcut);
+    }
+
+    if (helperLines.length > 0) {
+      entries.push({ type: 'gap', key: 'catalog-gap-hints' });
+      helperLines.forEach((line, index) => {
+        entries.push({
+          type: 'comment',
+          key: `hint-${index}`,
+          value: line,
+          muted: true,
+        });
+      });
+    }
+
+    return entries;
+  }, [
+    blogShortcut,
+    catalogBlogHeader,
+    catalogBlogHint,
+    catalogSiteHeader,
+    catalogSiteHint,
+    helperLines,
+    recentArticleShortcuts,
+    siteShortcuts,
+  ]);
+
   const streamEntries = useMemo<StreamEntry[]>(
     () => [
       { type: 'command', key: 'hero-command', value: heroCommand },
@@ -161,34 +238,15 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
       { type: 'comment', key: 'secondary', value: secondary, muted: true },
       { type: 'gap', key: 'gap-readme' },
       { type: 'command', key: 'commands-command', value: commandsCommand },
-      ...shortcuts.map((shortcut, index) => ({
-        type: 'shortcut' as const,
-        key: `shortcut-${index}`,
-        shortcut,
-        index,
-      })),
-      ...recentArticleShortcuts.map((shortcut, index) => ({
-        type: 'shortcut' as const,
-        key: `recent-shortcut-${index}`,
-        shortcut,
-        index: shortcuts.length + index,
-      })),
-      ...helperLines.map((line: string, index: number) => ({
-        type: 'comment' as const,
-        key: `hint-${index}`,
-        value: line,
-        muted: true,
-      })),
+      ...catalogStreamEntries,
     ],
     [
       asciiLines,
+      catalogStreamEntries,
       commandsCommand,
       compactAsciiLines,
-      helperLines,
       heroCommand,
-      recentArticleShortcuts,
       secondary,
-      shortcuts,
       subtitle,
     ],
   );
@@ -299,10 +357,36 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
       },
     ];
 
-    const navigationCommands = shortcuts.map((shortcut) => ({
+    const blogCommands = shortcuts
+      .filter((shortcut) => normalizeCommand(shortcut.command) === 'open /blog')
+      .map((shortcut) => ({
+        command: shortcut.command.replace(/^\$\s*/, ''),
+        normalized: normalizeCommand(shortcut.command),
+        group: 'blog' as const,
+        description: shortcut.label,
+        execute: () => executeShortcut(shortcut),
+        successMessage: shortcut.href
+          ? shortcut.external
+            ? `launched ${shortcut.href.replace(/^https?:\/\//, '')}`
+            : `opened ${shortcut.href}`
+          : `moved viewport to ${shortcut.command.replace(/^\$\s*jump\s+/, '')}`,
+      }));
+
+    const recentCommands = recentArticleCommands.map((article) => ({
+      command: article.command,
+      normalized: normalizeCommand(article.command),
+      group: 'blog' as const,
+      description: `${article.date} · ${article.label}`,
+      execute: () => navigate(article.command.replace(/^open\s+/, '')),
+      successMessage: `opened ${article.command.replace(/^open\s+/, '')}`,
+    }));
+
+    const siteCommands = shortcuts
+      .filter((shortcut) => normalizeCommand(shortcut.command) !== 'open /blog')
+      .map((shortcut) => ({
       command: shortcut.command.replace(/^\$\s*/, ''),
       normalized: normalizeCommand(shortcut.command),
-      group: 'navigation' as const,
+      group: 'site' as const,
       description: shortcut.label,
       execute: () => executeShortcut(shortcut),
       successMessage: shortcut.href
@@ -312,30 +396,65 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
         : `moved viewport to ${shortcut.command.replace(/^\$\s*jump\s+/, '')}`,
     }));
 
-    const recentCommands = recentArticleCommands.map((article) => ({
-      command: article.command,
-      normalized: normalizeCommand(article.command),
-      group: 'recent' as const,
-      description: `${article.date} · ${article.label}`,
-      execute: () => navigate(article.command.replace(/^open\s+/, '')),
-      successMessage: `opened ${article.command.replace(/^open\s+/, '')}`,
-    }));
-
-    return [...builtinCommands, ...navigationCommands, ...recentCommands];
+    return [...builtinCommands, ...blogCommands, ...recentCommands, ...siteCommands];
   }, [executeShortcut, navigate, recentArticleCommands, shortcuts]);
 
   const renderCommandCatalog = useCallback(
-    () => [
-      ...shortcuts.map((shortcut) => ({
-        text: formatHelpRow(shortcut.command.replace(/^\$\s*/, ''), shortcut.label),
-        tone: 'package' as const,
-      })),
-      ...recentArticleCommands.map((article) => ({
-        text: formatHelpRow(article.command, `${article.date} · ${article.label}`),
-        tone: 'package' as const,
-      })),
+    () => {
+      const rows: TerminalLine[] = [];
+      let rowIndex = 1;
+
+      const pushRow = (command: string, description: string) => {
+        rows.push({
+          text: `  [${String(rowIndex).padStart(2, '0')}] ${command.padEnd(40, ' ')} ${description}`,
+          tone: 'package' as const,
+        });
+        rowIndex += 1;
+      };
+
+      if (blogShortcut || recentArticleCommands.length > 0) {
+        rows.push({ text: catalogBlogHeader, tone: 'dim' as const });
+        rows.push({ text: `  ${catalogBlogHint}`, tone: 'dim' as const });
+
+        if (blogShortcut) {
+          pushRow(blogShortcut.command.replace(/^\$\s*/, ''), blogShortcut.label);
+        }
+
+        recentArticleCommands.forEach((article) => {
+          pushRow(article.command, `${article.date} · ${article.label}`);
+        });
+      }
+
+      if (siteShortcuts.length > 0) {
+        if (rows.length > 0) {
+          rows.push({ text: '', tone: 'dim' as const });
+        }
+
+        rows.push({ text: catalogSiteHeader, tone: 'dim' as const });
+        rows.push({ text: `  ${catalogSiteHint}`, tone: 'dim' as const });
+
+        siteShortcuts.forEach((shortcut) => {
+          pushRow(shortcut.command.replace(/^\$\s*/, ''), shortcut.label);
+        });
+      }
+
+      if (helperLines.length > 0) {
+        rows.push({ text: '', tone: 'dim' as const });
+        helperLines.forEach((line) => rows.push({ text: line, tone: 'dim' as const }));
+      }
+
+      return rows;
+    },
+    [
+      blogShortcut,
+      catalogBlogHeader,
+      catalogBlogHint,
+      catalogSiteHeader,
+      catalogSiteHint,
+      helperLines,
+      recentArticleCommands,
+      siteShortcuts,
     ],
-    [recentArticleCommands, shortcuts],
   );
 
   const renderReadmeSummary = useCallback(
@@ -370,8 +489,8 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
       }
 
       const builtins = commandSpecs.filter((spec) => spec.group === 'builtin');
-      const navigation = commandSpecs.filter((spec) => spec.group === 'navigation');
-      const recent = commandSpecs.filter((spec) => spec.group === 'recent');
+      const blog = commandSpecs.filter((spec) => spec.group === 'blog');
+      const site = commandSpecs.filter((spec) => spec.group === 'site');
 
       return [
         { text: 'NAME', tone: 'dim' as const },
@@ -380,12 +499,16 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
         { text: '    help [command]', tone: 'package' as const },
         { text: 'BUILTINS', tone: 'dim' as const },
         ...builtins.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
-        { text: 'NAVIGATION', tone: 'dim' as const },
-        ...navigation.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
-        ...(recent.length > 0
+        ...(blog.length > 0
           ? [
-              { text: 'RECENT ENTRIES', tone: 'dim' as const },
-              ...recent.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
+              { text: 'BLOG', tone: 'dim' as const },
+              ...blog.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
+            ]
+          : []),
+        ...(site.length > 0
+          ? [
+              { text: 'SITE', tone: 'dim' as const },
+              ...site.map((spec) => ({ text: formatIndentedHelpRow(spec.command, spec.description), tone: 'package' as const })),
             ]
           : []),
         { text: 'KEYS', tone: 'dim' as const },
