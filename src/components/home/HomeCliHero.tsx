@@ -79,6 +79,14 @@ function formatIndentedHelpRow(command: string, description: string) {
   return `    ${command.padEnd(30, ' ')} ${description}`;
 }
 
+function normalizeCommand(value: string) {
+  return value.replace(/^\$\s*/, '').trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
+function stripPromptSigil(value: string) {
+  return value.replace(/^\$\s*/, '').trimStart();
+}
+
 export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] }) {
   const { i18n, t } = useTranslation();
   const navigate = useNavigate();
@@ -127,14 +135,6 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
     ? cliBundle.secondary
     : '# systems / tooling / distributed practice';
   const promptPlaceholder = t('hero.rollingPromptPlaceholder');
-  const catalogBlogHeader = isString(cliBundle.catalogBlogHeader) ? cliBundle.catalogBlogHeader : '# Blog';
-  const catalogBlogHint = isString(cliBundle.catalogBlogHint)
-    ? cliBundle.catalogBlogHint
-    : '# Start with the blog index, or jump straight into the latest posts.';
-  const catalogSiteHeader = isString(cliBundle.catalogSiteHeader) ? cliBundle.catalogSiteHeader : '# Site';
-  const catalogSiteHint = isString(cliBundle.catalogSiteHint)
-    ? cliBundle.catalogSiteHint
-    : '# These commands jump back to /home sections or open GitHub.';
 
   const recentArticleCommands = useMemo(
     () =>
@@ -149,7 +149,7 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
   const recentArticleShortcuts = useMemo<HomeRollingShortcut[]>(
     () =>
       recentArticleCommands.map((article) => ({
-        command: `$ ${article.command}`,
+        command: article.command,
         label: `${article.date} · ${article.label}`,
         href: article.command.replace(/^open\s+/, ''),
       })),
@@ -181,9 +181,6 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
     };
 
     if (blogShortcut || recentArticleShortcuts.length > 0) {
-      entries.push({ type: 'comment', key: 'catalog-blog-header', value: catalogBlogHeader });
-      entries.push({ type: 'comment', key: 'catalog-blog-hint', value: catalogBlogHint, muted: true });
-
       if (blogShortcut) {
         pushShortcut(blogShortcut);
       }
@@ -196,8 +193,6 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
         entries.push({ type: 'gap', key: 'catalog-gap-site' });
       }
 
-      entries.push({ type: 'comment', key: 'catalog-site-header', value: catalogSiteHeader });
-      entries.push({ type: 'comment', key: 'catalog-site-hint', value: catalogSiteHint, muted: true });
       siteShortcuts.forEach(pushShortcut);
     }
 
@@ -216,10 +211,6 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
     return entries;
   }, [
     blogShortcut,
-    catalogBlogHeader,
-    catalogBlogHint,
-    catalogSiteHeader,
-    catalogSiteHint,
     helperLines,
     recentArticleShortcuts,
     siteShortcuts,
@@ -254,8 +245,6 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
   const streamComplete = visibleStreamCount >= streamEntries.length;
   const promptActive = streamComplete && promptVisible;
 
-  const normalizeCommand = (value: string) => value.replace(/^\$\s*/, '').trim().replace(/\s+/g, ' ').toLowerCase();
-  const stripPromptSigil = (value: string) => value.replace(/^\$\s*/, '').trimStart();
   const nextHistoryId = (prefix: string) => {
     historyIdRef.current += 1;
     return `${prefix}-${historyIdRef.current}`;
@@ -413,9 +402,6 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
       };
 
       if (blogShortcut || recentArticleCommands.length > 0) {
-        rows.push({ text: catalogBlogHeader, tone: 'dim' as const });
-        rows.push({ text: `  ${catalogBlogHint}`, tone: 'dim' as const });
-
         if (blogShortcut) {
           pushRow(blogShortcut.command.replace(/^\$\s*/, ''), blogShortcut.label);
         }
@@ -429,9 +415,6 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
         if (rows.length > 0) {
           rows.push({ text: '', tone: 'dim' as const });
         }
-
-        rows.push({ text: catalogSiteHeader, tone: 'dim' as const });
-        rows.push({ text: `  ${catalogSiteHint}`, tone: 'dim' as const });
 
         siteShortcuts.forEach((shortcut) => {
           pushRow(shortcut.command.replace(/^\$\s*/, ''), shortcut.label);
@@ -447,10 +430,6 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
     },
     [
       blogShortcut,
-      catalogBlogHeader,
-      catalogBlogHint,
-      catalogSiteHeader,
-      catalogSiteHint,
       helperLines,
       recentArticleCommands,
       siteShortcuts,

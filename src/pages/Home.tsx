@@ -110,23 +110,23 @@ export default function Home() {
 
   const terminalShortcuts = [
     {
-      command: '$ open /blog',
+      command: 'open /blog',
       label: t('hero.ctaBlog'),
       href: '/blog',
     },
     {
-      command: '$ jump #projects',
+      command: 'jump #projects',
       label: t('hero.ctaPrimary'),
       onClick: () => scrollToSection('projects'),
     },
     {
-      command: '$ xdg-open github.com/Chiicake',
+      command: 'xdg-open github.com/Chiicake',
       label: t('hero.ctaGithub'),
       href: 'https://github.com/Chiicake',
       external: true,
     },
     {
-      command: '$ jump #contact',
+      command: 'jump #contact',
       label: t('hero.ctaSecondary'),
       onClick: () => scrollToSection('contact'),
     },
