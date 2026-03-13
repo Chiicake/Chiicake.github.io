@@ -189,15 +189,10 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
     }
 
     if (siteShortcuts.length > 0) {
-      if (entries.length > 0) {
-        entries.push({ type: 'gap', key: 'catalog-gap-site' });
-      }
-
       siteShortcuts.forEach(pushShortcut);
     }
 
     if (helperLines.length > 0) {
-      entries.push({ type: 'gap', key: 'catalog-gap-hints' });
       helperLines.forEach((line, index) => {
         entries.push({
           type: 'comment',
@@ -412,17 +407,12 @@ export function HomeCliHero({ shortcuts }: { shortcuts: HomeRollingShortcut[] })
       }
 
       if (siteShortcuts.length > 0) {
-        if (rows.length > 0) {
-          rows.push({ text: '', tone: 'dim' as const });
-        }
-
         siteShortcuts.forEach((shortcut) => {
           pushRow(shortcut.command.replace(/^\$\s*/, ''), shortcut.label);
         });
       }
 
       if (helperLines.length > 0) {
-        rows.push({ text: '', tone: 'dim' as const });
         helperLines.forEach((line) => rows.push({ text: line, tone: 'dim' as const }));
       }
 
