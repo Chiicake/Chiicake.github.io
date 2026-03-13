@@ -354,7 +354,7 @@ export default function BlogArticle() {
         {t('blog.backToList')}
       </Link>
 
-      <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-10">
+      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_18.5rem] lg:gap-8 xl:grid-cols-[minmax(0,1fr)_20rem] xl:gap-10">
         <div className="min-w-0">
           <header className="mb-10">
             <div className="flex flex-wrap items-center gap-2 mb-5">
@@ -433,7 +433,7 @@ export default function BlogArticle() {
           </div>
         </div>
 
-        <aside className="hidden xl:block">
+        <aside className="hidden lg:block">
           <div className="sticky top-28 space-y-4">
             <div className="blog-progress-panel rounded-[1.75rem] p-5">
               <div className="mb-5 flex items-center justify-between gap-3">
@@ -453,7 +453,7 @@ export default function BlogArticle() {
               </div>
             </div>
 
-            <div className="flex h-[calc((100vh-15rem)/2)] min-h-[16rem] max-h-[24rem] flex-col rounded-[1.75rem] border border-gray-200/80 bg-white/90 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/75">
+            <div className="flex h-[clamp(14rem,calc((100vh-15rem)/2),24rem)] min-h-[14rem] flex-col rounded-[1.75rem] border border-gray-200/80 bg-white/90 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/75">
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
                   <ListTree size={18} />
@@ -493,7 +493,7 @@ export default function BlogArticle() {
             </div>
 
             {collection && (
-              <div className="flex h-[calc((100vh-15rem)/2)] min-h-[16rem] max-h-[24rem] flex-col rounded-[1.75rem] border border-gray-200/80 bg-white/90 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/75">
+              <div className="flex h-[clamp(14rem,calc((100vh-15rem)/2),24rem)] min-h-[14rem] flex-col rounded-[1.75rem] border border-gray-200/80 bg-white/90 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/75">
                 <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
                   <Layers3 size={18} />

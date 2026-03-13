@@ -133,7 +133,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="relative flex min-h-screen flex-col justify-center px-6 pb-20 pt-28 lg:pb-16 lg:pt-24">
+    <div className="relative flex min-h-screen flex-col justify-center px-6 pb-16 pt-24 lg:pb-12 lg:pt-20">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[var(--color-accent)]/12 via-transparent to-transparent opacity-70"></div>
 
@@ -143,8 +143,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl lg:grid lg:grid-cols-[minmax(0,1fr)_34rem] lg:items-stretch lg:gap-8 xl:grid-cols-[minmax(0,1fr)_40rem] 2xl:grid-cols-[minmax(0,1fr)_42rem]">
-        <div className="relative max-w-4xl lg:flex lg:min-h-[40rem] lg:flex-col lg:justify-center lg:pt-0 xl:min-h-[42rem]">
+      <div className="mx-auto w-full max-w-7xl lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(31rem,38vw)] lg:items-stretch lg:gap-7 xl:grid-cols-[minmax(0,1fr)_minmax(34rem,40vw)] 2xl:grid-cols-[minmax(0,1fr)_minmax(36rem,42vw)]">
+        <div className="relative max-w-4xl lg:flex lg:min-h-[clamp(34rem,calc(100svh-8.5rem),42rem)] lg:flex-col lg:justify-center lg:pt-0">
           {bootVisible && (
             <motion.div
               initial={{ opacity: 0, y: -8 }}
@@ -205,7 +205,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="mt-12 lg:mt-0 lg:flex lg:w-full lg:max-w-[34rem] lg:justify-self-end lg:self-stretch lg:py-3 xl:max-w-[40rem] 2xl:max-w-[42rem]">
+        <div className="mt-10 lg:mt-0 lg:flex lg:w-full lg:max-w-none lg:justify-self-end lg:self-stretch lg:py-2">
           <ScrollReveal delay={0.52}>
             <div className="h-full">
               <HomeRollingUpdatesPanel shortcuts={terminalShortcuts} />
