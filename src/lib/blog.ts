@@ -288,3 +288,28 @@ export function parseMarkdownToc(markdown: string) {
       return items;
     }, []);
 }
+
+export function resolveActiveTocSectionIdByProgress({
+  sections,
+  progress,
+}: {
+  sections: Array<{ id: string; progress: number }>;
+  progress: number;
+}) {
+  if (sections.length === 0) {
+    return '';
+  }
+
+  let activeId = sections[0].id;
+
+  for (const section of sections) {
+    if (progress >= section.progress) {
+      activeId = section.id;
+      continue;
+    }
+
+    break;
+  }
+
+  return activeId;
+}

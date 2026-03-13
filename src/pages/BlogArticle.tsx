@@ -122,7 +122,6 @@ export default function BlogArticle() {
   const [toc, setToc] = useState<ReturnType<typeof parseMarkdownToc>>([]);
   const [loadedRequestKey, setLoadedRequestKey] = useState('');
   const [contentError, setContentError] = useState(false);
-  const [activeSectionId, setActiveSectionId] = useState('');
   const [readingProgress, setReadingProgress] = useState(0);
 
   useEffect(() => {
@@ -155,7 +154,6 @@ export default function BlogArticle() {
         setToc(parseMarkdownToc(markdown));
         setLoadedRequestKey(requestKey);
         setContentError(false);
-        setActiveSectionId('');
         setReadingProgress(0);
       })
       .catch(() => {
@@ -209,10 +207,6 @@ export default function BlogArticle() {
       return;
     }
 
-    const headings = sidebarToc
-      .map((item) => document.getElementById(item.id))
-      .filter((element): element is HTMLElement => Boolean(element));
-
     const updateReadingState = () => {
       const rect = articleElement.getBoundingClientRect();
       const articleTop = window.scrollY + rect.top;
@@ -222,27 +216,6 @@ export default function BlogArticle() {
       const nextProgress = Math.min(1, Math.max(0, (focusY - articleTop) / readableHeight));
 
       setReadingProgress((current) => (Math.abs(current - nextProgress) < 0.005 ? current : nextProgress));
-
-      if (headings.length === 0) {
-        return;
-      }
-
-      let currentId = headings[0].id;
-
-      for (const [index, heading] of headings.entries()) {
-        const headingTop = window.scrollY + heading.getBoundingClientRect().top;
-        const nextHeadingTop =
-          index < headings.length - 1
-            ? window.scrollY + headings[index + 1].getBoundingClientRect().top
-            : articleBottom + 1;
-
-        if (focusY >= headingTop && focusY < nextHeadingTop) {
-          currentId = heading.id;
-          break;
-        }
-      }
-
-      setActiveSectionId((current) => (current === currentId ? current : currentId));
     };
 
     let frameId = 0;
@@ -494,14 +467,11 @@ export default function BlogArticle() {
                         key={item.id}
                         type="button"
                         onClick={() => {
-                          setActiveSectionId(item.id);
                           scrollToSection(item.id);
                         }}
-                        className={`flex w-full items-start rounded-2xl px-3 py-2 text-left text-sm transition-colors ${
-                          activeSectionId === item.id
-                            ? 'bg-[var(--color-accent)]/10 text-[var(--color-accent)]'
-                            : 'text-[var(--color-text-secondary)] hover:bg-gray-100 hover:text-[var(--color-text-primary)] dark:hover:bg-slate-800'
-                        } ${item.depth === 3 ? 'pl-6' : ''}`}
+                        className={`flex w-full items-start rounded-2xl px-3 py-2 text-left text-sm text-[var(--color-text-secondary)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text-primary)] dark:hover:bg-slate-800 ${
+                          item.depth === 3 ? 'pl-6' : ''
+                        }`}
                       >
                         {item.text}
                       </button>
