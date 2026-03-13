@@ -398,6 +398,105 @@ export default function BlogArticle() {
             </div>
           </header>
 
+          <div className="mb-8 grid gap-3 lg:hidden">
+            <details className="rounded-[1.5rem] border border-gray-200/80 bg-white/88 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/72">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-left">
+                <span className="text-sm font-semibold text-[var(--color-text-primary)]">{t('blog.readingProgress')}</span>
+                <span className="mono-data rounded-full border border-[var(--color-accent)]/15 bg-[var(--color-accent)]/10 px-2.5 py-1 text-[11px] text-[var(--color-accent)]">
+                  {Math.round(readingProgress * 100)}%
+                </span>
+              </summary>
+              <div className="mt-4">
+                <div className="blog-progress-panel__bar">
+                  <div
+                    className="blog-progress-panel__bar-fill"
+                    style={{ width: `${Math.round(readingProgress * 100)}%` }}
+                  />
+                </div>
+              </div>
+            </details>
+
+            {sidebarToc.length > 0 && (
+              <details className="rounded-[1.5rem] border border-gray-200/80 bg-white/88 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/72">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-left">
+                  <span className="text-sm font-semibold text-[var(--color-text-primary)]">{t('blog.tableOfContents')}</span>
+                  <ListTree size={16} className="text-[var(--color-accent)]" />
+                </summary>
+                <nav className="mt-4 space-y-1">
+                  {sidebarToc.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => {
+                        scrollToSection(item.id);
+                      }}
+                      className={`flex w-full items-start rounded-2xl px-3 py-2 text-left text-sm text-[var(--color-text-secondary)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text-primary)] dark:hover:bg-slate-800 ${
+                        item.depth === 3 ? 'pl-6' : ''
+                      }`}
+                    >
+                      {item.text}
+                    </button>
+                  ))}
+                </nav>
+              </details>
+            )}
+
+            {collection && (
+              <details className="rounded-[1.5rem] border border-gray-200/80 bg-white/88 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/72">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-left">
+                  <span className="text-sm font-semibold text-[var(--color-text-primary)]">{t('blog.currentCollection')}</span>
+                  <Layers3 size={16} className="text-[var(--color-accent)]" />
+                </summary>
+
+                <div className="mt-4">
+                  <Link
+                    to={`/blog/collections/${collection.slug}`}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-text-primary)] transition-colors hover:text-[var(--color-accent)]"
+                  >
+                    {getLocalizedText(collection.name, lang)}
+                    <ArrowLeft size={13} className="rotate-180" />
+                  </Link>
+
+                  <p className="mt-2 text-sm leading-6 text-[var(--color-text-secondary)]">
+                    {getLocalizedText(collection.description, lang)}
+                  </p>
+
+                  <div className="mt-4 space-y-2">
+                    {collectionArticles.map((article) => {
+                      const isCurrent = article.slug === meta.slug;
+
+                      return (
+                        <Link
+                          key={article.slug}
+                          to={`/blog/${article.slug}`}
+                          className={`block rounded-2xl border px-3 py-3 transition-colors ${
+                            isCurrent
+                              ? 'border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10'
+                              : 'border-gray-200/80 hover:border-[var(--color-accent)]/30 hover:bg-gray-50 dark:border-slate-800/80 dark:hover:bg-slate-900'
+                          }`}
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-black/5 text-xs font-semibold text-[var(--color-text-secondary)] dark:bg-white/10">
+                              {article.seriesOrder ?? '-'}
+                            </div>
+                            <div className="min-w-0">
+                              <p className={`text-sm font-semibold leading-snug ${isCurrent ? 'text-[var(--color-accent)]' : 'text-[var(--color-text-primary)]'}`}>
+                                {getLocalizedText(article.title, lang)}
+                              </p>
+                              <p className="mt-1 text-xs text-[var(--color-text-secondary)]">
+                                {getLocalizedText(article.readingTime, lang)}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              </details>
+            )}
+          </div>
+
           <article ref={articleRef} className="blog-article">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkMath]}

@@ -198,7 +198,8 @@ export function Header() {
             title={t('common.switchLang')}
           >
             <Globe size={15} />
-            <span className="mono-data">中文 / EN</span>
+            <span className="mono-data hidden sm:inline">中文 / EN</span>
+            <span className="mono-data sm:hidden">中 / EN</span>
           </button>
           
           <button 

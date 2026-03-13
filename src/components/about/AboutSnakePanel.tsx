@@ -274,7 +274,7 @@ export function AboutSnakePanel() {
   ];
 
   return (
-    <div className="engineering-panel flex h-full min-h-[520px] flex-col rounded-[2rem] p-5 md:p-6">
+    <div className="engineering-panel flex h-full min-h-[420px] flex-col rounded-[2rem] p-4 md:min-h-[520px] md:p-6">
       <div className="max-w-3xl space-y-2 text-base leading-7 text-[var(--color-text-secondary)] md:text-[1rem]">
         <p>{t('about.snakeTitle')}</p>
         <p>{t('about.snakeFocus')}</p>
@@ -291,19 +291,19 @@ export function AboutSnakePanel() {
         </p>
       </div>
 
-      <div className="mt-6 grid gap-5 xl:mt-auto xl:grid-cols-[minmax(0,1fr)_260px] xl:items-end">
+      <div className="mt-5 grid gap-4 xl:mt-auto xl:grid-cols-[minmax(0,1fr)_260px] xl:items-end">
         <div className="engineering-subpanel rounded-[1.75rem] p-4 md:p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div>
               <p className="mono-data text-[11px] uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
                 {t('about.snakeBoardLabel')}
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 type="button"
                 onClick={handleToggle}
-                className="inline-flex items-center gap-2 rounded-full border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 px-4 py-2 text-sm font-semibold text-[var(--color-accent)] transition-transform hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/10 px-3.5 py-2 text-sm font-semibold text-[var(--color-accent)] transition-transform hover:-translate-y-0.5"
               >
                 {game.status === 'running' ? <Pause size={15} /> : <Play size={15} />}
                 {game.status === 'running' ? t('about.snakePauseAction') : t('about.snakeStartAction')}
@@ -311,7 +311,7 @@ export function AboutSnakePanel() {
               <button
                 type="button"
                 onClick={handleReset}
-                className="inline-flex items-center gap-2 rounded-full border border-gray-200/80 bg-white/80 px-4 py-2 text-sm font-semibold text-[var(--color-text-secondary)] transition-transform hover:-translate-y-0.5 dark:border-slate-800/70 dark:bg-slate-900/60"
+                className="inline-flex items-center gap-2 rounded-full border border-gray-200/80 bg-white/80 px-3.5 py-2 text-sm font-semibold text-[var(--color-text-secondary)] transition-transform hover:-translate-y-0.5 dark:border-slate-800/70 dark:bg-slate-900/60"
               >
                 <RotateCcw size={15} />
                 {t('about.snakeResetAction')}
@@ -319,7 +319,7 @@ export function AboutSnakePanel() {
             </div>
           </div>
 
-          <div className="about-snake-screen relative mt-5 rounded-[1.5rem] border border-gray-200/80 p-3 dark:border-slate-800/70">
+          <div className="about-snake-screen relative mt-4 rounded-[1.5rem] border border-gray-200/80 p-2.5 md:mt-5 md:p-3 dark:border-slate-800/70">
             <div
               className="grid aspect-square w-full gap-[3px] rounded-[1.25rem] bg-slate-200/65 p-[3px] dark:bg-slate-950/80"
               style={{ gridTemplateColumns: `repeat(${game.boardSize}, minmax(0, 1fr))` }}
@@ -360,7 +360,7 @@ export function AboutSnakePanel() {
             {t('about.snakeStatusPanelTitle')}
           </p>
 
-          <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="mt-4 grid grid-cols-2 gap-2.5">
             <div className="rounded-[1.25rem] border border-gray-200/80 bg-white/80 p-3 dark:border-slate-800/70 dark:bg-slate-900/55">
               <p className="mono-data text-[11px] uppercase tracking-[0.16em] text-[var(--color-text-secondary)]">
                 {t('about.snakeStatusLabel')}
@@ -393,7 +393,7 @@ export function AboutSnakePanel() {
             {t('about.snakeControlsTitle')}
           </p>
 
-          <div className="mx-auto mt-4 grid w-[172px] grid-cols-3 grid-rows-3 gap-2">
+          <div className="mx-auto mt-4 grid w-[160px] grid-cols-3 grid-rows-3 gap-2 md:w-[172px]">
             {controlButtons.map(({ className, direction, icon: Icon, label }) => (
               <button
                 key={direction}
@@ -401,7 +401,7 @@ export function AboutSnakePanel() {
                 aria-label={label}
                 title={label}
                 onClick={() => handleDirectionInput(direction)}
-                className={`${className} inline-flex h-14 w-14 items-center justify-center rounded-[1.1rem] border border-gray-200/80 bg-white/80 text-[var(--color-text-primary)] transition-transform hover:-translate-y-0.5 dark:border-slate-800/70 dark:bg-slate-900/55`}
+                className={`${className} inline-flex h-12 w-12 items-center justify-center rounded-[1rem] border border-gray-200/80 bg-white/80 text-[var(--color-text-primary)] transition-transform hover:-translate-y-0.5 md:h-14 md:w-14 md:rounded-[1.1rem] dark:border-slate-800/70 dark:bg-slate-900/55`}
               >
                 <Icon size={18} />
               </button>
