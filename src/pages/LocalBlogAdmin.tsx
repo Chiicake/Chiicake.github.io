@@ -142,17 +142,18 @@ async function fileToBase64(file: File) {
   return window.btoa(binary);
 }
 
-function isLocalizedContentLinked(content: LocalizedContent) {
-  const zh = content.zh.trim();
-  const en = content.en.trim();
-  return !en || en === zh;
+function createSeparatedArticleFieldLinks(): ArticleFieldLinks {
+  return {
+    title: false,
+    summary: false,
+    readingTime: false,
+  };
 }
 
-function deriveArticleFieldLinks(article: BlogArticleMeta): ArticleFieldLinks {
+function createSeparatedTaxonomyFieldLinks(): TaxonomyFieldLinks {
   return {
-    title: isLocalizedContentLinked(article.title),
-    summary: isLocalizedContentLinked(article.summary),
-    readingTime: isLocalizedContentLinked(article.readingTime),
+    primary: false,
+    secondary: false,
   };
 }
 
@@ -471,17 +472,9 @@ export default function LocalBlogAdmin() {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
   const [selectedCollectionIndex, setSelectedCollectionIndex] = useState(0);
   const [articleDraft, setArticleDraft] = useState<BlogArticleMeta>(createEmptyArticle());
-  const [articleFieldLinks, setArticleFieldLinks] = useState<ArticleFieldLinks>(() =>
-    deriveArticleFieldLinks(createEmptyArticle())
-  );
-  const [categoryFieldLinks, setCategoryFieldLinks] = useState<TaxonomyFieldLinks>({
-    primary: true,
-    secondary: true,
-  });
-  const [collectionFieldLinks, setCollectionFieldLinks] = useState<TaxonomyFieldLinks>({
-    primary: true,
-    secondary: true,
-  });
+  const [articleFieldLinks, setArticleFieldLinks] = useState<ArticleFieldLinks>(() => createSeparatedArticleFieldLinks());
+  const [categoryFieldLinks, setCategoryFieldLinks] = useState<TaxonomyFieldLinks>(() => createSeparatedTaxonomyFieldLinks());
+  const [collectionFieldLinks, setCollectionFieldLinks] = useState<TaxonomyFieldLinks>(() => createSeparatedTaxonomyFieldLinks());
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [newTagText, setNewTagText] = useState('');
   const [articleSearch, setArticleSearch] = useState('');
@@ -517,7 +510,7 @@ export default function LocalBlogAdmin() {
 
         const nextDraft = getArticleDraftFromIndex(normalizedIndex, firstArticle?.slug ?? null);
         setArticleDraft(nextDraft);
-        setArticleFieldLinks(deriveArticleFieldLinks(nextDraft));
+        setArticleFieldLinks(createSeparatedArticleFieldLinks());
         setLoading(false);
       })
       .catch((error) => {
@@ -568,10 +561,7 @@ export default function LocalBlogAdmin() {
       return;
     }
 
-    setCategoryFieldLinks({
-      primary: isLocalizedContentLinked(targetCategory.label),
-      secondary: isLocalizedContentLinked(targetCategory.description),
-    });
+    setCategoryFieldLinks(createSeparatedTaxonomyFieldLinks());
   }, [index, selectedCategoryIndex]);
 
   useEffect(() => {
@@ -584,10 +574,7 @@ export default function LocalBlogAdmin() {
       return;
     }
 
-    setCollectionFieldLinks({
-      primary: isLocalizedContentLinked(targetCollection.name),
-      secondary: isLocalizedContentLinked(targetCollection.description),
-    });
+    setCollectionFieldLinks(createSeparatedTaxonomyFieldLinks());
   }, [index, selectedCollectionIndex]);
 
   const commitPersistedIndex = (nextIndex: BlogIndex) => {
@@ -611,7 +598,7 @@ export default function LocalBlogAdmin() {
     setSelectedArticleSlug(slug);
     const nextDraft = getArticleDraftFromIndex(nextIndex, slug);
     setArticleDraft(nextDraft);
-    setArticleFieldLinks(deriveArticleFieldLinks(nextDraft));
+    setArticleFieldLinks(createSeparatedArticleFieldLinks());
     setPendingFiles([]);
   };
 
@@ -1484,7 +1471,7 @@ export default function LocalBlogAdmin() {
 
               <LinkedFieldGroup
                 title="标题"
-                description="标题默认中英联动，需要分别改写时再切换到分开编辑。"
+                description="标题默认分开编辑；如果中英文一致，再切换成 EN 跟随中文。"
                 linked={articleFieldLinks.title}
                 onLinkedChange={(value) => setArticleFieldLinks((current) => ({ ...current, title: value }))}
                 values={articleDraft.title}
@@ -1506,7 +1493,7 @@ export default function LocalBlogAdmin() {
 
               <LinkedFieldGroup
                 title="摘要"
-                description="摘要区支持默认中英联动，先写一版再决定是否细分英文版本。"
+                description="摘要默认分开编辑；如果两边内容一致，再切换成 EN 跟随中文。"
                 linked={articleFieldLinks.summary}
                 onLinkedChange={(value) => setArticleFieldLinks((current) => ({ ...current, summary: value }))}
                 values={articleDraft.summary}
@@ -1530,7 +1517,7 @@ export default function LocalBlogAdmin() {
 
               <LinkedFieldGroup
                 title="阅读时长"
-                description="如果中英文展示一致，保留联动即可；需要分别写时再切换。"
+                description="阅读时长默认分开编辑；如果中英文展示一致，可切换成 EN 跟随中文。"
                 linked={articleFieldLinks.readingTime}
                 onLinkedChange={(value) => setArticleFieldLinks((current) => ({ ...current, readingTime: value }))}
                 values={articleDraft.readingTime}
@@ -1795,7 +1782,7 @@ export default function LocalBlogAdmin() {
 
               <LinkedFieldGroup
                 title="分类名称"
-                description="默认中英联动；如果需要单独英文名称，再切换成分开编辑。"
+                description="分类名称默认分开编辑；如果中英文一致，再切换成 EN 跟随中文。"
                 linked={categoryFieldLinks.primary}
                 onLinkedChange={(value) => setCategoryFieldLinks((current) => ({ ...current, primary: value }))}
                 values={selectedCategory.label}
@@ -1976,7 +1963,7 @@ export default function LocalBlogAdmin() {
 
               <LinkedFieldGroup
                 title="合集名称"
-                description="合集标题默认中英联动，需要细化英文版本时再拆开。"
+                description="合集名称默认分开编辑；如果中英文一致，再切换成 EN 跟随中文。"
                 linked={collectionFieldLinks.primary}
                 onLinkedChange={(value) => setCollectionFieldLinks((current) => ({ ...current, primary: value }))}
                 values={selectedCollection.name}

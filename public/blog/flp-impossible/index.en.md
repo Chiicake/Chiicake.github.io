@@ -1,190 +1,162 @@
 ---
-title: FLP 不可能性
+title: A Brief Analysis of FLP Impossibility
 ---
+Original paper link: https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf
 
-https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf
-# FLP 不可能性：异步分布式系统中共识问题的理论边界
+In distributed systems theory, FLP impossibility is one of the most representative results. It is not concerned with the engineering implementation details of any particular protocol, but with a more fundamental question: **under what kind of system model can consensus actually be solved completely?**
 
-在分布式系统理论中，FLP 不可能性是最具代表性的结论之一。它讨论的并不是某一类具体协议的工程实现细节，而是一个更基础的问题：**在怎样的系统模型下，共识究竟能否被彻底解决**。
+FLP is formed from the initials of the three authors Fischer, Lynch, and Paterson. In their classic paper, "Impossibility of Distributed Consensus with One Faulty Process," they proved that in a fully asynchronous distributed system, even if only a single process is allowed to fail by crashing, there exists no deterministic consensus algorithm that both satisfies safety and guarantees termination.
 
-所谓 FLP，不是某种协议名称，而是三位作者 Fischer、Lynch 和 Paterson 姓氏首字母的组合。三人于经典论文中证明：在完全异步的分布式系统中，即使只允许一个进程发生崩溃故障，也不存在一个既满足安全性又保证终止性的确定性共识算法。
-
-这一结论之所以重要，不在于它否定了现实中的共识协议，而在于它明确划定了分布式共识能够成立的理论前提。许多后来被广泛采用的协议，例如 Paxos、Raft，以及各种基于选主、超时和多数派机制构建的系统，本质上都必须通过引入额外假设，来绕开 FLP 所揭示的极限。
-
----
-
-## 一、什么是共识问题
-
-共识问题可以表述为：在一个由多个进程组成的分布式系统中，每个进程初始时持有一个输入值，协议需要保证这些进程最终对某一个共同的值作出决定。
-
-通常，一个共识算法需要满足以下三个基本性质：
-
-### 1. 终止性
-所有无故障进程最终都必须作出决定。
-
-### 2. 一致性
-所有作出决定的无故障进程，其决定结果必须相同。
-
-### 3. 有效性
-最终被决定的值必须来自某个进程的初始提议，而不能是系统凭空构造出的结果。
-
-这三个性质合在一起，构成了经典意义上的共识问题。该问题在分布式计算中具有基础地位。以事务提交为例，多个数据管理者必须对“提交”还是“回滚”作出一致决定，这实际上就是共识问题的一种具体表现形式。
+The importance of this result does not lie in denying real-world consensus protocols, but in clearly drawing the theoretical prerequisite under which distributed consensus can hold. Many protocols that were widely adopted later, such as Paxos, Raft, and various systems built around leader election, timeouts, and majority-based mechanisms, must in essence introduce additional assumptions in order to work around the limit revealed by FLP.
 
 ---
 
-## 二、FLP 关注的并不是“恶意攻击”，而是更基本的异步性
+## I. What Is the Consensus Problem?
 
-FLP 所讨论的模型比拜占庭故障、消息篡改、恶意节点等问题简单得多。
+The consensus problem can be stated as follows: in a distributed system composed of multiple processes, each process initially holds an input value, and the protocol must ensure that these processes eventually decide on one common value.
 
-它假设：
+Typically, a consensus algorithm must satisfy the following three basic properties:
 
-- 系统是完全异步的；
-- 消息传输没有固定上界；
-- 进程执行速度没有固定上界；
-- 系统中不存在全局时钟；
-- 进程无法可靠判断另一个进程究竟是已经崩溃，还是只是运行得较慢；
-- 消息系统本身是可靠的，消息不会凭空丢失、篡改或重复。
+### 1. Termination
+All non-faulty processes must eventually make a decision.
 
-因此，FLP 的难点不在于节点会“作恶”，而在于异步系统中缺乏关于时间的确定性信息。只要一个进程迟迟没有回应，其他进程便无法准确区分以下几种情况：
+### 2. Agreement
+All non-faulty processes that make a decision must produce the same result.
 
-- 对方已经崩溃；
-- 对方仍然存活，但执行速度极慢；
-- 网络发生了极大延迟；
-- 消息尚在传输途中。
+### 3. Validity
+The value that is finally decided must come from the initial proposal of some process, rather than being fabricated by the system out of thin air.
 
-而共识协议恰恰需要根据系统中其他节点的状态来推进决策。一旦这种判断本身不再可靠，协议的终止性就会遭遇根本性困难。
+Taken together, these three properties constitute the consensus problem in the classical sense. Using transaction commit as an example, multiple data managers must make a consistent decision on whether to "commit" or "roll back," which is in fact a concrete manifestation of the consensus problem.
 
 ---
 
-## 三、同步系统为何能解决，而异步系统为何会失败
+## II. What FLP Focuses On
 
-要理解 FLP，不妨先比较同步系统与异步系统的差异。
+The model discussed by FLP is far simpler than problems involving Byzantine faults, message tampering, malicious nodes, and similar concerns.
 
-在同步系统中，进程执行时间和消息传输延迟都存在已知上界。这样一来，若某个节点在规定时间内始终没有回应，其他节点便可以依据时间界限，将其视作故障节点。换言之，**超时在同步系统中是具有明确信息含义的**。
+It assumes:
 
-然而在异步系统中，这一前提不成立。由于不存在时间上界，“未收到回复”本身不再构成有效证据。系统无法仅凭等待时间判断某个节点是否失效，而这正是 FLP 结论得以成立的根本原因。
+- the system is fully asynchronous;
+- message transmission has no fixed upper bound;
+- process execution speed has no fixed upper bound;
+- there is no global clock in the system;
+- a process cannot reliably determine whether another process has already crashed or is merely running slowly;
+- the message system itself is reliable, meaning messages are not lost, tampered with, or duplicated out of thin air.
 
-因此，FLP 并不是在说“共识问题本身无法解决”，而是在说：**如果系统不提供任何关于时间和故障检测的额外信息，那么共识的终止性便无法被无条件保证。**
+Therefore, FLP is primarily concerned with the lack of deterministic timing information in asynchronous systems. As long as a process has not responded for a long time, other processes cannot accurately distinguish among the following possibilities:
 
----
+- the other side has already crashed;
+- the other side is still alive but executing extremely slowly;
+- the network is experiencing very large delays;
+- the message is still in transit.
 
-## 四、FLP 的核心结论
+Yet a consensus protocol must advance its decision based on the states of other nodes in the system. Once this judgment itself is no longer reliable, the termination property of the protocol encounters a fundamental difficulty.
 
-FLP 证明的核心结论可以概括为：
+Compared with asynchronous systems, synchronous systems have known upper bounds on both process execution time and message transmission delay. In that case, if a node still has not responded within the prescribed time, other nodes may treat it as faulty based on that time bound. In other words, **timeouts in synchronous systems carry clear informational meaning**.
 
-> 在完全异步的分布式系统中，即使最多只有一个进程发生崩溃，也不存在一个在所有可接受执行中都既保持正确又最终终止的确定性共识协议。
+However, this premise does not hold in asynchronous systems. Since no time bound exists, "no reply has been received" no longer constitutes valid evidence by itself. The system cannot determine whether a node has failed merely from waiting time, and this is exactly the fundamental reason why the FLP result holds.
 
-这里需要特别注意，“不可能”主要针对的是**终止性**，而不是安全性。
-
-从工程角度看，许多协议实际上能够在很大程度上保证一致性，也即不会出现两个节点分别决定不同结果的严重错误；真正难以绝对保证的，是所有无故障进程都一定能在有限时间内完成决定。
-
-这也是为什么 FLP 在分布式系统中常被理解为：  
-**异步系统中的共识，安全性可以设计得很强，而活性无法无条件获得。**
-
----
-
-## 五、证明的关键思想：双价状态
-
-FLP 证明之所以经典，很大程度上在于它并非依赖复杂的技巧堆砌，而是建立在一个非常深刻且直观的概念之上：**双价状态（bivalent configuration）**。
-
-从某个系统状态出发：
-
-- 如果无论后续如何执行，系统最终都只能决定 0，那么该状态可称为 0-valent；
-- 如果最终都只能决定 1，那么该状态可称为 1-valent；
-- 如果从该状态出发，未来既可能决定 0，也可能决定 1，那么它就是双价状态。
-
-双价状态的含义是：系统此时尚未被唯一地推向某个决定结果，未来的调度顺序仍然会影响最终决策。
-
-FLP 的证明大致包括两个关键步骤。
-
-### 第一步：证明双价初始状态一定存在
-也就是说，系统并非从一开始就注定只能决定某一个结果。总存在某个初始配置，使得未来仍存在多种可能。
-
-### 第二步：证明总能延续双价性
-这是整个证明最关键的部分。FLP 说明：只要系统当前仍处在双价状态，那么总可以通过某种合法的事件调度方式，使系统继续停留在“双价”区域，而不进入真正完成决定的单价状态。
-
-于是，便可以构造出一条无限执行路径：
-
-- 所有非故障进程都不断获得执行机会；
-- 消息也可以持续被处理；
-- 系统始终保持合法运行；
-- 但协议就是迟迟不能完成决定。
-
-这就直接否定了“所有无故障进程最终都能决定”的要求，也即否定了完全正确的确定性共识协议在该模型中的存在性。
-
-FLP 的强大之处，恰恰在于它证明的不是“某些情况下可能失败”，而是“总存在一种合法执行，使得协议无法终止”。
+Therefore, FLP is not saying that "the consensus problem itself cannot be solved." Rather, it says: **if the system provides no additional information about time or failure detection, then the termination of consensus cannot be guaranteed unconditionally.**
 
 ---
 
-## 六、FLP 并不意味着现实中的共识协议无效
+## III. The Core Conclusion of FLP
 
-如果仅从字面理解 FLP，很容易得出一种过于悲观的结论：既然异步系统中共识不可能，那么现实中为什么还有 Paxos、Raft、事务提交协议以及各种分布式一致性组件？
+The core conclusion proved by FLP can be summarized as follows:
 
-关键在于，这些现实协议并不满足 FLP 证明中最严格的前提。更准确地说，它们往往通过以下方式绕开了 FLP 所适用的模型：
+> In a fully asynchronous distributed system, even if at most one process crashes, there exists no deterministic consensus protocol that remains correct and also eventually terminates in every admissible execution.
 
-### 1. 引入部分同步假设
-现实系统虽然可能暂时出现网络抖动、节点拥塞和消息延迟，但通常不会无限期处于极端失序状态。许多协议实际上依赖的是“系统最终会恢复到足够稳定”的假设。
+One point here deserves special attention: the "impossibility" mainly targets **termination**, rather than safety.
 
-### 2. 引入超时机制和故障检测
-超时机制并不能从理论上精确地区分“慢”和“死”，但在工程实践中，它为系统推进提供了必要依据。它不是绝对正确的判断，而是一种可接受的近似。
+From an engineering point of view, many protocols can in practice ensure agreement to a large extent, meaning they do not produce the severe error where two nodes decide on different results. What is truly difficult to guarantee absolutely is that all non-faulty processes will certainly complete a decision within finite time.
 
-### 3. 放松确定性要求
-某些协议通过随机化机制来规避坏调度，使系统以概率方式打破僵局。这样虽然不能保证每条执行路径都终止，但可以获得“以概率 1 终止”的性质。
-
-因此，FLP 真正揭示的不是“共识协议无用”，而是：**任何能够在现实中工作的共识协议，都必须建立在纯异步模型之外的附加条件之上。**
+This is also why FLP is often understood in distributed systems as:  
+**in consensus under asynchronous systems, safety can be designed to be strong, while liveness cannot be obtained unconditionally.**
 
 ---
 
-## 七、为什么 Paxos 可行，却不违背 FLP
+## IV. The Basic Proof Idea
 
-Paxos 常常被拿来与 FLP 对照讨论。表面上看，Paxos 能在分布式环境中达成共识，而 FLP 却说异步系统中共识不可能，这似乎存在矛盾。实际上并没有。
+In this proof, the notion of a **bivalent configuration** is a crucial concept. Starting from some system state:
 
-原因在于，Paxos 并未宣称自己在纯异步模型下对活性作出无条件保证。它真正能够保证的是：
+- if no matter how the execution proceeds afterward the system can only end up deciding 0, then the state is 0-valent;
+- if it can only end up deciding 1, then the state is 1-valent;
+- if starting from that state the future may still lead to either 0 or 1, then it is a bivalent state.
 
-- **安全性**：不会产生两个互相冲突的决定；
-- **活性**：在网络最终稳定、超时设置合理、领导者能够持续一段时间的前提下，协议通常可以推进并完成决定。
+The meaning of a bivalent state is that the system has not yet been uniquely driven toward a particular decision result, and future scheduling order can still affect the final outcome.
 
-也就是说，Paxos 保住了最重要的安全性质，而将终止性建立在附加工程条件之上。它不是对 FLP 的否定，反而恰恰体现了 FLP 结论在实践中的影响。
+The FLP proof roughly consists of two key steps.
 
----
+### Step One: Prove that a bivalent initial state must exist
+That is, the system is not doomed from the very beginning to decide only a single result. There always exists some initial configuration from which multiple future outcomes remain possible.
 
-## 八、FLP 对工程实践的启发
+### Step Two: Prove that bivalence can always be extended
+This is the most critical part of the whole proof. FLP shows that as long as the system is currently still in a bivalent state, there is always some legal event schedule through which the system can remain in the "bivalent" region rather than entering a univalent state where a real decision is completed.
 
-尽管 FLP 是一个理论结论，但它对工程系统设计具有非常现实的指导意义。
+Thus one can construct an infinite execution path:
 
-### 1. 网络延迟不仅影响性能，还影响协议活性
-在共识系统中，网络拥塞和长尾延迟带来的后果，不只是吞吐下降或响应变慢，更重要的是，它会使节点越来越难以判断其他节点到底是失效了，还是只是响应迟缓。只要这种不确定性持续存在，协议的推进能力就会受到影响。
+- all non-faulty processes continuously receive opportunities to execute;
+- messages can also continue to be processed;
+- the system remains legally running throughout;
+- yet the protocol still cannot finish making a decision.
 
-### 2. 节点资源不足也会表现为“类故障”
-一个节点如果 CPU 资源紧张、磁盘 I/O 阻塞、内存压力过高或发生长时间停顿，在其他节点看来，其表现与真正故障非常相似：都是长时间不回应。因此，共识协议的稳定运行不仅依赖算法本身，也依赖底层计算资源是否充足。
+This directly denies the requirement that "all non-faulty processes eventually decide," and thus denies the existence of a completely correct deterministic consensus protocol in this model.
 
-### 3. 超时参数本质上是工程妥协
-理论上，异步系统中无法准确通过时间判断故障；但工程上若完全拒绝基于时间作判断，系统又难以继续推进。因此，超时机制本质上是一种务实设计：它不保证绝对正确，却为系统提供了继续运行所必需的决策依据。
-
----
-
-## 九、FLP 的真正意义
-
-FLP 最重要的价值，不在于告诉人们“某件事做不到”，而在于迫使人们重新理解分布式系统中的不确定性。
-
-在单机程序中，时间通常只是性能指标；在分布式系统中，时间却直接决定了你能否区分故障与延迟。只要这种区分无法完成，共识协议就不可能同时拥有绝对安全和绝对终止。
-
-因此，FLP 的意义在于为分布式系统划出了一条清晰边界：
-
-**如果没有额外时间假设、故障检测能力或随机化机制，那么确定性异步共识无法被彻底解决。**
-
-这也是为什么 FLP 至今仍被视为理解 Paxos、Raft、事务提交、选主机制、故障检测器和部分同步模型的理论起点。
+![FLP.png](assets/FLP.png)
+The elegance of FLP lies in the fact that it proves not merely that "failure may occur in some cases," but that "there always exists some legal execution under which the protocol cannot terminate."
 
 ---
 
-## 十、总结
+## V. FLP and Existing Consensus Mechanisms
 
-FLP 不可能性揭示了分布式共识的一个基本事实：  
-**在完全异步的系统中，只要存在哪怕一个可能崩溃的进程，就不可能设计出一个在所有情况下都既正确又保证终止的确定性共识协议。**
+If consensus is impossible in asynchronous systems, then why do Paxos, Raft, transaction commit protocols, and various distributed consistency components still exist in reality? The key is that these real-world protocols do not satisfy the strictest premises used in the FLP proof. More precisely, they usually work around the model targeted by FLP in the following ways:
 
-它并没有否定现实中的共识算法，而是说明这些算法之所以能够工作，必然依赖于某些额外前提，例如网络最终趋于稳定、超时机制在大多数情况下有效，或者系统通过随机化来突破僵局。
+### 1. Introducing partial synchrony assumptions
+Real-world systems may temporarily experience network jitter, node congestion, and message delay, but they usually do not remain indefinitely in an extremely disordered state. Many protocols in practice rely on the assumption that the system will eventually recover to a sufficiently stable condition.
 
-从这个意义上说，FLP 不是对工程实践的打击，反而是一种重要提醒：  
-在分布式系统中，真正困难的从来不只是“如何达成一致”，而是“在不可避免的不确定性中，究竟能对系统提出怎样的保证”。
+### 2. Introducing timeout mechanisms and failure detection
+Timeouts cannot theoretically distinguish "slow" from "dead" with exact precision, but in engineering practice they provide the necessary basis for moving the system forward. They are not absolutely correct judgments, but acceptable approximations.
 
-这正是 FLP 在今天仍然值得反复讨论的原因。
+### 3. Relaxing the determinism requirement
+Some protocols use randomization to avoid bad schedules and break deadlock probabilistically. In this way, although they cannot guarantee termination on every execution path, they can obtain the property of "terminating with probability 1."
+
+Therefore, what FLP truly reveals is: **any consensus protocol that can work in reality must be built on additional conditions beyond the pure asynchronous model.**
+
+Using Paxos as an example, on the surface Paxos can reach consensus in distributed environments, while FLP says consensus is impossible in asynchronous systems, which may seem contradictory. In fact, there is no contradiction. The reason is that Paxos never claims to provide unconditional liveness in the pure asynchronous model. What it truly guarantees is:
+
+- **Safety**: it will not produce two conflicting decisions;
+- **Liveness**: under the assumptions that the network eventually stabilizes, timeout settings are reasonable, and a leader can remain active for a sustained period, the protocol can usually make progress and complete the decision.
+
+In other words, Paxos preserves the most important safety property, while placing termination on top of additional engineering conditions.
+
+---
+
+## VII. Summarizing the Engineering Lessons of FLP
+
+Although FLP is a theoretical result, it
+---
+
+## VI. Conclusion
+
+The value of FLP impossibility does not lie in denying real-world consensus protocols, but in showing that the ability of distributed systems to achieve consensus always has clear boundaries. As a theoretical result, it therefore offers highly practical guidance for engineering system design:
+
+    1. Network delay affects not only performance, but also protocol liveness
+    In consensus systems, the consequences of network congestion and long-tail latency are not merely lower throughput or slower response times.
+    More importantly, they make it increasingly difficult for nodes to determine whether other nodes have actually failed or are simply responding slowly.
+    As long as this uncertainty persists, the protocol's ability to make progress is affected.
+    
+    2. Insufficient node resources can also appear as "fault-like" behavior
+    If a node is under CPU pressure, blocked on disk I/O, suffering heavy memory pressure, or paused for a long time,
+    then from the viewpoint of other nodes its behavior looks very similar to an actual fault: it simply does not respond for a long time.
+    Therefore, the stable operation of a consensus protocol depends not only on the algorithm itself, but also on whether underlying compute resources are sufficient.
+    
+    3. Timeout parameters are, in essence, engineering compromises
+    In theory, an asynchronous system cannot accurately judge faults through time.
+    But in engineering practice, if one completely rejects time-based judgments, the system becomes difficult to keep moving forward.
+    Therefore, timeout mechanisms are fundamentally pragmatic designs: they do not guarantee absolute correctness, yet they provide the decision basis necessary for the system to continue operating.
+
+In distributed environments, time is not merely a performance issue; it also determines whether the system can distinguish "a node has already failed" from "a node is merely responding slowly." Once this distinction cannot be made reliably, it becomes impossible under fully asynchronous conditions to obtain both absolute safety and guaranteed termination in a deterministic consensus protocol.
+
+That is precisely why Paxos, Raft, transaction commit, and various leader-election and failure-detection mechanisms are all built on additional assumptions, such as partial synchrony, timeouts, or randomization.
+
+What FLP truly reminds us is this: the hardest part in distributed systems is never merely getting nodes to reach agreement, but clearly understanding, in an environment full of uncertainty, what the system can guarantee and what it cannot.
