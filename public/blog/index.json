@@ -1,7 +1,8 @@
 {
   "tags": [
     "Distributed Systems",
-    "Go"
+    "Go",
+    "Rust"
   ],
   "categories": [
     {
@@ -13,6 +14,17 @@
       "description": {
         "zh": "语言特性、工具链、编译器与标准库实践。",
         "en": "Language features, tooling, compiler, and standard library practice."
+      }
+    },
+    {
+      "id": "rust-language",
+      "label": {
+        "zh": "Rust 语言",
+        "en": "Rust Language"
+      },
+      "description": {
+        "zh": "语言特性、工具链、编译器与生态更新。",
+        "en": "Language features, tooling, compiler, and ecosystem updates."
       }
     },
     {
@@ -63,6 +75,40 @@
     }
   ],
   "articles": [
+    {
+      "slug": "rust-1-94-0",
+      "date": "2026-03-13",
+      "tags": [
+        "Rust"
+      ],
+      "title": {
+        "zh": "Rust 1.94.0 发布",
+        "en": "Announcing Rust 1.94.0"
+      },
+      "summary": {
+        "zh": "Rust 1.94 发布：array_windows、Cargo include 与 TOML 1.1 支持。",
+        "en": "Rust 1.94.0 adds array_windows, Cargo config inclusion, and TOML 1.1 support."
+      },
+      "readingTime": {
+        "zh": "6 分钟",
+        "en": "5 min"
+      },
+      "category": "rust-language",
+      "contentType": "repost",
+      "source": {
+        "site": "blog.rust-lang.org",
+        "author": "The Rust Release Team",
+        "title": {
+          "zh": "Rust 1.94.0 发布",
+          "en": "Announcing Rust 1.94.0"
+        },
+        "url": "https://blog.rust-lang.org/2026/03/05/Rust-1.94.0/",
+        "publishedAt": "2026-03-05",
+        "translator": "Chiicake"
+      },
+      "collection": "rust-lang",
+      "seriesOrder": 1
+    },
     {
       "slug": "go-source-level-inliner",
       "date": "2026-03-13",

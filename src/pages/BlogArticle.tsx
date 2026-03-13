@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
+import rehypeHighlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { ArrowLeft, Calendar, Clock, ExternalLink, Layers3, ListTree } from 'lucide-react';
@@ -427,7 +428,7 @@ export default function BlogArticle() {
           <article ref={articleRef} className="blog-article">
             <ReactMarkdown
               remarkPlugins={[remarkGfm, remarkMath]}
-              rehypePlugins={[rehypeKatex]}
+              rehypePlugins={[[rehypeHighlight, { ignoreMissing: true }], rehypeKatex]}
               components={markdownComponents}
               urlTransform={(url: string) => {
                 if (url.startsWith('./') || (!url.startsWith('http') && !url.startsWith('/') && !url.startsWith('#'))) {
