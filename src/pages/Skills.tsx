@@ -54,7 +54,7 @@ export function SkillsMatrix({ className }: SkillsMatrixProps) {
   const icons = [Cpu, Workflow, Gauge, Database];
 
   return (
-    <StaggeredList className={className ?? 'grid grid-cols-1 gap-6 xl:grid-cols-2'}>
+    <StaggeredList className={className ?? 'grid grid-cols-1 gap-5 xl:grid-cols-2 xl:gap-6'}>
       {matrices.map((matrix, index) => {
         const Icon = icons[index % icons.length];
         const relatedArticles = matrix.relatedArticles
@@ -67,10 +67,10 @@ export function SkillsMatrix({ className }: SkillsMatrixProps) {
             hoverable
             className="engineering-panel border-gray-200/80 bg-transparent shadow-[0_22px_70px_rgba(15,23,42,0.05)] dark:border-slate-800/70"
           >
-            <div className="mb-6 flex items-start justify-between gap-4">
+            <div className="mb-5 flex items-start justify-between gap-4 sm:mb-6">
               <div className="max-w-xl">
                 <p className="engineering-kicker mb-3">{matrix.code}</p>
-                <h3 className="text-2xl font-black tracking-tight text-[var(--color-text-primary)]">
+                <h3 className="text-xl font-black tracking-tight text-[var(--color-text-primary)] sm:text-2xl">
                   {matrix.title}
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-[var(--color-text-secondary)]">
@@ -78,15 +78,15 @@ export function SkillsMatrix({ className }: SkillsMatrixProps) {
                 </p>
               </div>
 
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
-                <Icon size={20} />
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--color-accent)]/12 text-[var(--color-accent)] sm:h-12 sm:w-12 sm:rounded-2xl">
+                <Icon size={18} />
               </div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="engineering-subpanel rounded-[1.5rem] p-5">
+              <div className="engineering-subpanel rounded-[1.25rem] p-4 sm:rounded-[1.5rem] sm:p-5">
                 <p className="engineering-kicker mb-4">{t('skills.focusLabel')}</p>
-                <div className="space-y-3">
+                <div className="space-y-2.5 sm:space-y-3">
                   {matrix.focus.map((item) => (
                     <div key={item} className="flex items-start gap-3">
                       <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[var(--color-accent)]" />
@@ -96,9 +96,9 @@ export function SkillsMatrix({ className }: SkillsMatrixProps) {
                 </div>
               </div>
 
-              <div className="engineering-subpanel rounded-[1.5rem] p-5">
+              <div className="engineering-subpanel rounded-[1.25rem] p-4 sm:rounded-[1.5rem] sm:p-5">
                 <p className="engineering-kicker mb-4">{t('skills.scenarioLabel')}</p>
-                <div className="space-y-3">
+                <div className="space-y-2.5 sm:space-y-3">
                   {matrix.scenarios.map((scenario) => (
                     <div key={scenario} className="flex items-start gap-3">
                       <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[var(--color-accent)]" />
@@ -109,14 +109,14 @@ export function SkillsMatrix({ className }: SkillsMatrixProps) {
               </div>
             </div>
 
-            <div className="mt-4 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">
-              <div className="engineering-subpanel rounded-[1.5rem] p-5">
+            <div className="mt-4 grid gap-3 sm:gap-4 md:grid-cols-[0.9fr_1.1fr]">
+              <div className="engineering-subpanel rounded-[1.25rem] p-4 sm:rounded-[1.5rem] sm:p-5">
                 <p className="engineering-kicker mb-4">{t('skills.toolingLabel')}</p>
                 <div className="flex flex-wrap gap-2">
                   {matrix.tooling.map((tool) => (
                     <span
                       key={tool}
-                      className="mono-data rounded-full border border-gray-200/80 bg-white/80 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-text-secondary)] dark:border-slate-800/70 dark:bg-slate-900/50"
+                      className="mono-data rounded-full border border-gray-200/80 bg-white/80 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--color-text-secondary)] sm:px-3 sm:py-2 sm:text-[11px] dark:border-slate-800/70 dark:bg-slate-900/50"
                     >
                       {tool}
                     </span>
@@ -124,7 +124,7 @@ export function SkillsMatrix({ className }: SkillsMatrixProps) {
                 </div>
               </div>
 
-              <div className="engineering-subpanel rounded-[1.5rem] p-5">
+              <div className="engineering-subpanel rounded-[1.25rem] p-4 sm:rounded-[1.5rem] sm:p-5">
                 <p className="engineering-kicker mb-4">{t('skills.relatedBlogsLabel')}</p>
                 {blogLoading ? (
                   <div className="flex items-center justify-center py-6">
@@ -136,7 +136,7 @@ export function SkillsMatrix({ className }: SkillsMatrixProps) {
                       <Link
                         key={article.slug}
                         to={`/blog/${article.slug}`}
-                        className="group flex items-start gap-3 rounded-2xl border border-gray-200/80 bg-white/75 px-4 py-3 transition-colors hover:border-[var(--color-accent)]/35 dark:border-slate-800/70 dark:bg-slate-900/50"
+                        className="group flex items-start gap-3 rounded-xl border border-gray-200/80 bg-white/75 px-3.5 py-3 transition-colors hover:border-[var(--color-accent)]/35 sm:rounded-2xl sm:px-4 dark:border-slate-800/70 dark:bg-slate-900/50"
                       >
                         <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[var(--color-accent)]" />
                         <div className="min-w-0">

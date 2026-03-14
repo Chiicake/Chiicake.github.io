@@ -131,7 +131,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="relative flex min-h-screen flex-col justify-center px-6 pb-16 pt-24 lg:pb-12 lg:pt-20">
+    <div className="relative flex min-h-screen flex-col justify-center px-5 pb-12 pt-20 sm:px-6 sm:pb-16 sm:pt-24 lg:pb-12 lg:pt-20">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[var(--color-accent)]/12 via-transparent to-transparent opacity-70"></div>
 
@@ -177,33 +177,33 @@ export default function Home() {
           )}
 
           <ScrollReveal delay={0.14}>
-            <p className="mb-4 text-xl font-medium text-[var(--color-text-secondary)] md:text-2xl">
+            <p className="mb-3 text-lg font-medium text-[var(--color-text-secondary)] sm:mb-4 sm:text-xl md:text-2xl">
               {t('hero.greeting')}
             </p>
           </ScrollReveal>
 
           <ScrollReveal delay={0.22}>
-            <h1 className="mb-6 text-5xl font-black tracking-tight text-[var(--color-text-primary)] md:text-7xl lg:text-[4.5rem] xl:text-8xl">
+            <h1 className="mb-4 text-4xl font-black tracking-tight text-[var(--color-text-primary)] sm:mb-5 sm:text-5xl md:mb-6 md:text-7xl lg:text-[4.5rem] xl:text-8xl">
               {t('hero.name')}
             </h1>
           </ScrollReveal>
 
           <ScrollReveal delay={0.3}>
-            <div className="mb-8 h-[1.5em] text-2xl font-bold text-[var(--color-accent)] md:text-4xl lg:text-[2rem] xl:text-4xl">
+            <div className="mb-6 h-[1.6em] text-xl font-bold text-[var(--color-accent)] sm:mb-7 sm:text-2xl md:mb-8 md:text-4xl lg:text-[2rem] xl:text-4xl">
               <TypewriterText texts={roles} />
             </div>
           </ScrollReveal>
 
           {heroDescription && (
             <ScrollReveal delay={0.38}>
-              <p className="mb-8 max-w-3xl text-lg leading-relaxed text-[var(--color-text-secondary)] md:text-xl">
+              <p className="mb-6 max-w-2xl text-base leading-7 text-[var(--color-text-secondary)] sm:mb-8 sm:max-w-3xl sm:text-lg md:text-xl">
                 {heroDescription}
               </p>
             </ScrollReveal>
           )}
         </div>
 
-        <div className="mt-10 lg:mt-0 lg:flex lg:w-full lg:max-w-none lg:justify-self-end lg:self-stretch lg:py-2">
+        <div className="mt-8 sm:mt-10 lg:mt-0 lg:flex lg:w-full lg:max-w-none lg:justify-self-end lg:self-stretch lg:py-2">
           <ScrollReveal delay={0.52}>
             <div className="h-full">
               <HomeRollingUpdatesPanel shortcuts={terminalShortcuts} />

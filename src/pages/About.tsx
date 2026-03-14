@@ -81,7 +81,7 @@ export default function About({ id }: { id?: string }) {
   return (
     <section id={id} className="scroll-mt-20">
       <div className="pb-12 pt-2 md:pt-3">
-        <div className="mt-2 grid grid-cols-1 gap-12 md:mt-3 lg:grid-cols-[340px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
+        <div className="mt-2 grid grid-cols-1 gap-10 md:mt-3 md:gap-12 lg:grid-cols-[340px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
           <ScrollReveal direction="right">
             <div className="engineering-panel overflow-hidden rounded-[2rem] p-5 md:p-6">
               <div className="relative">
@@ -153,9 +153,9 @@ export default function About({ id }: { id?: string }) {
           </ScrollReveal>
         </div>
 
-        <div className="mt-14">
+        <div className="mt-10 md:mt-14">
           <ScrollReveal direction="up">
-            <section className="engineering-panel rounded-[2rem] p-5 md:p-6">
+            <section className="engineering-panel rounded-[1.75rem] p-4 sm:p-5 md:rounded-[2rem] md:p-6">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
                   <Cpu size={18} />
@@ -166,14 +166,14 @@ export default function About({ id }: { id?: string }) {
                 </div>
               </div>
 
-              <SkillsMatrix className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-2" />
+              <SkillsMatrix className="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-2 xl:gap-6" />
             </section>
           </ScrollReveal>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-8 xl:grid-cols-2">
+        <div className="mt-10 grid grid-cols-1 gap-6 md:mt-14 md:gap-8 xl:grid-cols-2">
           <ScrollReveal direction="up">
-            <section className="engineering-panel rounded-[2rem] p-5 md:p-6">
+            <section className="engineering-panel rounded-[1.75rem] p-4 sm:p-5 md:rounded-[2rem] md:p-6">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
                   <Briefcase size={18} />
@@ -184,23 +184,23 @@ export default function About({ id }: { id?: string }) {
                 </div>
               </div>
 
-              <div className="relative mt-6">
+              <div className="relative mt-5 md:mt-6">
                 <div className="absolute bottom-2 left-[1.05rem] top-2 w-px bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)]/50 to-transparent" />
 
-                <div className="space-y-5">
+                <div className="space-y-4 md:space-y-5">
                   {jobs.map((job) => (
-                    <div key={`${job.company}-${job.period}`} className="relative pl-11">
-                      <div className="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-accent)] text-white ring-4 ring-[var(--color-bg)]">
-                        <Briefcase size={14} />
+                    <div key={`${job.company}-${job.period}`} className="relative pl-9 sm:pl-11">
+                      <div className="absolute left-0 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-accent)] text-white ring-4 ring-[var(--color-bg)] sm:h-8 sm:w-8">
+                        <Briefcase size={13} />
                       </div>
 
-                      <div className="engineering-subpanel rounded-[1.5rem] px-4 py-4 md:px-5">
+                      <div className="engineering-subpanel rounded-[1.25rem] px-3.5 py-3.5 sm:rounded-[1.5rem] sm:px-4 sm:py-4 md:px-5">
                         <span className="mono-data text-[11px] uppercase tracking-[0.16em] text-[var(--color-accent)]">
                           {job.period}
                         </span>
-                        <h4 className="mt-2 text-lg font-bold text-[var(--color-text-primary)]">{job.role}</h4>
+                        <h4 className="mt-2 text-base font-bold text-[var(--color-text-primary)] sm:text-lg">{job.role}</h4>
                         <p className="mt-1 text-sm font-medium text-[var(--color-text-secondary)]">{job.company}</p>
-                        <p className="mt-3 text-sm leading-7 text-[var(--color-text-secondary)]">{job.description}</p>
+                        <p className="mt-3 text-sm leading-6 text-[var(--color-text-secondary)] md:leading-7">{job.description}</p>
                       </div>
                     </div>
                   ))}
@@ -210,7 +210,7 @@ export default function About({ id }: { id?: string }) {
           </ScrollReveal>
 
           <ScrollReveal delay={0.1} direction="up">
-            <section className="engineering-panel rounded-[2rem] p-5 md:p-6">
+            <section className="engineering-panel rounded-[1.75rem] p-4 sm:p-5 md:rounded-[2rem] md:p-6">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
                   <GraduationCap size={18} />
@@ -221,23 +221,23 @@ export default function About({ id }: { id?: string }) {
                 </div>
               </div>
 
-              <div className="relative mt-6">
+              <div className="relative mt-5 md:mt-6">
                 <div className="absolute bottom-2 left-[1.05rem] top-2 w-px bg-gradient-to-b from-[var(--color-accent)] via-[var(--color-accent)]/50 to-transparent" />
 
-                <div className="space-y-5">
+                <div className="space-y-4 md:space-y-5">
                   {educationItems.map((item) => (
-                    <div key={`${item.school}-${item.period}`} className="relative pl-11">
-                      <div className="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-accent)] text-white ring-4 ring-[var(--color-bg)]">
-                        <GraduationCap size={14} />
+                    <div key={`${item.school}-${item.period}`} className="relative pl-9 sm:pl-11">
+                      <div className="absolute left-0 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-accent)] text-white ring-4 ring-[var(--color-bg)] sm:h-8 sm:w-8">
+                        <GraduationCap size={13} />
                       </div>
 
-                      <div className="engineering-subpanel rounded-[1.5rem] px-4 py-4 md:px-5">
+                      <div className="engineering-subpanel rounded-[1.25rem] px-3.5 py-3.5 sm:rounded-[1.5rem] sm:px-4 sm:py-4 md:px-5">
                         <span className="mono-data text-[11px] uppercase tracking-[0.16em] text-[var(--color-accent)]">
                           {item.period}
                         </span>
-                        <h4 className="mt-2 text-lg font-bold text-[var(--color-text-primary)]">{item.degree}</h4>
+                        <h4 className="mt-2 text-base font-bold text-[var(--color-text-primary)] sm:text-lg">{item.degree}</h4>
                         <p className="mt-1 text-sm font-medium text-[var(--color-text-secondary)]">{item.school}</p>
-                        <p className="mt-3 text-sm leading-7 text-[var(--color-text-secondary)]">{item.description}</p>
+                        <p className="mt-3 text-sm leading-6 text-[var(--color-text-secondary)] md:leading-7">{item.description}</p>
                       </div>
                     </div>
                   ))}
