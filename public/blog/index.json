@@ -2,6 +2,7 @@
   "tags": [
     "Distributed Systems",
     "Go",
+    "Programming Paradigms",
     "Rust"
   ],
   "categories": [
@@ -36,6 +37,17 @@
       "description": {
         "zh": "处理幂等、重试、消息一致性与跨服务状态协调。",
         "en": "Idempotency, retries, message consistency, and cross-service coordination."
+      }
+    },
+    {
+      "id": "tittle-tattle",
+      "label": {
+        "zh": "杂谈",
+        "en": "Tittle tattle"
+      },
+      "description": {
+        "zh": "不知道放在那就放在这里。",
+        "en": "Tittle tattle."
       }
     }
   ],
@@ -72,42 +84,40 @@
         "zh": "从基础语法、源代码以及生态等角度对 Go 语言进行的探索。",
         "en": "An exploration of the Go language from the perspectives of basic syntax, source code, and its ecosystem."
       }
+    },
+    {
+      "slug": "programming-paradigms",
+      "name": {
+        "zh": "编程范式",
+        "en": "Programming Paradigms"
+      },
+      "description": {
+        "zh": "围绕编程范式、语言模型与程序组织方式的基础笔记。",
+        "en": "Notes on programming paradigms, language models, and ways of structuring programs."
+      }
     }
   ],
   "articles": [
     {
-      "slug": "rust-1-94-0",
-      "date": "2026-03-13",
+      "slug": "programming-paradigms-overview",
+      "date": "2026-03-14",
       "tags": [
-        "Rust"
+        "Programming Paradigms"
       ],
       "title": {
-        "zh": "Rust 1.94.0 发布",
-        "en": "Announcing Rust 1.94.0"
+        "zh": "编程范式概述",
+        "en": "An Overview of Programming Paradigms"
       },
       "summary": {
-        "zh": "Rust 1.94 发布：array_windows、Cargo include 与 TOML 1.1 支持。",
-        "en": "Rust 1.94.0 adds array_windows, Cargo config inclusion, and TOML 1.1 support."
+        "zh": "梳理函数式、OOP、命令式等主流编程范式与差异。",
+        "en": "A concise overview of functional, object-oriented, imperative, and other major paradigms."
       },
       "readingTime": {
-        "zh": "6 分钟",
-        "en": "5 min"
+        "zh": "12 分钟",
+        "en": "11 min"
       },
-      "category": "rust-language",
-      "contentType": "repost",
-      "source": {
-        "site": "blog.rust-lang.org",
-        "author": "The Rust Release Team",
-        "title": {
-          "zh": "Rust 1.94.0 发布",
-          "en": "Announcing Rust 1.94.0"
-        },
-        "url": "https://blog.rust-lang.org/2026/03/05/Rust-1.94.0/",
-        "publishedAt": "2026-03-05",
-        "translator": "Chiicake"
-      },
-      "collection": "rust-lang",
-      "seriesOrder": 1
+      "category": "tittle-tattle",
+      "contentType": "original"
     },
     {
       "slug": "go-source-level-inliner",
@@ -141,6 +151,40 @@
         "translator": "Chiicake"
       },
       "collection": "go-lang",
+      "seriesOrder": 1
+    },
+    {
+      "slug": "rust-1-94-0",
+      "date": "2026-03-13",
+      "tags": [
+        "Rust"
+      ],
+      "title": {
+        "zh": "Rust 1.94.0 发布",
+        "en": "Announcing Rust 1.94.0"
+      },
+      "summary": {
+        "zh": "Rust 1.94 发布：array_windows、Cargo include 与 TOML 1.1 支持。",
+        "en": "Rust 1.94.0 adds array_windows, Cargo config inclusion, and TOML 1.1 support."
+      },
+      "readingTime": {
+        "zh": "6 分钟",
+        "en": "5 min"
+      },
+      "category": "rust-language",
+      "contentType": "repost",
+      "source": {
+        "site": "blog.rust-lang.org",
+        "author": "The Rust Release Team",
+        "title": {
+          "zh": "Rust 1.94.0 发布",
+          "en": "Announcing Rust 1.94.0"
+        },
+        "url": "https://blog.rust-lang.org/2026/03/05/Rust-1.94.0/",
+        "publishedAt": "2026-03-05",
+        "translator": "Chiicake"
+      },
+      "collection": "rust-lang",
       "seriesOrder": 1
     },
     {

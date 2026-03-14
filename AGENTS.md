@@ -51,6 +51,16 @@
 - Do not leave reposted images as remote hotlinks. Download source images into the article’s own `assets/` directory and rewrite Markdown references to local relative paths.
 - Complete the post through the existing local workflow so that the article, metadata, and repost source link all remain compatible with the current blog system.
 
+## Assisted Original Submission Workflow
+- When asked to assist with an original post, assume the user will provide a local Markdown file.
+- Treat this flow as an original publication. Use `contentType: original`; do not set repost metadata or `source.url`.
+- Read the Markdown, preserve its structure, and keep headings, code blocks, lists, quotes, images, and links aligned with the source file.
+- Generate the missing i18n counterpart for the post. If the input Markdown is Chinese, write the English version to `index.en.md`; if the input Markdown is English, write the Chinese version to `index.zh.md`.
+- Publish the post under a suitable `public/blog/<slug>/` directory and keep both language files in that folder.
+- Extract local image dependencies into `public/blog/<slug>/assets/` and rewrite Markdown references to local relative asset paths.
+- Check `public/blog/index.json` before publishing. Reuse existing tags, categories, and collections when they fit; create new ones only when nothing suitable exists.
+- Complete the post through the existing local workflow so that the article, metadata, assets, and language files remain compatible with the current blog system.
+
 ## Security & Local Admin Notes
 - `/#/local-blog-admin-studio-chiicake-2026` is intended for local use only; keep that restriction intact.
 - Do not commit secrets, machine-specific paths, or generated cache directories such as `__pycache__/`.
