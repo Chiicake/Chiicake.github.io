@@ -141,7 +141,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(31rem,38vw)] lg:items-stretch lg:gap-7 xl:grid-cols-[minmax(0,1fr)_minmax(34rem,40vw)] 2xl:grid-cols-[minmax(0,1fr)_minmax(36rem,42vw)]">
+      <div className="mx-auto w-full max-w-7xl lg:grid lg:grid-cols-[minmax(0,1fr)_clamp(30rem,34vw,36rem)] lg:items-stretch lg:gap-7 xl:grid-cols-[minmax(0,1fr)_clamp(32rem,33vw,38rem)] 2xl:grid-cols-[minmax(0,1fr)_clamp(33rem,32vw,39rem)]">
         <div className="relative max-w-4xl lg:flex lg:min-h-[clamp(34rem,calc(100svh-8.5rem),42rem)] lg:flex-col lg:justify-center lg:pt-0">
           {bootVisible && (
             <motion.div

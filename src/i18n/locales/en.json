@@ -235,86 +235,49 @@
     "snakeOverlayWonDescription": "You filled the board on this run."
   },
   "skills": {
-    "title": "Capability Matrix",
-    "focusLabel": "Focus",
-    "scenarioLabel": "Typical Scenarios",
-    "toolingLabel": "Preferred Tooling",
-    "relatedBlogsLabel": "Related Writing",
-    "relatedBlogsEmpty": "A slot is reserved here for future articles tied to this capability.",
-    "matrices": [
+    "title": "Skill Registry",
+    "legendLabel": "Capability Tier",
+    "coreLabel": "Core",
+    "secondaryLabel": "Extended",
+    "coreCountSuffix": "core",
+    "groups": [
       {
-        "code": "M01",
-        "title": "Reliable Backend Service Design",
-        "summary": "Design backend systems around contracts, service boundaries, and failure handling so they can evolve without turning fragile.",
-        "focus": [
-          "REST / gRPC contract design",
-          "Service boundary definition and responsibility control",
-          "Observability-first rollout and regression diagnosis"
-        ],
-        "scenarios": [
-          "Medium to high concurrency APIs",
-          "Shared internal platform services",
-          "Long-lived backend capabilities with multiple consumers"
-        ],
-        "tooling": [
-          "Go",
-          "Java",
-          "gRPC",
-          "OpenTelemetry"
-        ],
-        "relatedArticles": [
-          "jwt-signature-pitfalls",
-          "go-service-rate-limiting-patterns"
+        "code": "LANG",
+        "title": "Languages & Runtime",
+        "items": [
+          { "label": "Rust", "tier": "core" },
+          { "label": "Go", "tier": "core" },
+          { "label": "Java", "tier": "core" },
+          { "label": "Python", "tier": "secondary" }
         ]
       },
       {
-        "code": "M02",
-        "title": "Distributed Reliability Engineering",
-        "summary": "Turn retries, idempotency, rate limiting, and recovery into first-class system capabilities instead of patching them in later.",
-        "focus": [
-          "Idempotency keys and state transitions",
-          "Rate limiting, circuit breaking, and capacity protection",
-          "Async workflow and retry-chain governance"
-        ],
-        "scenarios": [
-          "Cross-service write flows",
-          "Message-driven systems",
-          "Peak-load protection and graceful degradation"
-        ],
-        "tooling": [
-          "Redis",
-          "Kafka",
-          "PostgreSQL",
-          "Rate Limiting"
-        ],
-        "relatedArticles": [
-          "distributed-idempotency-checklist",
-          "go-service-rate-limiting-patterns"
+        "code": "ARCH",
+        "title": "Systems & Architecture",
+        "items": [
+          { "label": "Cloud Native", "tier": "core" },
+          { "label": "Distributed Systems", "tier": "core" },
+          { "label": "DDD", "tier": "core" }
         ]
       },
       {
-        "code": "M03",
-        "title": "Storage and Performance Experiments",
-        "summary": "I like drilling down into hot paths, cache behavior, and protocol details when a performance problem becomes structurally important.",
-        "focus": [
-          "Hot-path caching and data tiering",
-          "Latency hotspot diagnosis and performance profiling",
-          "Protocols, signatures, and security boundary analysis"
-        ],
-        "scenarios": [
-          "High-frequency access optimization",
-          "KV or storage-oriented experiments",
-          "Security protocol and signature verification work"
-        ],
-        "tooling": [
-          "Rust",
-          "Linux",
-          "Tokio",
-          "Security"
-        ],
-        "relatedArticles": [
-          "ecdsa-algorithm-analysis",
-          "asymmetric-encryption-tls-evolution"
+        "code": "DATA",
+        "title": "Data & Middleware",
+        "items": [
+          { "label": "MySQL / PostgreSQL", "tier": "core" },
+          { "label": "ElasticSearch", "tier": "core" },
+          { "label": "Redis", "tier": "core" },
+          { "label": "Kafka", "tier": "core" }
+        ]
+      },
+      {
+        "code": "AIML",
+        "title": "Other",
+        "items": [
+          { "label": "Reinforcement Learning", "tier": "core" },
+          { "label": "Deep Learning", "tier": "secondary" },
+          { "label": "Large Language Models", "tier": "secondary" },
+          { "label": "Cryptography", "tier": "secondary" }
         ]
       }
     ]

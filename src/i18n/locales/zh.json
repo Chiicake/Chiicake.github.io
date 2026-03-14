@@ -236,86 +236,49 @@
     "snakeOverlayWonDescription": "这一轮已经把空间填满了。"
   },
   "skills": {
-    "title": "能力矩阵",
-    "focusLabel": "能力焦点",
-    "scenarioLabel": "典型场景",
-    "toolingLabel": "常用技术",
-    "relatedBlogsLabel": "相关博客",
-    "relatedBlogsEmpty": "相关博客预留位，后续可在这里补充专题文章。",
-    "matrices": [
+    "title": "技能展示",
+    "legendLabel": "能力层级",
+    "coreLabel": "核心",
+    "secondaryLabel": "扩展",
+    "coreCountSuffix": "core",
+    "groups": [
       {
-        "code": "M01",
-        "title": "可靠后端服务设计",
-        "summary": "围绕接口契约、服务边界和故障处理设计能长期演进的后端系统。",
-        "focus": [
-          "REST / gRPC API 契约设计",
-          "模块边界拆分与服务职责约束",
-          "可观测优先的上线与回归定位"
-        ],
-        "scenarios": [
-          "中高并发业务 API",
-          "团队共享基础服务",
-          "需要长期维护的内部平台能力"
-        ],
-        "tooling": [
-          "Go",
-          "Java",
-          "gRPC",
-          "OpenTelemetry"
-        ],
-        "relatedArticles": [
-          "jwt-signature-pitfalls",
-          "go-service-rate-limiting-patterns"
+        "code": "LANG",
+        "title": "语言与运行时",
+        "items": [
+          { "label": "Rust", "tier": "core" },
+          { "label": "Go", "tier": "core" },
+          { "label": "Java", "tier": "core" },
+          { "label": "Python", "tier": "secondary" }
         ]
       },
       {
-        "code": "M02",
-        "title": "分布式稳定性治理",
-        "summary": "把重试、幂等、限流和失败恢复做成系统能力，而不是事后打补丁。",
-        "focus": [
-          "幂等键与状态机设计",
-          "限流、熔断与容量保护",
-          "异步任务与重试链路治理"
-        ],
-        "scenarios": [
-          "跨服务写入流程",
-          "消息驱动系统",
-          "高峰期容量保护与降级"
-        ],
-        "tooling": [
-          "Redis",
-          "Kafka",
-          "PostgreSQL",
-          "Rate Limiting"
-        ],
-        "relatedArticles": [
-          "distributed-idempotency-checklist",
-          "go-service-rate-limiting-patterns"
+        "code": "ARCH",
+        "title": "系统与架构",
+        "items": [
+          { "label": "云原生", "tier": "core" },
+          { "label": "分布式系统", "tier": "core" },
+          { "label": "领域驱动设计", "tier": "core" }
         ]
       },
       {
-        "code": "M03",
-        "title": "存储与性能实验",
-        "summary": "关注冷热路径、缓存策略和协议细节，愿意为了关键性能问题向系统底层下钻。",
-        "focus": [
-          "缓存命中路径与数据分层",
-          "延迟热点定位与性能剖析",
-          "协议、签名与安全边界理解"
-        ],
-        "scenarios": [
-          "高频访问热点优化",
-          "KV / 存储类实验项目",
-          "安全协议与签名校验实现"
-        ],
-        "tooling": [
-          "Rust",
-          "Linux",
-          "Tokio",
-          "Security"
-        ],
-        "relatedArticles": [
-          "ecdsa-algorithm-analysis",
-          "asymmetric-encryption-tls-evolution"
+        "code": "DATA",
+        "title": "数据与中间件",
+        "items": [
+          { "label": "MySQL / PostgreSQL", "tier": "core" },
+          { "label": "ElasticSearch", "tier": "core" },
+          { "label": "Redis", "tier": "core" },
+          { "label": "Kafka", "tier": "core" }
+        ]
+      },
+      {
+        "code": "AIML",
+        "title": "其他",
+        "items": [
+          { "label": "强化学习", "tier": "core" },
+          { "label": "深度学习", "tier": "secondary" },
+          { "label": "大语言模型", "tier": "secondary" },
+          { "label": "密码学", "tier": "secondary" }
         ]
       }
     ]

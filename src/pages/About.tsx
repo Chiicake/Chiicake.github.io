@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Briefcase, Cpu, Github, GraduationCap, MapPin } from 'lucide-react';
 import { AboutSnakePanel } from '../components/about/AboutSnakePanel';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
-import { SkillsMatrix } from './Skills';
+import { SkillsRegistry } from './Skills';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -166,7 +166,7 @@ export default function About({ id }: { id?: string }) {
                 </div>
               </div>
 
-              <SkillsMatrix className="mt-6 grid grid-cols-1 gap-5 xl:grid-cols-2 xl:gap-6" />
+              <SkillsRegistry className="mt-6" />
             </section>
           </ScrollReveal>
         </div>
