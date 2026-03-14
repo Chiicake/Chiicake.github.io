@@ -127,7 +127,7 @@ export default function Blog() {
           </div>
 
           <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-            <div className="grid gap-3 md:grid-cols-[7.5rem_minmax(0,1fr)] md:gap-4 md:items-start">
+            <div className="grid gap-3 md:grid-cols-[8.75rem_minmax(0,1fr)] md:gap-4 md:items-start">
               <div className="rounded-[1.1rem] border border-gray-200/80 bg-white/75 p-2.5 dark:border-slate-800/80 dark:bg-slate-900/55 md:rounded-[1.2rem] md:p-3">
                 <div className="grid gap-2">
                   {contentTypeOptions.map((option) => {
@@ -141,14 +141,14 @@ export default function Blog() {
                           setSelectedContentType(option.key);
                           setCurrentPage(1);
                         }}
-                        className={`rounded-2xl px-3 py-2 text-left text-xs font-medium transition-colors ${
+                        className={`flex w-full items-center justify-between gap-2 rounded-2xl px-3 py-2 text-left text-xs font-medium transition-colors ${
                           active
                             ? 'bg-[var(--color-accent)] text-white shadow-sm'
                             : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
                         }`}
                       >
-                        {option.label}
-                        <span className="ml-2 rounded-full bg-black/10 px-2 py-0.5 text-[11px] text-current dark:bg-white/10">
+                        <span className="min-w-0 whitespace-nowrap">{option.label}</span>
+                        <span className="shrink-0 rounded-full bg-black/10 px-2 py-0.5 text-[11px] text-current dark:bg-white/10">
                           {option.count}
                         </span>
                       </button>

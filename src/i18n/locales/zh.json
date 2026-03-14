@@ -205,8 +205,6 @@
     "interests": "我长期在追的问题",
     "interestsList": "分布式系统, 协议与安全机制, 存储与缓存路径, API 设计, 可观测性",
     "snakeTitle": "你好，我是 Chiicake，目标是成为一个优秀的软件工程师！",
-    "snakeFocus": "当前阅读与博客撰写方向：分布式系统",
-    "snakeProjectLabel": "当前工作中项目：",
     "snakeBoardLabel": "Runtime",
     "snakeStatusPanelTitle": "Signals",
     "snakeStatusLabel": "状态",
@@ -284,9 +282,95 @@
     ]
   },
   "projects": {
-    "title": "开源项目",
+    "title": "项目",
     "featuredProject": {
       "eyebrow": "Project Spotlight",
+      "title": "hybird-kv",
+      "status": "推进中",
+      "stackLabel": "Core Stack",
+      "repoCta": "查看仓库",
+      "detailCta": "项目详情",
+      "path": "github.com/Chiicake/hybird-kv",
+      "tagline": "一个面向 SSD 场景的高性能 KV 存储 lab 项目，采用“内核热 Key 缓存 + 用户态权威存储引擎”的混合架构。",
+      "summary": "",
+      "metrics": [
+        {
+          "key": "watch",
+          "label": "Watch",
+          "value": "9"
+        },
+        {
+          "key": "fork",
+          "label": "Fork",
+          "value": "5"
+        },
+        {
+          "key": "star",
+          "label": "Star",
+          "value": "128"
+        }
+      ],
+      "stack": [
+        "Rust",
+        "Linux",
+        "Kernel Module",
+        "KV Storage",
+        "Cache Policy"
+      ],
+      "sourceHref": "https://github.com/Chiicake/hybird-kv"
+    },
+    "secondaryLabel": "更多仓库",
+    "secondaryHint": "real repositories / static snapshot",
+    "allReposCta": "查看全部仓库",
+    "githubHref": "https://github.com/Chiicake?tab=repositories",
+    "secondaryProjects": [
+      {
+        "title": "Chiicake.github.io",
+        "path": "github.com/Chiicake/Chiicake.github.io",
+        "summary": "CLI-first 的个人博客与作品站，支持双语内容、转载来源和本地投稿工作流。",
+        "href": "https://github.com/Chiicake/Chiicake.github.io",
+        "stack": [
+          "React",
+          "TypeScript",
+          "Vite"
+        ]
+      },
+      {
+        "title": "reference-tool",
+        "path": "github.com/Chiicake/reference-tool",
+        "summary": "将参考文献数据转换成适合 DOCX 文档使用的引用格式的小工具。",
+        "href": "https://github.com/Chiicake/reference-tool",
+        "stack": [
+          "Rust",
+          "Docs",
+          "Tooling"
+        ]
+      },
+      {
+        "title": "web-server-demo",
+        "path": "github.com/Chiicake/web-server-demo",
+        "summary": "一个用于理解并发请求处理与服务端基础模型的多线程 Web Server 实验。",
+        "href": "https://github.com/Chiicake/web-server-demo",
+        "stack": [
+          "Rust",
+          "HTTP",
+          "Threads"
+        ]
+      },
+      {
+        "title": "excel-to-json",
+        "path": "github.com/Chiicake/excel-to-json",
+        "summary": "读取 Excel 文件并输出 JSON 的数据转换工具。",
+        "href": "https://github.com/Chiicake/excel-to-json",
+        "stack": [
+          "Rust",
+          "Excel",
+          "JSON"
+        ]
+      }
+    ],
+    "detailPage": {
+      "eyebrow": "Engineering Dossier",
       "title": "hybird-kv",
       "terminalLabel": "kv://hybird-kv/live",
       "status": "推进中",
@@ -296,7 +380,7 @@
       "diagnosticsLabel": "工程信号",
       "stackLabel": "技术栈",
       "sourceCta": "查看仓库",
-      "articleCta": "查看博客",
+      "backCta": "返回项目列表",
       "path": "github.com/Chiicake/hybird-kv",
       "tagline": "一个面向 SSD 场景的高性能 KV 存储 lab 项目，采用“内核热 Key 缓存 + 用户态权威存储引擎”的混合架构。",
       "summary": "一个偏研究的实验性项目，用来验证冷热数据路径怎么分层、缓存策略怎样从存储引擎里解耦，以及内核态与用户态边界该如何划分，才能兼顾命中效率、可演进性和工程可解释性。",

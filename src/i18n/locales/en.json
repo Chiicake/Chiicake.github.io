@@ -204,8 +204,6 @@
     "interests": "Questions I Keep Chasing",
     "interestsList": "Distributed Systems, Protocols and Security, Storage and Cache Paths, API Design, Observability",
     "snakeTitle": "Hi, I'm Chiicake. My goal is to become an excellent software engineer!",
-    "snakeFocus": "Current reading and writing focus: distributed systems",
-    "snakeProjectLabel": "Current project at work:",
     "snakeBoardLabel": "Runtime",
     "snakeStatusPanelTitle": "Signals",
     "snakeStatusLabel": "Status",
@@ -283,9 +281,95 @@
     ]
   },
   "projects": {
-    "title": "Open Source Projects",
+    "title": "Projects",
     "featuredProject": {
       "eyebrow": "Project Spotlight",
+      "title": "hybird-kv",
+      "status": "In Progress",
+      "stackLabel": "Core Stack",
+      "repoCta": "View Repository",
+      "detailCta": "Project Details",
+      "path": "github.com/Chiicake/hybird-kv",
+      "tagline": "An SSD-friendly high-performance KV storage experiment built around a hybrid architecture: a kernel hot-key cache plus a user-space authoritative engine.",
+      "summary": "",
+      "metrics": [
+        {
+          "key": "watch",
+          "label": "Watch",
+          "value": "9"
+        },
+        {
+          "key": "fork",
+          "label": "Fork",
+          "value": "5"
+        },
+        {
+          "key": "star",
+          "label": "Star",
+          "value": "128"
+        }
+      ],
+      "stack": [
+        "Rust",
+        "Linux",
+        "Kernel Module",
+        "KV Storage",
+        "Cache Policy"
+      ],
+      "sourceHref": "https://github.com/Chiicake/hybird-kv"
+    },
+    "secondaryLabel": "Additional Repositories",
+    "secondaryHint": "real repositories / static snapshot",
+    "allReposCta": "View All Repositories",
+    "githubHref": "https://github.com/Chiicake?tab=repositories",
+    "secondaryProjects": [
+      {
+        "title": "Chiicake.github.io",
+        "path": "github.com/Chiicake/Chiicake.github.io",
+        "summary": "A CLI-first personal blog and portfolio with bilingual content, repost metadata, and a local publishing workflow.",
+        "href": "https://github.com/Chiicake/Chiicake.github.io",
+        "stack": [
+          "React",
+          "TypeScript",
+          "Vite"
+        ]
+      },
+      {
+        "title": "reference-tool",
+        "path": "github.com/Chiicake/reference-tool",
+        "summary": "A small utility for converting bibliography data into reference output suitable for DOCX documents.",
+        "href": "https://github.com/Chiicake/reference-tool",
+        "stack": [
+          "Rust",
+          "Docs",
+          "Tooling"
+        ]
+      },
+      {
+        "title": "web-server-demo",
+        "path": "github.com/Chiicake/web-server-demo",
+        "summary": "A multi-threaded web server experiment for learning request handling and basic server-side concurrency.",
+        "href": "https://github.com/Chiicake/web-server-demo",
+        "stack": [
+          "Rust",
+          "HTTP",
+          "Threads"
+        ]
+      },
+      {
+        "title": "excel-to-json",
+        "path": "github.com/Chiicake/excel-to-json",
+        "summary": "A data conversion tool that reads Excel files and exports structured JSON output.",
+        "href": "https://github.com/Chiicake/excel-to-json",
+        "stack": [
+          "Rust",
+          "Excel",
+          "JSON"
+        ]
+      }
+    ],
+    "detailPage": {
+      "eyebrow": "Engineering Dossier",
       "title": "hybird-kv",
       "terminalLabel": "kv://hybird-kv/live",
       "status": "In Progress",
@@ -295,7 +379,7 @@
       "diagnosticsLabel": "Engineering Signals",
       "stackLabel": "Tech Stack",
       "sourceCta": "View Repository",
-      "articleCta": "View Blog",
+      "backCta": "Back to Projects",
       "path": "github.com/Chiicake/hybird-kv",
       "tagline": "An SSD-friendly high-performance KV storage experiment built around a hybrid architecture: a kernel hot-key cache plus a user-space authoritative engine.",
       "summary": "I am using it as a systems-heavy workbench to test how hot and cold paths should be separated, how cache policy can be decoupled from the storage core, and where the boundary between kernel space and user space should sit if you want hit efficiency without sacrificing evolvability or operational clarity.",

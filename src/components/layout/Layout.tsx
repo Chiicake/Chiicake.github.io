@@ -32,9 +32,9 @@ export function Layout() {
           ? 'route-blog'
           : location.pathname.startsWith('/blog/collections/')
             ? 'route-blog-collection'
-            : location.pathname.startsWith('/blog/')
+      : location.pathname.startsWith('/blog/')
               ? 'route-blog-article'
-              : location.pathname === '/projects'
+              : location.pathname === '/projects' || location.pathname.startsWith('/projects/')
                 ? 'route-projects'
                 : location.pathname === '/about'
                   ? 'route-about'
