@@ -99,6 +99,37 @@
   ],
   "articles": [
     {
+      "slug": "oracle-rac-high-availability-best-practices",
+      "date": "2026-03-14",
+      "tags": [
+        "Distributed Systems"
+      ],
+      "title": {
+        "zh": "Oracle RAC 高可用概念与最佳实践",
+        "en": "High Availability Concepts and Best Practices"
+      },
+      "summary": {
+        "zh": "概述 Oracle RAC 高可用、故障切换与恢复机制。",
+        "en": "Oracle RAC fundamentals for high availability, failover, recovery, and deployment."
+      },
+      "readingTime": {
+        "zh": "37 分钟",
+        "en": "37 min"
+      },
+      "category": "distributed-systems",
+      "contentType": "repost",
+      "source": {
+        "site": "docs.oracle.com",
+        "author": "Oracle Documentation",
+        "title": {
+          "zh": "Oracle RAC 高可用概念与最佳实践",
+          "en": "High Availability Concepts and Best Practices"
+        },
+        "url": "https://docs.oracle.com/cd/A91202_01/901_doc/rac.901/a89867/pshavdtl.htm",
+        "translator": "Chiicake"
+      }
+    },
+    {
       "slug": "programming-paradigms-overview",
       "date": "2026-03-14",
       "tags": [

@@ -41,12 +41,11 @@ export function ScrollReveal({
           x: offset.x, 
           y: offset.y 
         }}
-        whileInView={{ 
+        animate={{ 
           opacity: 1, 
           x: 0, 
           y: 0 
         }}
-        viewport={{ once: true, amount: 0.2 }}
         transition={{
           duration: shouldReduceMotion ? 0.01 : duration,
           delay: shouldReduceMotion ? 0 : delay,

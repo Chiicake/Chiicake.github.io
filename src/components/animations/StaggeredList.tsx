@@ -40,8 +40,7 @@ export function StaggeredList({
     <motion.div
       variants={containerVariants}
       initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.1 }}
+      animate="show"
       className={className}
     >
       {Children.map(children, (child) => {
