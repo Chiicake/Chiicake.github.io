@@ -99,6 +99,40 @@
   ],
   "articles": [
     {
+      "slug": "modernizing-go-code-with-go-fix",
+      "date": "2026-03-16",
+      "tags": [
+        "Go"
+      ],
+      "title": {
+        "zh": "用 go fix 现代化 Go 代码",
+        "en": "Using go fix to modernize Go code"
+      },
+      "summary": {
+        "zh": "介绍新版 go fix 如何用分析器与 modernizer 升级 Go 代码。",
+        "en": "How the rewritten go fix modernizes Go code with analyzers, fixers, and self-service tooling."
+      },
+      "readingTime": {
+        "zh": "15 分钟",
+        "en": "13 min"
+      },
+      "category": "go-language",
+      "contentType": "repost",
+      "source": {
+        "site": "go.dev/blog",
+        "author": "Alan Donovan",
+        "title": {
+          "zh": "用 go fix 现代化 Go 代码",
+          "en": "Using go fix to modernize Go code"
+        },
+        "url": "https://go.dev/blog/gofix",
+        "publishedAt": "2026-02-17",
+        "translator": "Chiicake"
+      },
+      "collection": "go-lang",
+      "seriesOrder": 2
+    },
+    {
       "slug": "oracle-rac-high-availability-best-practices",
       "date": "2026-03-14",
       "tags": [
