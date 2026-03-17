@@ -99,6 +99,40 @@
   ],
   "articles": [
     {
+      "slug": "what-do-people-love-about-rust",
+      "date": "2026-03-17",
+      "tags": [
+        "Rust"
+      ],
+      "title": {
+        "zh": "人们为什么喜爱 Rust？",
+        "en": "What do people love about Rust?"
+      },
+      "summary": {
+        "zh": "从访谈看 Rust 为何如此受喜爱。",
+        "en": "Interview findings on why Rust users love its reliability, efficiency, versatility, and where the ecosystem still needs work."
+      },
+      "readingTime": {
+        "zh": "24 分钟",
+        "en": "22 min"
+      },
+      "category": "rust-language",
+      "contentType": "repost",
+      "source": {
+        "site": "blog.rust-lang.org",
+        "author": "Niko Matsakis",
+        "title": {
+          "zh": "人们为什么喜爱 Rust？",
+          "en": "What do people love about Rust?"
+        },
+        "url": "https://blog.rust-lang.org/2025/12/19/what-do-people-love-about-rust/",
+        "publishedAt": "2025-12-19",
+        "translator": "Chiicake"
+      },
+      "collection": "rust-lang",
+      "seriesOrder": 2
+    },
+    {
       "slug": "modernizing-go-code-with-go-fix",
       "date": "2026-03-16",
       "tags": [
