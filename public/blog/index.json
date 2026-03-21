@@ -99,6 +99,40 @@
   ],
   "articles": [
     {
+      "slug": "allocation-optimizations",
+      "date": "2026-03-21",
+      "tags": [
+        "Go"
+      ],
+      "title": {
+        "zh": "在栈上分配内存",
+        "en": "Allocating on the Stack"
+      },
+      "summary": {
+        "zh": "介绍 Go 如何用更多栈分配减少堆分配与 GC 开销。",
+        "en": "How recent Go releases move more slice allocations onto the stack to reduce allocator and GC overhead."
+      },
+      "readingTime": {
+        "zh": "10 分钟",
+        "en": "9 min"
+      },
+      "category": "go-language",
+      "contentType": "repost",
+      "source": {
+        "site": "go.dev/blog",
+        "author": "Keith Randall",
+        "title": {
+          "zh": "在栈上分配内存",
+          "en": "Allocating on the Stack"
+        },
+        "url": "https://go.dev/blog/allocation-optimizations",
+        "publishedAt": "2026-02-27",
+        "translator": "Chiicake"
+      },
+      "collection": "go-lang",
+      "seriesOrder": 3
+    },
+    {
       "slug": "what-do-people-love-about-rust",
       "date": "2026-03-17",
       "tags": [
