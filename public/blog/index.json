@@ -1,12 +1,25 @@
 {
   "tags": [
+    "AI Tools",
     "Cryptography",
     "Distributed Systems",
+    "Frontend",
     "Go",
     "Programming Paradigms",
     "Rust"
   ],
   "categories": [
+    {
+      "id": "ai",
+      "label": {
+        "zh": "AI",
+        "en": "AI"
+      },
+      "description": {
+        "zh": "AI 工具、技能、工作流与模型使用实践。",
+        "en": "AI tools, skills, workflows, and practical usage."
+      }
+    },
     {
       "id": "go-language",
       "label": {
@@ -110,6 +123,28 @@
     }
   ],
   "articles": [
+    {
+      "slug": "impeccable-ai-frontend-design-skill",
+      "date": "2026-03-22",
+      "tags": [
+        "Frontend",
+        "AI Tools"
+      ],
+      "title": {
+        "zh": "Impeccable: AI 前端设计技能包介绍",
+        "en": "Impeccable: An Introduction to an AI Frontend Design Skill Pack"
+      },
+      "summary": {
+        "zh": "介绍 Impeccable 的定位、命令体系、项目级设计上下文与适用边界。",
+        "en": "An introduction to Impeccable, covering its positioning, command system, project-level design context, and usage boundaries."
+      },
+      "readingTime": {
+        "zh": "11 分钟",
+        "en": "10 min"
+      },
+      "category": "ai",
+      "contentType": "original"
+    },
     {
       "slug": "chacha20-poly1305-deep-dive",
       "date": "2026-03-22",

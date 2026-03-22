@@ -113,7 +113,10 @@ export default function Skills({ id }: { id?: string }) {
   return (
     <section id={id} className="scroll-mt-20">
       <div className="py-12">
-        <SectionTitle title={t('skills.title')} />
+        <header>
+          <h1 className="sr-only">{t('skills.title')}</h1>
+          <SectionTitle title={t('skills.title')} />
+        </header>
         <SkillsRegistry className="mt-8" />
       </div>
     </section>

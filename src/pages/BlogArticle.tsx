@@ -1,9 +1,6 @@
 import {
-  Children,
-  createElement,
-  isValidElement,
-  type ComponentPropsWithoutRef,
-  type ReactNode,
+  Suspense,
+  lazy,
   useEffect,
   useMemo,
   useRef,
@@ -11,12 +8,6 @@ import {
 } from 'react';
 import { Link, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import ReactMarkdown, { type Components } from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
-import rehypeHighlight from 'rehype-highlight';
-import rehypeKatex from 'rehype-katex';
-import 'katex/dist/katex.min.css';
 import { ArrowLeft, Calendar, Clock, ExternalLink, Layers3, ListTree } from 'lucide-react';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
@@ -25,11 +16,12 @@ import {
   getBlogContentType,
   getBlogLanguage,
   getCollectionArticles,
-  getHeadingAnchorId,
   getLocalizedText,
   parseMarkdownToc,
   stripFrontmatter,
 } from '../lib/blog';
+
+const BlogMarkdownRenderer = lazy(() => import('../components/blog/BlogMarkdownRenderer'));
 
 function getViewportFocusY() {
   const stickyOffset = 112;
@@ -54,62 +46,6 @@ function scrollToSection(sectionId: string) {
   });
 }
 
-function flattenHeadingChildren(children: ReactNode): string {
-  let text = '';
-
-  Children.forEach(children, (child) => {
-    if (typeof child === 'string' || typeof child === 'number') {
-      text += String(child);
-      return;
-    }
-
-    if (isValidElement<{ children?: ReactNode }>(child)) {
-      text += flattenHeadingChildren(child.props.children);
-    }
-  });
-
-  return text.trim();
-}
-
-function getCodeLanguage(className?: string) {
-  const match = /language-([\w-]+)/.exec(className ?? '');
-  return match?.[1]?.toLowerCase() ?? 'text';
-}
-
-function getCodeBlockMeta(language: string) {
-  switch (language) {
-    case 'bash':
-    case 'shell':
-    case 'sh':
-    case 'zsh':
-      return { title: '/dev/pts/0', badge: language === 'bash' ? 'bash' : 'zsh' };
-    case 'rust':
-    case 'rs':
-      return { title: 'src/main.rs', badge: 'rust' };
-    case 'go':
-      return { title: 'cmd/main.go', badge: 'go' };
-    case 'java':
-      return { title: 'src/Main.java', badge: 'java' };
-    case 'json':
-      return { title: 'config.json', badge: 'json' };
-    case 'yaml':
-    case 'yml':
-      return { title: 'config.yml', badge: 'yaml' };
-    case 'toml':
-      return { title: 'Cargo.toml', badge: 'toml' };
-    case 'sql':
-      return { title: 'query.sql', badge: 'sql' };
-    case 'typescript':
-    case 'ts':
-      return { title: 'snippet.ts', badge: 'ts' };
-    case 'javascript':
-    case 'js':
-      return { title: 'snippet.js', badge: 'js' };
-    default:
-      return { title: `snippet.${language}`, badge: language };
-  }
-}
-
 export default function BlogArticle() {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
@@ -123,6 +59,7 @@ export default function BlogArticle() {
   const [loadedRequestKey, setLoadedRequestKey] = useState('');
   const [contentError, setContentError] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
+  const [activeSectionId, setActiveSectionId] = useState<string>('');
 
   useEffect(() => {
     if (!slug) {
@@ -155,6 +92,7 @@ export default function BlogArticle() {
         setLoadedRequestKey(requestKey);
         setContentError(false);
         setReadingProgress(0);
+        setActiveSectionId('');
       })
       .catch(() => {
         if (!active) {
@@ -214,8 +152,20 @@ export default function BlogArticle() {
       const focusY = Math.min(Math.max(getViewportFocusY(), articleTop + 1), articleBottom - 1);
       const readableHeight = Math.max(articleBottom - articleTop, 1);
       const nextProgress = Math.min(1, Math.max(0, (focusY - articleTop) / readableHeight));
+      const headingElements = Array.from(articleElement.querySelectorAll<HTMLElement>('h2[id], h3[id]'));
+      let nextActiveSectionId = headingElements[0]?.id ?? '';
+
+      for (const heading of headingElements) {
+        const headingTop = window.scrollY + heading.getBoundingClientRect().top;
+        if (headingTop <= focusY) {
+          nextActiveSectionId = heading.id;
+        } else {
+          break;
+        }
+      }
 
       setReadingProgress((current) => (Math.abs(current - nextProgress) < 0.005 ? current : nextProgress));
+      setActiveSectionId((current) => (current === nextActiveSectionId ? current : nextActiveSectionId));
     };
 
     let frameId = 0;
@@ -273,52 +223,14 @@ export default function BlogArticle() {
     );
   }
 
-  const renderHeading = (
-    tagName: 'h1' | 'h2' | 'h3' | 'h4',
-    props: ComponentPropsWithoutRef<'h2'> & { node?: unknown }
-  ) => {
-    const { children, node, ...restProps } = props;
-    void node;
-    const headingId = getHeadingAnchorId(flattenHeadingChildren(children));
-
-    return createElement(
-      tagName,
-      {
-        ...restProps,
-        id: headingId,
-      },
-      children
-    );
-  };
-
-  const markdownComponents: Components = {
-    h1: (props) => renderHeading('h1', props),
-    h2: (props) => renderHeading('h2', props),
-    h3: (props) => renderHeading('h3', props),
-    h4: (props) => renderHeading('h4', props),
-    pre: ({ children, ...props }) => {
-      const codeChild = Children.toArray(children).find((child) =>
-        isValidElement<{ className?: string }>(child),
-      );
-      const codeClassName =
-        isValidElement<{ className?: string }>(codeChild) && typeof codeChild.props.className === 'string'
-          ? codeChild.props.className
-          : undefined;
-      const language = getCodeLanguage(codeClassName);
-      const meta = getCodeBlockMeta(language);
-
-      return (
-        <div className="blog-code-block">
-          <div className="blog-code-block__header">
-            <span className="blog-code-block__scope mono-data">/dev/pts/0</span>
-            <span className="blog-code-block__title mono-data">{meta.title}</span>
-            <span className="blog-code-block__badge mono-data">{meta.badge}</span>
-          </div>
-          <pre {...props}>{children}</pre>
-        </div>
-      );
-    },
-  };
+  const getTocItemClassName = (item: (typeof sidebarToc)[number]) =>
+    [
+      'blog-toc-item',
+      item.depth === 3 ? 'blog-toc-item--child' : '',
+      activeSectionId === item.id ? 'is-active' : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
 
   return (
     <div className="pb-12 pt-1 md:pt-2">
@@ -347,13 +259,13 @@ export default function BlogArticle() {
               {collection && (
                 <Link
                   to={`/blog/collections/${collection.slug}`}
-                  className="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-slate-800 text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors"
+                  className="chip-muted px-3 py-1.5 text-xs font-medium rounded-full hover:text-[var(--color-accent)] transition-colors"
                 >
                   {getLocalizedText(collection.name, lang)}
                 </Link>
               )}
               {meta.seriesOrder && (
-                <span className="px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-slate-800 text-[var(--color-text-secondary)]">
+                <span className="chip-muted px-3 py-1.5 text-xs font-medium rounded-full">
                   {t('blog.partLabel', { order: meta.seriesOrder })}
                 </span>
               )}
@@ -362,7 +274,7 @@ export default function BlogArticle() {
                   href={meta.source.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-[var(--color-text-secondary)] transition-colors hover:text-[var(--color-accent)] dark:bg-slate-800"
+                  className="chip-muted inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full transition-colors hover:text-[var(--color-accent)]"
                 >
                   {t('blog.sourceLink')}
                   <ExternalLink size={12} />
@@ -399,7 +311,7 @@ export default function BlogArticle() {
           </header>
 
           <div className="mb-8 grid gap-3 lg:hidden">
-            <details className="rounded-[1.5rem] border border-gray-200/80 bg-white/88 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/72">
+            <details className="surface-card-strong rounded-[1.5rem] p-4">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-left">
                 <span className="text-sm font-semibold text-[var(--color-text-primary)]">{t('blog.readingProgress')}</span>
                 <span className="mono-data rounded-full border border-[var(--color-accent)]/15 bg-[var(--color-accent)]/10 px-2.5 py-1 text-[11px] text-[var(--color-accent)]">
@@ -410,19 +322,19 @@ export default function BlogArticle() {
                 <div className="blog-progress-panel__bar">
                   <div
                     className="blog-progress-panel__bar-fill"
-                    style={{ width: `${Math.round(readingProgress * 100)}%` }}
+                    style={{ transform: `scaleX(${readingProgress})` }}
                   />
                 </div>
               </div>
             </details>
 
             {sidebarToc.length > 0 && (
-              <details className="rounded-[1.5rem] border border-gray-200/80 bg-white/88 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/72">
+              <details className="surface-card-strong rounded-[1.5rem] p-4">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-left">
                   <span className="text-sm font-semibold text-[var(--color-text-primary)]">{t('blog.tableOfContents')}</span>
                   <ListTree size={16} className="text-[var(--color-accent)]" />
                 </summary>
-                <nav className="mt-4 space-y-1">
+                <nav className="blog-toc-list mt-4" aria-label={t('blog.tableOfContents')}>
                   {sidebarToc.map((item) => (
                     <button
                       key={item.id}
@@ -430,11 +342,9 @@ export default function BlogArticle() {
                       onClick={() => {
                         scrollToSection(item.id);
                       }}
-                      className={`flex w-full items-start rounded-2xl px-3 py-2 text-left text-sm text-[var(--color-text-secondary)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text-primary)] dark:hover:bg-slate-800 ${
-                        item.depth === 3 ? 'pl-6' : ''
-                      }`}
+                      className={getTocItemClassName(item)}
                     >
-                      {item.text}
+                      <span className="blog-toc-item__label">{item.text}</span>
                     </button>
                   ))}
                 </nav>
@@ -442,7 +352,7 @@ export default function BlogArticle() {
             )}
 
             {collection && (
-              <details className="rounded-[1.5rem] border border-gray-200/80 bg-white/88 p-4 shadow-[0_14px_40px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/72">
+              <details className="surface-card-strong rounded-[1.5rem] p-4">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-left">
                   <span className="text-sm font-semibold text-[var(--color-text-primary)]">{t('blog.currentCollection')}</span>
                   <Layers3 size={16} className="text-[var(--color-accent)]" />
@@ -498,19 +408,15 @@ export default function BlogArticle() {
           </div>
 
           <article ref={articleRef} className="blog-article">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm, remarkMath]}
-              rehypePlugins={[[rehypeHighlight, { ignoreMissing: true }], rehypeKatex]}
-              components={markdownComponents}
-              urlTransform={(url: string) => {
-                if (url.startsWith('./') || (!url.startsWith('http') && !url.startsWith('/') && !url.startsWith('#'))) {
-                  return `${import.meta.env.BASE_URL}blog/${slug}/${url.replace(/^\.\//, '')}`;
-                }
-                return url;
-              }}
+            <Suspense
+              fallback={
+                <div className="flex items-center justify-center py-10" aria-live="polite">
+                  <div className="h-8 w-8 rounded-full border-4 border-[var(--color-accent)] border-t-transparent animate-spin" />
+                </div>
+              }
             >
-              {content}
-            </ReactMarkdown>
+              <BlogMarkdownRenderer content={content} slug={slug} />
+            </Suspense>
           </article>
 
           <div className="mt-16 pt-8 border-t border-gray-200 dark:border-slate-800">
@@ -539,12 +445,12 @@ export default function BlogArticle() {
               <div className="blog-progress-panel__bar">
                 <div
                   className="blog-progress-panel__bar-fill"
-                  style={{ width: `${Math.round(readingProgress * 100)}%` }}
+                  style={{ transform: `scaleX(${readingProgress})` }}
                 />
               </div>
             </div>
 
-            <div className="flex h-[clamp(14rem,calc((100vh-15rem)/2),24rem)] min-h-[14rem] flex-col rounded-[1.75rem] border border-gray-200/80 bg-white/90 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/75">
+            <div className="surface-card-strong flex h-[clamp(14rem,calc((100vh-15rem)/2),24rem)] min-h-[14rem] flex-col rounded-[1.75rem] p-5">
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
                   <ListTree size={18} />
@@ -560,7 +466,7 @@ export default function BlogArticle() {
                 </p>
               ) : (
                 <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-                  <nav className="space-y-1">
+                  <nav className="blog-toc-list" aria-label={t('blog.tableOfContents')}>
                     {sidebarToc.map((item) => (
                       <button
                         key={item.id}
@@ -568,11 +474,9 @@ export default function BlogArticle() {
                         onClick={() => {
                           scrollToSection(item.id);
                         }}
-                        className={`flex w-full items-start rounded-2xl px-3 py-2 text-left text-sm text-[var(--color-text-secondary)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text-primary)] dark:hover:bg-slate-800 ${
-                          item.depth === 3 ? 'pl-6' : ''
-                        }`}
+                        className={getTocItemClassName(item)}
                       >
-                        {item.text}
+                        <span className="blog-toc-item__label">{item.text}</span>
                       </button>
                     ))}
                   </nav>
@@ -581,7 +485,7 @@ export default function BlogArticle() {
             </div>
 
             {collection && (
-              <div className="flex h-[clamp(14rem,calc((100vh-15rem)/2),24rem)] min-h-[14rem] flex-col rounded-[1.75rem] border border-gray-200/80 bg-white/90 p-5 shadow-[0_18px_60px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/75">
+              <div className="surface-card-strong flex h-[clamp(14rem,calc((100vh-15rem)/2),24rem)] min-h-[14rem] flex-col rounded-[1.75rem] p-5">
                 <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
                   <Layers3 size={18} />
@@ -616,7 +520,7 @@ export default function BlogArticle() {
                           className={`block rounded-2xl border px-3 py-3 transition-colors ${
                             isCurrent
                               ? 'border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10'
-                              : 'border-gray-200/80 hover:border-[var(--color-accent)]/30 hover:bg-gray-50 dark:border-slate-800/80 dark:hover:bg-slate-900'
+                              : 'surface-card-subtle hover:border-[var(--color-accent)]/30'
                           }`}
                         >
                           <div className="flex items-start gap-3">

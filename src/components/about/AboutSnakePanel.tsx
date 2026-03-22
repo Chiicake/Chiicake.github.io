@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Pause, Play, RotateCcw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -78,6 +78,7 @@ function getOverlayCopy(status: SnakeStatus, t: (key: string) => string) {
 export function AboutSnakePanel() {
   const { t } = useTranslation();
   const [game, setGame] = useState<SnakeGameState>(() => createSnakeGame({ bestScore: readBestScore() }));
+  const boardRegionRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     window.localStorage.setItem(SNAKE_BEST_SCORE_STORAGE_KEY, String(game.bestScore));
@@ -96,115 +97,6 @@ export function AboutSnakePanel() {
       window.clearInterval(timer);
     };
   }, [game.status, game.tickMs]);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const key = event.key.toLowerCase();
-
-      if (key === 'arrowup' || key === 'w') {
-        event.preventDefault();
-        setGame((current) => {
-          if (current.status === 'lost' || current.status === 'won') {
-            return {
-              ...setSnakeDirection(
-                createSnakeGame({ boardSize: current.boardSize, bestScore: current.bestScore }),
-                'up',
-              ),
-              status: 'running',
-            };
-          }
-
-          const next = setSnakeDirection(current, 'up');
-          return current.status === 'idle' ? { ...next, status: 'running' } : next;
-        });
-        return;
-      }
-
-      if (key === 'arrowdown' || key === 's') {
-        event.preventDefault();
-        setGame((current) => {
-          if (current.status === 'lost' || current.status === 'won') {
-            return {
-              ...setSnakeDirection(
-                createSnakeGame({ boardSize: current.boardSize, bestScore: current.bestScore }),
-                'down',
-              ),
-              status: 'running',
-            };
-          }
-
-          const next = setSnakeDirection(current, 'down');
-          return current.status === 'idle' ? { ...next, status: 'running' } : next;
-        });
-        return;
-      }
-
-      if (key === 'arrowleft' || key === 'a') {
-        event.preventDefault();
-        setGame((current) => {
-          if (current.status === 'lost' || current.status === 'won') {
-            return {
-              ...setSnakeDirection(
-                createSnakeGame({ boardSize: current.boardSize, bestScore: current.bestScore }),
-                'left',
-              ),
-              status: 'running',
-            };
-          }
-
-          const next = setSnakeDirection(current, 'left');
-          return current.status === 'idle' ? { ...next, status: 'running' } : next;
-        });
-        return;
-      }
-
-      if (key === 'arrowright' || key === 'd') {
-        event.preventDefault();
-        setGame((current) => {
-          if (current.status === 'lost' || current.status === 'won') {
-            return {
-              ...setSnakeDirection(
-                createSnakeGame({ boardSize: current.boardSize, bestScore: current.bestScore }),
-                'right',
-              ),
-              status: 'running',
-            };
-          }
-
-          const next = setSnakeDirection(current, 'right');
-          return current.status === 'idle' ? { ...next, status: 'running' } : next;
-        });
-        return;
-      }
-
-      if (key === ' ' || key === 'spacebar') {
-        event.preventDefault();
-        setGame((current) => {
-          if (current.status === 'running') {
-            return { ...current, status: 'paused' };
-          }
-
-          if (current.status === 'paused' || current.status === 'idle') {
-            return { ...current, status: 'running' };
-          }
-
-          return { ...createSnakeGame({ boardSize: current.boardSize, bestScore: current.bestScore }), status: 'running' };
-        });
-        return;
-      }
-
-      if (key === 'r' || key === 'enter') {
-        event.preventDefault();
-        setGame((current) => createSnakeGame({ boardSize: current.boardSize, bestScore: current.bestScore }));
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
 
   const handleDirectionInput = (direction: SnakeDirection) => {
     setGame((current) => {
@@ -244,6 +136,45 @@ export function AboutSnakePanel() {
 
   const handleReset = () => {
     setGame((current) => createSnakeGame({ boardSize: current.boardSize, bestScore: current.bestScore }));
+  };
+
+  const handleBoardKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const key = event.key.toLowerCase();
+
+    if (key === 'arrowup' || key === 'w') {
+      event.preventDefault();
+      handleDirectionInput('up');
+      return;
+    }
+
+    if (key === 'arrowdown' || key === 's') {
+      event.preventDefault();
+      handleDirectionInput('down');
+      return;
+    }
+
+    if (key === 'arrowleft' || key === 'a') {
+      event.preventDefault();
+      handleDirectionInput('left');
+      return;
+    }
+
+    if (key === 'arrowright' || key === 'd') {
+      event.preventDefault();
+      handleDirectionInput('right');
+      return;
+    }
+
+    if (key === ' ' || key === 'spacebar') {
+      event.preventDefault();
+      handleToggle();
+      return;
+    }
+
+    if (key === 'r' || key === 'enter') {
+      event.preventDefault();
+      handleReset();
+    }
   };
 
   const snakeCells = new Set(game.snake.map((segment) => toCellKey(segment)));
@@ -309,6 +240,13 @@ export function AboutSnakePanel() {
 
           <div className="about-snake-screen relative mt-4 rounded-[1.5rem] border border-gray-200/80 p-2.5 md:mt-5 md:p-3 dark:border-slate-800/70">
             <div
+              ref={boardRegionRef}
+              role="application"
+              tabIndex={0}
+              aria-label={t('about.snakeTitle')}
+              aria-describedby="about-snake-controls-hint"
+              aria-live="polite"
+              onKeyDown={handleBoardKeyDown}
               className="grid aspect-square w-full gap-[3px] rounded-[1.25rem] bg-slate-200/65 p-[3px] dark:bg-slate-950/80"
               style={{ gridTemplateColumns: `repeat(${game.boardSize}, minmax(0, 1fr))` }}
             >
@@ -379,6 +317,10 @@ export function AboutSnakePanel() {
 
           <p className="mono-data mt-5 text-[11px] uppercase tracking-[0.22em] text-[var(--color-text-secondary)]">
             {t('about.snakeControlsTitle')}
+          </p>
+
+          <p id="about-snake-controls-hint" className="mt-2 text-sm leading-6 text-[var(--color-text-secondary)]">
+            {t('about.snakeOverlayIdleDescription')} {t('about.snakeResetAction')}: R / Enter.
           </p>
 
           <div className="mx-auto mt-4 grid w-[160px] grid-cols-3 grid-rows-3 gap-2 md:w-[172px]">

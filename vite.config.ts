@@ -259,4 +259,58 @@ export default defineConfig(({ command }) => ({
     ...(command === 'serve' ? [localBlogAdminPlugin()] : []),
   ],
   base: '/',
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) {
+            return undefined
+          }
+
+          if (
+            id.includes('rehype-highlight') ||
+            id.includes('/highlight.js/')
+          ) {
+            return 'highlight-vendor'
+          }
+
+          if (
+            id.includes('react-markdown') ||
+            id.includes('remark-gfm') ||
+            id.includes('remark-math') ||
+            id.includes('rehype-katex') ||
+            id.includes('katex') ||
+            id.includes('mdast-util-') ||
+            id.includes('micromark') ||
+            id.includes('unist-util-') ||
+            id.includes('hast-util-')
+          ) {
+            return 'markdown-vendor'
+          }
+
+          if (id.includes('react-router')) {
+            return 'router-vendor'
+          }
+
+          if (id.includes('react-i18next') || id.includes('i18next')) {
+            return 'i18n-vendor'
+          }
+
+          if (id.includes('motion')) {
+            return 'motion-vendor'
+          }
+
+          if (id.includes('lucide-react')) {
+            return 'icon-vendor'
+          }
+
+          if (id.includes('/react/') || id.includes('/react-dom/')) {
+            return 'react-vendor'
+          }
+
+          return undefined
+        },
+      },
+    },
+  },
 }))

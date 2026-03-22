@@ -81,6 +81,10 @@ export default function About({ id }: { id?: string }) {
   return (
     <section id={id} className="scroll-mt-20">
       <div className="pb-12 pt-2 md:pt-3">
+        <header className="sr-only">
+          <h1>{t('nav.about')}</h1>
+        </header>
+
         <div className="mt-2 grid grid-cols-1 gap-10 md:mt-3 md:gap-12 lg:grid-cols-[340px_minmax(0,1fr)] xl:grid-cols-[360px_minmax(0,1fr)]">
           <ScrollReveal direction="right">
             <div className="engineering-panel overflow-hidden rounded-[2rem] p-5 md:p-6">

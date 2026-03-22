@@ -109,8 +109,15 @@ export default function Blog() {
 
   return (
     <div className="pb-12 pt-2 md:pt-3">
+      <header className="mb-8 md:mb-10">
+        <p className="engineering-kicker">{t('nav.blog')}</p>
+        <h1 className="mt-3 text-3xl font-black tracking-tight text-[var(--color-text-primary)] md:text-4xl">
+          {t('blog.latestPosts')}
+        </h1>
+      </header>
+
       <section className="mb-8 grid gap-4 lg:mb-10 lg:gap-5 lg:grid-cols-[minmax(0,1.16fr)_minmax(20rem,0.84fr)]">
-        <div className="flex min-h-[12.5rem] flex-col rounded-[1.4rem] border border-gray-200/80 bg-white/84 p-3.5 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 sm:p-4 md:h-[15.8rem] md:rounded-[1.6rem] md:p-5">
+        <div className="surface-card flex min-h-[12.5rem] flex-col rounded-[1.4rem] p-3.5 sm:p-4 md:h-[15.8rem] md:rounded-[1.6rem] md:p-5">
           <div className="mb-4 flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
@@ -128,7 +135,7 @@ export default function Blog() {
 
           <div className="min-h-0 flex-1 overflow-y-auto pr-1">
             <div className="grid gap-3 md:grid-cols-[8.75rem_minmax(0,1fr)] md:gap-4 md:items-start">
-              <div className="rounded-[1.1rem] border border-gray-200/80 bg-white/75 p-2.5 dark:border-slate-800/80 dark:bg-slate-900/55 md:rounded-[1.2rem] md:p-3">
+              <div className="surface-card-subtle rounded-[1.1rem] p-2.5 md:rounded-[1.2rem] md:p-3">
                 <div className="grid gap-2">
                   {contentTypeOptions.map((option) => {
                     const active = selectedContentType === option.key;
@@ -144,7 +151,7 @@ export default function Blog() {
                         className={`flex w-full items-center justify-between gap-2 rounded-2xl px-3 py-2 text-left text-xs font-medium transition-colors ${
                           active
                             ? 'bg-[var(--color-accent)] text-white shadow-sm'
-                            : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
+                            : 'chip-muted hover:text-[var(--color-text-primary)]'
                         }`}
                       >
                         <span className="min-w-0 whitespace-nowrap">{option.label}</span>
@@ -167,7 +174,7 @@ export default function Blog() {
                   className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
                     selectedCategory === 'all'
                       ? 'bg-[var(--color-accent)] text-white shadow-sm'
-                      : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
+                      : 'chip-muted hover:text-[var(--color-text-primary)]'
                   }`}
                 >
                   {t('blog.allCategories')}
@@ -191,7 +198,7 @@ export default function Blog() {
                       className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
                         active
                           ? 'bg-[var(--color-accent)] text-white shadow-sm'
-                          : 'bg-gray-100 text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] dark:bg-slate-800'
+                          : 'chip-muted hover:text-[var(--color-text-primary)]'
                       }`}
                     >
                       {getLocalizedText(category.label, lang)}
@@ -206,7 +213,7 @@ export default function Blog() {
           </div>
         </div>
 
-        <div className="flex min-h-[12.5rem] flex-col rounded-[1.4rem] border border-gray-200/80 bg-white/84 p-3.5 shadow-[0_16px_48px_rgba(15,23,42,0.05)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/68 sm:p-4 md:h-[15.8rem] md:rounded-[1.6rem] md:p-5">
+        <div className="surface-card flex min-h-[12.5rem] flex-col rounded-[1.4rem] p-3.5 sm:p-4 md:h-[15.8rem] md:rounded-[1.6rem] md:p-5">
           <div className="mb-4 flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-accent)]/12 text-[var(--color-accent)]">
@@ -229,13 +236,13 @@ export default function Blog() {
                 <Link
                   key={collection.slug}
                   to={`/blog/collections/${collection.slug}`}
-                  className="group flex items-center justify-between gap-3 rounded-[1.1rem] border border-gray-200/80 bg-white/75 px-3.5 py-2.5 transition-colors hover:border-[var(--color-accent)]/35 hover:bg-white dark:border-slate-800/80 dark:bg-slate-900/60 dark:hover:bg-slate-900"
+                  className="surface-card-subtle group flex items-center justify-between gap-3 rounded-[1.1rem] px-3.5 py-2.5 transition-colors hover:border-[var(--color-accent)]/35"
                 >
                   <h4 className="min-w-0 text-sm font-bold leading-snug text-[var(--color-text-primary)] transition-colors group-hover:text-[var(--color-accent)]">
                     {getLocalizedText(collection.name, lang)}
                   </h4>
 
-                  <div className="shrink-0 rounded-2xl bg-[var(--color-accent)]/10 px-2.5 py-1.5 text-[11px] font-semibold text-[var(--color-accent)]">
+                  <div className="chip-accent shrink-0 rounded-2xl px-2.5 py-1.5 text-[11px] font-semibold">
                     {t('blog.articlesCount', { count: articles.length })}
                   </div>
                 </Link>
@@ -250,7 +257,7 @@ export default function Blog() {
         </div>
       </section>
 
-      <section className="rounded-[1.6rem] border border-gray-200/80 bg-white/80 p-4 shadow-[0_20px_70px_rgba(15,23,42,0.04)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/65 sm:p-5 md:rounded-[2rem] md:p-7">
+      <section className="surface-card-strong rounded-[1.6rem] p-4 sm:p-5 md:rounded-[2rem] md:p-7">
         {paginatedArticles.length === 0 ? (
           <div className="rounded-[1.5rem] border border-dashed border-gray-200/80 px-5 py-10 text-center text-[var(--color-text-secondary)] dark:border-slate-800/80">
             {t('blog.emptyCategory')}
@@ -275,7 +282,7 @@ export default function Blog() {
         )}
 
         {filteredArticles.length > BLOG_PAGE_SIZE && (
-          <div className="mt-10 flex flex-col gap-4 rounded-[1.5rem] border border-gray-200/80 bg-white/70 px-5 py-4 dark:border-slate-800/80 dark:bg-slate-900/45 md:flex-row md:items-center md:justify-between">
+          <div className="surface-card-subtle mt-10 flex flex-col gap-4 rounded-[1.5rem] px-5 py-4 md:flex-row md:items-center md:justify-between">
             <p className="text-sm text-[var(--color-text-secondary)]">
               {t('blog.pageLabel', { page: safeCurrentPage, pages: totalPages })}
             </p>
