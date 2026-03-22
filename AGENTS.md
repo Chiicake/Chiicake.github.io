@@ -61,6 +61,29 @@
 - Check `public/blog/index.json` before publishing. Reuse existing tags, categories, and collections when they fit; create new ones only when nothing suitable exists.
 - Complete the post through the existing local workflow so that the article, metadata, assets, and language files remain compatible with the current blog system.
 
+## Original Technical Blog Writing Style
+- Use direct, factual language. Avoid marketing phrases like "elegant solution", "powerful tool", "modern approach", etc.
+- Do not use emoji in technical content.
+- Do not use star ratings or other scoring systems to compare technologies.
+- Prefer neutral, academic tone over enthusiastic or promotional language.
+- Use precise technical terminology without unnecessary embellishment.
+- Structure comparisons as factual tables or lists, not subjective evaluations.
+- Title format: "Topic: Subtitle" or "Topic Analysis" rather than "Topic: Marketing Phrase".
+- Examples:
+  - Avoid: "ChaCha20-Poly1305: The Elegant Choice for Modern Encryption ✨"
+  - Use: "ChaCha20-Poly1305 AEAD Algorithm Analysis"
+  - Avoid: "★★★★★ Excellent software performance"
+  - Use: "High software performance" or provide specific benchmark data
+  - Avoid: "This powerful algorithm elegantly combines..."
+  - Use: "This algorithm combines..."
+
+## Visual Assets for Technical Blog Posts
+- SVG diagrams should use light backgrounds (#ffffff or #fafafa) to ensure visibility in both light and dark themes.
+- Use neutral, muted colors (grays, blacks) for text and lines.
+- Avoid bright, saturated colors that may clash with site themes.
+- Ensure sufficient contrast for readability.
+- Keep diagram styling minimal and professional.
+
 ## Security & Local Admin Notes
 - `/#/local-blog-admin-studio-chiicake-2026` is intended for local use only; keep that restriction intact.
 - Do not commit secrets, machine-specific paths, or generated cache directories such as `__pycache__/`.

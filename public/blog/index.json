@@ -1,5 +1,6 @@
 {
   "tags": [
+    "Cryptography",
     "Distributed Systems",
     "Go",
     "Programming Paradigms",
@@ -37,6 +38,17 @@
       "description": {
         "zh": "处理幂等、重试、消息一致性与跨服务状态协调。",
         "en": "Idempotency, retries, message consistency, and cross-service coordination."
+      }
+    },
+    {
+      "id": "cryptography",
+      "label": {
+        "zh": "密码学",
+        "en": "Cryptography"
+      },
+      "description": {
+        "zh": "密码学算法、协议与安全实现分析。",
+        "en": "Cryptographic algorithms, protocols, and secure implementation analysis."
       }
     },
     {
@@ -98,6 +110,27 @@
     }
   ],
   "articles": [
+    {
+      "slug": "chacha20-poly1305-deep-dive",
+      "date": "2026-03-22",
+      "tags": [
+        "Cryptography"
+      ],
+      "title": {
+        "zh": "ChaCha20-Poly1305 AEAD 算法分析",
+        "en": "ChaCha20-Poly1305 AEAD Algorithm Analysis"
+      },
+      "summary": {
+        "zh": "分析 ChaCha20 流密码和 Poly1305 消息认证码的数学基础与 AEAD 构造。",
+        "en": "Analysis of ChaCha20 stream cipher, Poly1305 MAC mathematical foundations, and AEAD construction."
+      },
+      "readingTime": {
+        "zh": "32 分钟",
+        "en": "30 min"
+      },
+      "category": "cryptography",
+      "contentType": "original"
+    },
     {
       "slug": "allocation-optimizations",
       "date": "2026-03-21",
