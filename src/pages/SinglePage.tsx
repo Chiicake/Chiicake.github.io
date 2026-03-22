@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useLocation } from 'react-router';
 
 import Home from './Home';
@@ -6,6 +6,13 @@ import { BlogPreview } from './sections/BlogPreview';
 
 export default function SinglePage() {
   const location = useLocation();
+
+  // Immediately scroll to top when component mounts (unless there's a scroll target)
+  useLayoutEffect(() => {
+    if (!location.state?.scrollTo) {
+      window.scrollTo(0, 0);
+    }
+  }, [location.state?.scrollTo]);
 
   useEffect(() => {
     if (location.state?.scrollTo) {

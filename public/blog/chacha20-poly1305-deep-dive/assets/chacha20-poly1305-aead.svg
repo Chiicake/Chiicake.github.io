@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 700">
+  <defs>
+    <style>
+      .title { font: bold 20px sans-serif; fill: #1a1a1a; }
+      .label { font: 14px sans-serif; fill: #2a2a2a; }
+      .small-label { font: 12px sans-serif; fill: #3a3a3a; }
+      .box { fill: #f5f5f5; stroke: #666; stroke-width: 1.5; }
+      .arrow { fill: none; stroke: #444; stroke-width: 1.5; marker-end: url(#arrowhead); }
+      .key-box { fill: #fafafa; stroke: #888; stroke-width: 1.5; }
+      .data-box { fill: #f8f8f8; stroke: #777; stroke-width: 1.5; }
+      .mac-box { fill: #f5f5f5; stroke: #666; stroke-width: 1.5; }
+      .cipher-box { fill: #fafafa; stroke: #888; stroke-width: 1.5; }
+      .tag-box { fill: #f8f8f8; stroke: #666; stroke-width: 1.5; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#444" />
+    </marker>
+  </defs>
+  
+  <!-- Light background -->
+  <rect width="900" height="700" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" class="title">ChaCha20-Poly1305 AEAD Construction (RFC 8439)</text>
+  
+  <!-- Inputs at top -->
+  <g>
+    <text x="150" y="70" text-anchor="middle" class="label" style="font-weight: bold;">Inputs:</text>
+    
+    <rect x="50" y="80" width="80" height="40" class="key-box" rx="5"/>
+    <text x="90" y="105" text-anchor="middle" class="small-label">Key (256-bit)</text>
+    
+    <rect x="150" y="80" width="80" height="40" class="key-box" rx="5"/>
+    <text x="190" y="105" text-anchor="middle" class="small-label">Nonce (96-bit)</text>
+    
+    <rect x="250" y="80" width="80" height="40" class="data-box" rx="5"/>
+    <text x="290" y="105" text-anchor="middle" class="small-label">Plaintext</text>
+    
+    <rect x="350" y="80" width="80" height="40" class="data-box" rx="5"/>
+    <text x="390" y="105" text-anchor="middle" class="small-label">AAD</text>
+  </g>
+  
+  <!-- Step 1: Generate Poly1305 Key -->
+  <g>
+    <text x="150" y="160" text-anchor="middle" class="label" style="font-weight: bold;">Step 1: Generate Poly1305 Key</text>
+    
+    <rect x="50" y="170" width="200" height="60" class="box" rx="5"/>
+    <text x="150" y="195" text-anchor="middle" class="small-label">ChaCha20(key, counter=0, nonce)</text>
+    <text x="150" y="215" text-anchor="middle" class="formula" style="font: 11px monospace;">→ poly1305_key [32 bytes]</text>
+    
+    <path d="M 90 120 L 90 170" class="arrow"/>
+    <path d="M 190 120 L 190 170" class="arrow"/>
+  </g>
+  
+  <!-- Arrow to next step -->
+  <path d="M 250 200 L 320 200" class="arrow"/>
+  
+  <!-- Step 2: Encrypt Plaintext -->
+  <g>
+    <text x="530" y="160" text-anchor="middle" class="label" style="font-weight: bold;">Step 2: Encrypt Plaintext</text>
+    
+    <rect x="420" y="170" width="220" height="60" class="cipher-box" rx="5"/>
+    <text x="530" y="195" text-anchor="middle" class="small-label">ChaCha20(key, counter=1, nonce) ⊕ plaintext</text>
+    <text x="530" y="215" text-anchor="middle" class="formula" style="font: 11px monospace;">→ ciphertext</text>
+    
+    <path d="M 90 120 L 530 170" class="arrow" style="stroke-dasharray: 3,3;"/>
+    <path d="M 190 120 L 490 170" class="arrow" style="stroke-dasharray: 3,3;"/>
+    <path d="M 290 120 L 470 170" class="arrow"/>
+  </g>
+  
+  <!-- Ciphertext output box -->
+  <rect x="460" y="260" width="140" height="40" class="cipher-box" rx="5"/>
+  <text x="530" y="285" text-anchor="middle" class="small-label">Ciphertext</text>
+  <path d="M 530 230 L 530 260" class="arrow"/>
+  
+  <!-- Step 3: Construct MAC Data -->
+  <g>
+    <text x="250" y="350" text-anchor="middle" class="label" style="font-weight: bold;">Step 3: Construct MAC Data</text>
+    
+    <rect x="100" y="360" width="300" height="120" class="mac-box" rx="5"/>
+    <text x="250" y="385" text-anchor="middle" class="small-label">MAC Input Construction:</text>
+    <text x="250" y="410" text-anchor="middle" class="formula" style="font: 11px monospace;">AAD || pad16(AAD) ||</text>
+    <text x="250" y="430" text-anchor="middle" class="formula" style="font: 11px monospace;">ciphertext || pad16(ciphertext) ||</text>
+    <text x="250" y="450" text-anchor="middle" class="formula" style="font: 11px monospace;">len(AAD) || len(ciphertext)</text>
+    <text x="250" y="470" text-anchor="middle" class="small-label" style="fill: #555;">[little-endian 64-bit lengths]</text>
+    
+    <path d="M 390 120 L 350 360" class="arrow"/>
+    <path d="M 530 300 L 380 360" class="arrow"/>
+  </g>
+  
+  <!-- Arrow to Step 4 -->
+  <path d="M 400 420 L 460 420" class="arrow"/>
+  
+  <!-- Step 4: Compute Poly1305 MAC -->
+  <g>
+    <text x="630" y="350" text-anchor="middle" class="label" style="font-weight: bold;">Step 4: Compute MAC Tag</text>
+    
+    <rect x="490" y="360" width="280" height="120" class="tag-box" rx="5"/>
+    <text x="630" y="390" text-anchor="middle" class="small-label">Poly1305 MAC Computation:</text>
+    <text x="630" y="415" text-anchor="middle" class="formula" style="font: 11px monospace;">tag = Poly1305(mac_data, poly1305_key)</text>
+    <text x="630" y="445" text-anchor="middle" class="small-label" style="fill: #555;">128-bit authentication tag</text>
+    <text x="630" y="465" text-anchor="middle" class="small-label" style="fill: #555;">Verifies both ciphertext and AAD integrity</text>
+    
+    <path d="M 150 230 L 550 360" class="arrow" style="stroke-dasharray: 3,3;"/>
+  </g>
+  
+  <!-- Final outputs -->
+  <g>
+    <text x="450" y="530" text-anchor="middle" class="label" style="font-weight: bold;">Outputs:</text>
+    
+    <rect x="280" y="550" width="140" height="50" class="cipher-box" rx="5"/>
+    <text x="350" y="570" text-anchor="middle" class="small-label">Ciphertext</text>
+    <text x="350" y="585" text-anchor="middle" class="formula" style="font: 11px monospace;">(same length as plaintext)</text>
+    
+    <text x="450" y="575" text-anchor="middle" class="label" style="font-size: 20px;">+</text>
+    
+    <rect x="480" y="550" width="140" height="50" class="tag-box" rx="5"/>
+    <text x="550" y="570" text-anchor="middle" class="small-label">Authentication Tag</text>
+    <text x="550" y="585" text-anchor="middle" class="formula" style="font: 11px monospace;">(16 bytes)</text>
+    
+    <path d="M 530 300 L 350 550" class="arrow"/>
+    <path d="M 630 480 L 550 550" class="arrow"/>
+  </g>
+  
+  <!-- Security Properties Box -->
+  <g>
+    <rect x="100" y="620" width="700" height="60" fill="#f5f5f5" stroke="#666" stroke-width="1" rx="5"/>
+    <text x="450" y="640" text-anchor="middle" class="label" style="font-weight: bold;">AEAD Security Properties:</text>
+    <text x="450" y="660" text-anchor="middle" class="small-label">✓ Confidentiality (ChaCha20) + Integrity (Poly1305) + AAD Authentication</text>
+    <text x="450" y="675" text-anchor="middle" class="small-label">✓ IND-CCA2 secure (Encrypt-then-MAC construction)</text>
+  </g>
+</svg>

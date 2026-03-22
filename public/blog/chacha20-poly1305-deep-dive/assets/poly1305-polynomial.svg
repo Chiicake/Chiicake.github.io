@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <style>
+      .title { font: bold 20px sans-serif; fill: #1a1a1a; }
+      .label { font: 14px sans-serif; fill: #2a2a2a; }
+      .small-label { font: 12px sans-serif; fill: #3a3a3a; }
+      .block-box { fill: #f5f5f5; stroke: #666; stroke-width: 1.5; }
+      .arrow { fill: none; stroke: #444; stroke-width: 1.5; marker-end: url(#arrowhead); }
+      .operation { fill: #fafafa; stroke: #888; stroke-width: 1.5; }
+      .result { fill: #f8f8f8; stroke: #666; stroke-width: 1.5; }
+      .formula { font: 13px 'Courier New', monospace; fill: #2a2a2a; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#444" />
+    </marker>
+  </defs>
+  
+  <!-- Light background -->
+  <rect width="800" height="500" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title">Poly1305 Polynomial Evaluation (Horner's Method)</text>
+  
+  <!-- Message Blocks -->
+  <g>
+    <text x="400" y="70" text-anchor="middle" class="label">Message M split into 16-byte blocks</text>
+    
+    <rect x="100" y="80" width="100" height="60" class="block-box" rx="5"/>
+    <text x="150" y="105" text-anchor="middle" class="small-label">Block m₁</text>
+    <text x="150" y="125" text-anchor="middle" class="formula">+ 0x01</text>
+    
+    <rect x="220" y="80" width="100" height="60" class="block-box" rx="5"/>
+    <text x="270" y="105" text-anchor="middle" class="small-label">Block m₂</text>
+    <text x="270" y="125" text-anchor="middle" class="formula">+ 0x01</text>
+    
+    <rect x="340" y="80" width="100" height="60" class="block-box" rx="5"/>
+    <text x="390" y="105" text-anchor="middle" class="small-label">Block m₃</text>
+    <text x="390" y="125" text-anchor="middle" class="formula">+ 0x01</text>
+    
+    <text x="460" y="115" text-anchor="middle" class="label" style="font-size: 24px;">...</text>
+    
+    <rect x="500" y="80" width="100" height="60" class="block-box" rx="5"/>
+    <text x="550" y="105" text-anchor="middle" class="small-label">Block mₖ</text>
+    <text x="550" y="125" text-anchor="middle" class="formula">+ 0x01</text>
+  </g>
+  
+  <!-- Arrows down -->
+  <path d="M 150 140 L 150 180" class="arrow"/>
+  <path d="M 270 140 L 270 180" class="arrow"/>
+  <path d="M 390 140 L 390 180" class="arrow"/>
+  <path d="M 550 140 L 550 180" class="arrow"/>
+  
+  <!-- c values -->
+  <g>
+    <rect x="100" y="180" width="100" height="40" class="operation" rx="5"/>
+    <text x="150" y="205" text-anchor="middle" class="formula">c₁</text>
+    
+    <rect x="220" y="180" width="100" height="40" class="operation" rx="5"/>
+    <text x="270" y="205" text-anchor="middle" class="formula">c₂</text>
+    
+    <rect x="340" y="180" width="100" height="40" class="operation" rx="5"/>
+    <text x="390" y="205" text-anchor="middle" class="formula">c₃</text>
+    
+    <rect x="500" y="180" width="100" height="40" class="operation" rx="5"/>
+    <text x="550" y="205" text-anchor="middle" class="formula">cₖ</text>
+  </g>
+  
+  <!-- Horner's method visualization -->
+  <g>
+    <text x="400" y="260" text-anchor="middle" class="label" style="font-weight: bold;">Horner's Method Evaluation:</text>
+    
+    <!-- Step 0: Initialize -->
+    <rect x="50" y="280" width="200" height="40" class="result" rx="5"/>
+    <text x="150" y="305" text-anchor="middle" class="formula">acc = 0</text>
+    
+    <!-- Step 1 -->
+    <path d="M 250 300 L 300 300" class="arrow"/>
+    <rect x="300" y="280" width="200" height="40" class="result" rx="5"/>
+    <text x="400" y="305" text-anchor="middle" class="formula">acc = (0 + c₁) × r mod p</text>
+    
+    <!-- Step 2 -->
+    <path d="M 500 300 L 550 300" class="arrow"/>
+    <rect x="550" y="280" width="200" height="40" class="result" rx="5"/>
+    <text x="650" y="305" text-anchor="middle" class="formula">...</text>
+  </g>
+  
+  <!-- Detailed formula box -->
+  <g>
+    <rect x="50" y="350" width="700" height="100" fill="#f5f5f5" stroke="#999" stroke-width="1" rx="5"/>
+    <text x="400" y="375" text-anchor="middle" class="label" style="font-weight: bold;">For each block i = 1 to k:</text>
+    <text x="400" y="400" text-anchor="middle" class="formula" style="font-size: 14px;">acc ← (acc + cᵢ) × r mod p</text>
+    <text x="400" y="425" text-anchor="middle" class="small-label" style="fill: #555;">where p = 2¹³⁰ - 5 (prime modulus)</text>
+  </g>
+  
+  <!-- Final step -->
+  <g>
+    <text x="400" y="475" text-anchor="middle" class="label" style="font-weight: bold;">Final Tag:</text>
+    <text x="400" y="495" text-anchor="middle" class="formula" style="font-size: 14px;">tag = (acc + s) mod 2¹²⁸</text>
+  </g>
+</svg>

@@ -115,7 +115,19 @@ export function Header() {
     if (location.pathname === WEB_HOME_PATH) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      navigate(WEB_HOME_PATH);
+      // Navigate to home and ensure scroll to top
+      navigate(WEB_HOME_PATH, { replace: false });
+      // Immediate scroll to ensure we're at top
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
+  };
+
+  const handleModeToggle = () => {
+    const targetPath = isCliPage ? WEB_HOME_PATH : '/cli';
+    navigate(targetPath);
+    // Ensure scroll to top when navigating to WEB home
+    if (isCliPage) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }
   };
 
@@ -180,7 +192,7 @@ export function Header() {
 
         <div className="nav-terminal-shell__right">
           <button
-            onClick={() => navigate(isCliPage ? WEB_HOME_PATH : '/cli')}
+            onClick={handleModeToggle}
             className="nav-terminal-shell__mode-toggle"
             aria-label={homepageModeTitle}
             title={homepageModeTitle}

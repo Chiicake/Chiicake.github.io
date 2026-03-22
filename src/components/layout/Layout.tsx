@@ -47,9 +47,11 @@ export function Layout() {
     };
   }, [location.pathname]);
 
+  // Scroll to top on route change for non-home, non-CLI pages
+  // Home page handles its own scroll in SinglePage.tsx
   useEffect(() => {
     if (!isHomePage && !isCliPage) {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      window.scrollTo(0, 0);
     }
   }, [isCliPage, isHomePage, location.pathname]);
 

@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <style>
+      .title { font: bold 20px sans-serif; fill: #1a1a1a; }
+      .label { font: 14px sans-serif; fill: #2a2a2a; }
+      .small-label { font: 12px sans-serif; fill: #3a3a3a; }
+      .state-box { fill: #f5f5f5; stroke: #666; stroke-width: 1.5; }
+      .arrow { fill: none; stroke: #444; stroke-width: 1.5; marker-end: url(#arrowhead); }
+      .operation { fill: #fafafa; stroke: #888; stroke-width: 1.5; }
+      .round-label { fill: #333; font: bold 14px sans-serif; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#444" />
+    </marker>
+  </defs>
+  
+  <!-- Light background -->
+  <rect width="800" height="600" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" class="title">ChaCha20 State Mixing Process (20 Rounds)</text>
+  
+  <!-- Initial State -->
+  <g>
+    <text x="100" y="80" text-anchor="middle" class="label">Initial State</text>
+    <rect x="50" y="90" width="100" height="100" class="state-box" rx="5"/>
+    <text x="100" y="135" text-anchor="middle" class="small-label">Constants</text>
+    <text x="100" y="150" text-anchor="middle" class="small-label">Key (256-bit)</text>
+    <text x="100" y="165" text-anchor="middle" class="small-label">Counter + Nonce</text>
+  </g>
+  
+  <!-- Arrow 1 -->
+  <path d="M 150 140 L 230 140" class="arrow"/>
+  
+  <!-- Double Round 1 -->
+  <g>
+    <text x="280" y="80" text-anchor="middle" class="round-label">Round 1-2</text>
+    <rect x="230" y="90" width="100" height="100" class="operation" rx="5"/>
+    <text x="280" y="125" text-anchor="middle" class="small-label">Column QR</text>
+    <text x="280" y="140" text-anchor="middle" class="small-label">↓</text>
+    <text x="280" y="155" text-anchor="middle" class="small-label">Diagonal QR</text>
+    <text x="280" y="170" text-anchor="middle" class="small-label">(8 QR ops)</text>
+  </g>
+  
+  <!-- Arrow 2 -->
+  <path d="M 330 140 L 410 140" class="arrow"/>
+  
+  <!-- Double Round 2 -->
+  <g>
+    <text x="460" y="80" text-anchor="middle" class="round-label">Round 3-4</text>
+    <rect x="410" y="90" width="100" height="100" class="operation" rx="5"/>
+    <text x="460" y="125" text-anchor="middle" class="small-label">Column QR</text>
+    <text x="460" y="140" text-anchor="middle" class="small-label">↓</text>
+    <text x="460" y="155" text-anchor="middle" class="small-label">Diagonal QR</text>
+    <text x="460" y="170" text-anchor="middle" class="small-label">(8 QR ops)</text>
+  </g>
+  
+  <!-- Arrow 3 -->
+  <path d="M 510 140 L 590 140" class="arrow"/>
+  
+  <!-- Ellipsis -->
+  <text x="640" y="145" text-anchor="middle" class="label" style="font-size: 24px;">...</text>
+  
+  <!-- Arrow to Round 19-20 -->
+  <path d="M 680 140 L 100 240" class="arrow" style="stroke-dasharray: 5,5;"/>
+  
+  <!-- Double Round 10 -->
+  <g>
+    <text x="100" y="260" text-anchor="middle" class="round-label">Round 19-20</text>
+    <rect x="50" y="270" width="100" height="100" class="operation" rx="5"/>
+    <text x="100" y="305" text-anchor="middle" class="small-label">Column QR</text>
+    <text x="100" y="320" text-anchor="middle" class="small-label">↓</text>
+    <text x="100" y="335" text-anchor="middle" class="small-label">Diagonal QR</text>
+    <text x="100" y="350" text-anchor="middle" class="small-label">(8 QR ops)</text>
+  </g>
+  
+  <!-- Arrow 4 -->
+  <path d="M 150 320 L 230 320" class="arrow"/>
+  
+  <!-- Add Initial State -->
+  <g>
+    <rect x="230" y="270" width="100" height="100" class="state-box" rx="5"/>
+    <text x="280" y="310" text-anchor="middle" class="small-label">Add</text>
+    <text x="280" y="325" text-anchor="middle" class="small-label">Initial State</text>
+    <text x="280" y="340" text-anchor="middle" class="small-label">(防止逆向)</text>
+  </g>
+  
+  <!-- Arrow 5 -->
+  <path d="M 330 320 L 410 320" class="arrow"/>
+  
+  <!-- Final Keystream Block -->
+  <g>
+    <text x="510" y="260" text-anchor="middle" class="label">64-byte Keystream</text>
+    <rect x="410" y="270" width="200" height="100" class="state-box" rx="5"/>
+    <text x="510" y="310" text-anchor="middle" class="small-label">High-quality</text>
+    <text x="510" y="325" text-anchor="middle" class="small-label">Pseudorandom</text>
+    <text x="510" y="340" text-anchor="middle" class="small-label">Output Block</text>
+  </g>
+  
+  <!-- Quarter Round Detail Box -->
+  <g>
+    <text x="400" y="420" text-anchor="middle" class="label" style="font-weight: bold;">Quarter Round (QR) Operations:</text>
+    <rect x="100" y="430" width="600" height="140" fill="#f5f5f5" stroke="#999" stroke-width="1" rx="5"/>
+    
+    <text x="120" y="455" class="small-label" style="font-family: monospace;">a += b;  d ^= a;  d <<<= 16;</text>
+    <text x="120" y="480" class="small-label" style="font-family: monospace;">c += d;  b ^= c;  b <<<= 12;</text>
+    <text x="120" y="505" class="small-label" style="font-family: monospace;">a += b;  d ^= a;  d <<<=  8;</text>
+    <text x="120" y="530" class="small-label" style="font-family: monospace;">c += d;  b ^= c;  b <<<=  7;</text>
+    
+    <text x="120" y="555" class="small-label" style="fill: #555;">ARX operations: Addition + Rotation + XOR (side-channel resistant)</text>
+  </g>
+</svg>
