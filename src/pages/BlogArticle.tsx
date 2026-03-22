@@ -123,6 +123,7 @@ export default function BlogArticle() {
   const [loadedRequestKey, setLoadedRequestKey] = useState('');
   const [contentError, setContentError] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
+  const [activeSectionId, setActiveSectionId] = useState<string>('');
 
   useEffect(() => {
     if (!slug) {
@@ -155,6 +156,7 @@ export default function BlogArticle() {
         setLoadedRequestKey(requestKey);
         setContentError(false);
         setReadingProgress(0);
+        setActiveSectionId('');
       })
       .catch(() => {
         if (!active) {
@@ -214,8 +216,20 @@ export default function BlogArticle() {
       const focusY = Math.min(Math.max(getViewportFocusY(), articleTop + 1), articleBottom - 1);
       const readableHeight = Math.max(articleBottom - articleTop, 1);
       const nextProgress = Math.min(1, Math.max(0, (focusY - articleTop) / readableHeight));
+      const headingElements = Array.from(articleElement.querySelectorAll<HTMLElement>('h2[id], h3[id]'));
+      let nextActiveSectionId = headingElements[0]?.id ?? '';
+
+      for (const heading of headingElements) {
+        const headingTop = window.scrollY + heading.getBoundingClientRect().top;
+        if (headingTop <= focusY) {
+          nextActiveSectionId = heading.id;
+        } else {
+          break;
+        }
+      }
 
       setReadingProgress((current) => (Math.abs(current - nextProgress) < 0.005 ? current : nextProgress));
+      setActiveSectionId((current) => (current === nextActiveSectionId ? current : nextActiveSectionId));
     };
 
     let frameId = 0;
@@ -320,6 +334,15 @@ export default function BlogArticle() {
     },
   };
 
+  const getTocItemClassName = (item: (typeof sidebarToc)[number]) =>
+    [
+      'blog-toc-item',
+      item.depth === 3 ? 'blog-toc-item--child' : '',
+      activeSectionId === item.id ? 'is-active' : '',
+    ]
+      .filter(Boolean)
+      .join(' ');
+
   return (
     <div className="pb-12 pt-1 md:pt-2">
       <Link
@@ -422,7 +445,7 @@ export default function BlogArticle() {
                   <span className="text-sm font-semibold text-[var(--color-text-primary)]">{t('blog.tableOfContents')}</span>
                   <ListTree size={16} className="text-[var(--color-accent)]" />
                 </summary>
-                <nav className="mt-4 space-y-1">
+                <nav className="blog-toc-list mt-4" aria-label={t('blog.tableOfContents')}>
                   {sidebarToc.map((item) => (
                     <button
                       key={item.id}
@@ -430,11 +453,9 @@ export default function BlogArticle() {
                       onClick={() => {
                         scrollToSection(item.id);
                       }}
-                      className={`flex w-full items-start rounded-2xl px-3 py-2 text-left text-sm text-[var(--color-text-secondary)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text-primary)] dark:hover:bg-slate-800 ${
-                        item.depth === 3 ? 'pl-6' : ''
-                      }`}
+                      className={getTocItemClassName(item)}
                     >
-                      {item.text}
+                      <span className="blog-toc-item__label">{item.text}</span>
                     </button>
                   ))}
                 </nav>
@@ -560,7 +581,7 @@ export default function BlogArticle() {
                 </p>
               ) : (
                 <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-                  <nav className="space-y-1">
+                  <nav className="blog-toc-list" aria-label={t('blog.tableOfContents')}>
                     {sidebarToc.map((item) => (
                       <button
                         key={item.id}
@@ -568,11 +589,9 @@ export default function BlogArticle() {
                         onClick={() => {
                           scrollToSection(item.id);
                         }}
-                        className={`flex w-full items-start rounded-2xl px-3 py-2 text-left text-sm text-[var(--color-text-secondary)] transition-colors hover:bg-gray-100 hover:text-[var(--color-text-primary)] dark:hover:bg-slate-800 ${
-                          item.depth === 3 ? 'pl-6' : ''
-                        }`}
+                        className={getTocItemClassName(item)}
                       >
-                        {item.text}
+                        <span className="blog-toc-item__label">{item.text}</span>
                       </button>
                     ))}
                   </nav>
