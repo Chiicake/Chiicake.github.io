@@ -146,27 +146,6 @@
       "contentType": "original"
     },
     {
-      "slug": "superpowers-workflow-analysis",
-      "date": "2026-03-23",
-      "tags": [
-        "AI Tools"
-      ],
-      "title": {
-        "zh": "Superpowers 工作流解析：多 Agent、Skills 关联与 Brainstorm 门禁",
-        "en": "Superpowers Workflow Analysis: Multi-Agent Coordination, Skill Relationships, and Brainstorm Gates"
-      },
-      "summary": {
-        "zh": "介绍 Superpowers 如何通过 skills 分层、brainstorm 门禁、计划生成与多 agent review，把 AI Coding 过程组织成可验证的工程工作流。",
-        "en": "An analysis of how Superpowers uses skill layering, brainstorming gates, planning, and multi-agent review to turn AI coding into a verifiable engineering workflow."
-      },
-      "readingTime": {
-        "zh": "16 分钟",
-        "en": "15 min"
-      },
-      "category": "ai",
-      "contentType": "original"
-    },
-    {
       "slug": "chacha20-poly1305-deep-dive",
       "date": "2026-03-22",
       "tags": [
