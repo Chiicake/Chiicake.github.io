@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" role="img" aria-labelledby="title desc">
+  <title id="title">Superpowers Workflow Chain</title>
+  <desc id="desc">A top-down Superpowers workflow chain with an execution split and a verification gate.</desc>
+  <defs>
+    <style>
+      .title { font: 700 30px sans-serif; fill: #212529; }
+      .node-text { font: 600 22px sans-serif; fill: #212529; }
+      .checkpoint-text { font: 600 22px sans-serif; fill: #212529; }
+      .checkpoint-sub { font: 400 14px sans-serif; fill: #495057; }
+      .note-text { font: 600 18px sans-serif; fill: #495057; }
+      .main-node { fill: #f1f3f5; stroke: #495057; stroke-width: 2.8; }
+      .checkpoint-node { fill: #f8f9fa; stroke: #868e96; stroke-width: 2.8; }
+      .branch-node { fill: #f8f9fa; stroke: #495057; stroke-width: 2.6; }
+      .note-node { fill: #ffffff; stroke: #adb5bd; stroke-width: 1.8; }
+      .connector { fill: none; stroke: #343a40; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#343a40" />
+    </marker>
+  </defs>
+
+  <rect width="960" height="720" fill="#fafafa" />
+
+  <text x="480" y="54" text-anchor="middle" class="title">Superpowers Workflow Chain</text>
+
+  <rect x="340" y="96" width="280" height="64" rx="18" class="main-node" />
+  <text x="480" y="136" text-anchor="middle" class="node-text">using-superpowers</text>
+
+  <rect x="340" y="198" width="280" height="64" rx="18" class="main-node" />
+  <text x="480" y="238" text-anchor="middle" class="node-text">brainstorming</text>
+
+  <rect x="340" y="300" width="280" height="64" rx="18" class="checkpoint-node" />
+  <text x="480" y="331" text-anchor="middle" class="checkpoint-text">approved spec</text>
+  <text x="480" y="350" text-anchor="middle" class="checkpoint-sub">checkpoint</text>
+
+  <rect x="340" y="402" width="280" height="64" rx="18" class="main-node" />
+  <text x="480" y="442" text-anchor="middle" class="node-text">writing-plans</text>
+
+  <rect x="340" y="504" width="280" height="64" rx="18" class="main-node" />
+  <text x="480" y="544" text-anchor="middle" class="node-text">execution branch</text>
+
+  <rect x="120" y="606" width="240" height="56" rx="16" class="branch-node" />
+  <text x="240" y="640" text-anchor="middle" class="node-text">subagent-driven-development</text>
+
+  <rect x="600" y="606" width="240" height="56" rx="16" class="branch-node" />
+  <text x="720" y="640" text-anchor="middle" class="node-text">executing-plans</text>
+
+  <rect x="340" y="640" width="280" height="64" rx="18" class="main-node" visibility="hidden" />
+
+  <rect x="340" y="606" width="280" height="64" rx="18" class="main-node" transform="translate(0, 88)" />
+  <text x="480" y="734" text-anchor="middle" class="node-text">verification-before-completion</text>
+
+  <rect x="700" y="108" width="206" height="52" rx="14" class="note-node" />
+  <text x="803" y="140" text-anchor="middle" class="note-text">Process first</text>
+
+  <rect x="700" y="210" width="206" height="52" rx="14" class="note-node" />
+  <text x="803" y="242" text-anchor="middle" class="note-text">Hard gate before implementation</text>
+
+  <rect x="700" y="684" width="206" height="52" rx="14" class="note-node" transform="translate(0, -40)" />
+  <text x="803" y="676" text-anchor="middle" class="note-text">Evidence before claims</text>
+
+  <path d="M 480 160 L 480 198" class="connector" />
+  <path d="M 480 262 L 480 300" class="connector" />
+  <path d="M 480 364 L 480 402" class="connector" />
+  <path d="M 480 466 L 480 504" class="connector" />
+  <path d="M 480 568 L 480 590 L 240 590 L 240 606" class="connector" />
+  <path d="M 480 568 L 480 590 L 720 590 L 720 606" class="connector" />
+  <path d="M 240 662 L 240 686 L 480 686 L 480 694" class="connector" />
+  <path d="M 720 662 L 720 686 L 480 686 L 480 694" class="connector" />
+</svg>

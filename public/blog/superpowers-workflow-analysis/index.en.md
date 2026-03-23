@@ -15,27 +15,29 @@ using-superpowers
   -> verification-before-completion
 ```
 
-If `superpowers` is treated as a loose collection of callable skills, this chain looks unnecessarily heavy. But the current skill documents point to a different goal. The main problem it tries to solve is not that the model cannot write code. The problem is that, without workflow constraints, the model tends to begin implementation too early.
+![Superpowers workflow chain](./assets/superpowers-workflow-chain.svg)
 
-In many AI coding sessions, the failure does not start with syntax. It starts earlier: the requirements are still vague, the design has not been approved, the plan has not been decomposed, or the verification path has not been defined, but code generation has already started. The core move in `superpowers` is to turn those usually-skipped stages into explicit gates, then connect those gates into a traceable workflow.
+If `superpowers` is treated as a loose collection of callable skills, this chain looks heavy. But the current skill documents point to a different target. The problem is not that the model cannot write code. The problem is that, without workflow constraints, it tends to move into implementation too early.
 
-The discussion below focuses on four questions: why the system constrains process before capability, why `brainstorming` is the hardest gate in the chain, how `writing-plans` turns a spec into executable work, and why multi-agent behavior here is not default parallelism but constrained collaboration.
+In many AI coding sessions, the failure does not begin at the syntax level. It begins earlier: the requirements are still vague, the design is not fixed, the plan is not decomposed, and verification is not ready, but code generation has already started. The core move in `superpowers` is to turn those usually-skipped stages into hard gates, then connect those gates into a traceable workflow.
+
+The rest of the article focuses on four questions: why the system constrains process before capability, why `brainstorming` is the hardest gate in the chain, how `writing-plans` turns a spec into executable work, and why multi-agent behavior here is not default parallelism but constrained collaboration.
 
 ## It Constrains Process Before It Extends Capability
 
 The first rule in `using-superpowers` is direct: if there is even a 1% chance that a skill applies, the system must invoke the skill before acting. This requirement comes before clarification, before code inspection, and before the familiar impulse to “just try a quick change first.”
 
-In practice, that matters because many coding mistakes come from a recognizable habit: inspect a few files, make a small edit, sketch a rough solution, and clean up the process later. `using-superpowers` treats exactly that pattern as rationalization. It is not only against skipping a skill. It is against the broader habit of implementing first and reconstructing process afterward.
+In practice, that matters because many coding mistakes come from a familiar habit: inspect a few files, make a small change, sketch a rough version, and clean up the process later. `using-superpowers` treats that habit itself as rationalization. It is not only against skipping a skill. It is against the broader pattern of implementing first and reconstructing process afterward.
 
-This is also why it places process skills before implementation skills. The important question is not which skill is more powerful. The important question is whether the session has decided how the task should be approached before deciding what concrete work to perform. Without that first layer, `brainstorming`, `writing-plans`, review loops, and verification gates collapse into optional guidance instead of actual workflow control.
+That is also why it places process skills before implementation skills. The point is not to decide which skill is more powerful. The point is to decide how the work should be approached before deciding what concrete work to do. Without that first layer, `brainstorming`, `writing-plans`, review loops, and verification gates fall back into optional guidance instead of actual workflow control.
 
-In that sense, `using-superpowers` behaves like an entry controller. It does not generate the design, the code, or the tests itself. What it does is define which order counts as legitimate. For users who are used to having a model immediately edit files, this is often the most uncomfortable layer, because it is the layer that most directly restricts action.
+In that sense, `using-superpowers` is closer to an entry controller. It does not produce the design, code, or tests by itself. It defines which order counts as legitimate. For people used to having a model edit files immediately, this is often the least comfortable layer because it is the one that most directly constrains action.
 
 ## Why `brainstorming` Is the Main Gate in the System
 
 If `using-superpowers` prevents no-process execution, `brainstorming` prevents implementation while the task is still vague. Its hard gate is stated very plainly in the current skill document: before a design has been presented and approved, the system must not invoke implementation skills, write code, scaffold a project, or take any implementation action, and that rule applies even when the task looks simple.
 
-The important point here is not that design documents are inherently sacred. The point is that ambiguous work has to be compressed into a reviewable object before implementation begins. To get there, `brainstorming` prescribes a very specific sequence:
+The important point here is not that design documents are inherently sacred. The point is that ambiguous work has to be compressed into something reviewable before implementation begins. To get there, `brainstorming` prescribes a very specific sequence:
 
 1. inspect project context;
 2. ask one question at a time;
@@ -46,9 +48,9 @@ The important point here is not that design documents are inherently sacred. The
 7. ask the user to review the spec;
 8. only then transition to `writing-plans`.
 
-Two parts of that flow are especially easy to underestimate. The first is “one question at a time,” which limits the tendency to bundle unresolved uncertainty into a single pass. The second is the requirement to propose multiple approaches, which forces explicit comparison instead of allowing the first idea to masquerade as the only reasonable one. In practice, both rules move disagreement and uncertainty forward into the design phase.
+Two parts of that flow are especially easy to underestimate. One is “one question at a time,” which limits the tendency to bundle unresolved uncertainty into a single pass. The other is the requirement to propose multiple approaches, which forces explicit comparison instead of letting the first idea stand in as the only reasonable one. In practice, both rules move disagreement and uncertainty forward into the design phase.
 
-That is why `brainstorming` should not be read as a creativity layer. Its deeper role is closer to requirement shaping. It converts a vague request into something that can be written into a spec, examined by reviewers, and decomposed precisely by the next stage. Without that step, a detailed plan is still just a detailed expansion of an unstable input.
+That is why `brainstorming` should not be read as a creativity layer. It is closer to requirement shaping. It turns a vague request into something that can be written into a spec, checked by reviewers, and decomposed by the next stage. Without that step, a detailed plan is still only a detailed expansion of unstable input.
 
 ## Skills Are Layered, Not Flat
 
@@ -60,43 +62,43 @@ The second layer is design and planning, built around `brainstorming` and `writi
 
 The third layer is execution and verification, including `subagent-driven-development`, `executing-plans`, and `verification-before-completion`. At that point the system is no longer deciding what the work should be. It is deciding how to execute the agreed plan and how to prove completion before claiming it.
 
-This structure has a practical consequence: the skills are not menu options with equal status. They are linked by precedence. `brainstorming` explicitly terminates in `writing-plans`. `writing-plans` then hands off to either `subagent-driven-development` or `executing-plans`. `verification-before-completion` acts as a terminal gate that prevents completion claims without fresh evidence.
+This structure has a practical consequence: the skills are not menu options with equal status. They are linked by precedence. `brainstorming` terminates in `writing-plans`. `writing-plans` then hands off to either `subagent-driven-development` or `executing-plans`. `verification-before-completion` acts as a terminal gate that blocks completion claims without fresh evidence.
 
-From that angle, the point of `superpowers` is not the number of skills it contains. The point is how each layer narrows the freedom of the next one. It is trying to reduce not what the model can do, but when the model is allowed to do it.
+From that angle, the point of `superpowers` is not how many skills it contains. The point is how each layer narrows the freedom of the next one. It is trying to reduce not what the model can do, but when it is allowed to do it.
 
 ## `writing-plans` Is the Bridge Between Spec and Execution
 
 The output of `brainstorming` is not code. It is a spec. The skill that carries that spec into the execution layer is `writing-plans`.
 
-Its requirements are unusually concrete. It does not ask for a vague project plan. It asks the writer to assume that the future implementer has almost no context for the repository or the domain, then spell out the files to touch, the responsibility of each task, the verification commands, the expected outputs, and even the task granularity step by step. The document repeats the same priorities: exact file paths, exact commands, bite-sized tasks, and no abstract instructions such as “add validation.”
+Its requirements are unusually concrete. It does not ask for a vague project plan. It asks the writer to assume that the future implementer has almost no context for the repository or the domain, then spell out the files to touch, the responsibility of each task, the verification commands, the expected outputs, and even the task granularity step by step. The document keeps repeating the same priorities: exact file paths, exact commands, bite-sized tasks, and no abstract instructions such as “add validation.”
 
 That makes `writing-plans` more than supporting documentation. It is the layer that compresses design intent into an executable interface. The spec answers what should be built and why. The plan answers which files change, in what order, and what evidence proves that each step is done.
 
-This also helps explain why the earlier spec review loop matters. A plan assumes that the spec is stable enough to be translated. If the spec is still drifting, `writing-plans` will produce a very detailed and very expensive decomposition of unstable assumptions.
+This also explains why the earlier spec review loop matters. A plan assumes that the spec is stable enough to translate. If the spec is still drifting, `writing-plans` will produce a very detailed and very expensive decomposition of unstable assumptions.
 
-After that, `writing-plans` does not execute the work itself. Instead, it routes execution into one of two branches. If the work fits the same-session, mostly-independent task model, it points toward `subagent-driven-development`. Otherwise it points toward `executing-plans`. In other words, `writing-plans` is not incidental. It is the bridge that turns design-time discipline into implementation-time discipline.
+After that, `writing-plans` does not execute the work itself. It routes execution into one of two branches. If the work fits the same-session, mostly-independent task model, it points toward `subagent-driven-development`. Otherwise it points toward `executing-plans`. In other words, `writing-plans` is not incidental. It is the bridge between design-time discipline and implementation-time discipline.
 
 ## Multi-Agent Behavior Here Is Constrained Collaboration, Not Default Parallelism
 
 There is clear multi-agent design in `superpowers`, but it is not the same thing as “spawn more agents and go faster.” The current documents distinguish at least two different coordination modes.
 
-The first is `dispatching-parallel-agents`. It is meant for problem domains that are actually independent, with no shared state and no hidden coupling. Its core assumption is not “there are many tasks.” Its assumption is “these tasks can be understood and solved without interfering with one another.” The skill document is equally explicit about when not to use it, such as when failures are related, when full system state matters, or when multiple agents would collide.
+The first is `dispatching-parallel-agents`. It is meant for problem domains that are actually independent, with no shared state and no hidden coupling. Its core assumption is not “there are many tasks.” Its assumption is “these tasks can be understood and solved without interfering with one another.” The skill document is equally clear about when not to use it, such as when failures are related, when full system state matters, or when multiple agents would collide.
 
 The second is `subagent-driven-development`. It also uses multiple agents, but not through broad parallelism. Instead it builds a vertical loop around each task: implementer first, then spec reviewer, then code-quality reviewer, with the review order fixed. The document makes that order explicit: spec compliance must be checked before code quality.
 
-That ordering matters because the system wants to answer two different questions in sequence. First: did the implementation match the approved spec? Second: is the implementation itself well built? If the first question has not been resolved, early discussion of code elegance or structure can hide a more basic failure.
+That ordering matters because the system wants to answer two different questions in sequence. First: did the implementation match the approved spec? Second: is the implementation itself sound? If the first question is still open, early discussion of code elegance or structure can hide a more basic failure.
 
-This is also why the skill emphasizes a fresh subagent per task. The implementer, the spec reviewer, and the quality reviewer each enter with different goals. The controller curates the context instead of letting every subagent inherit the entire session or wander through the repository on its own. The cost is more coordination work at the top level. The benefit is narrower task boundaries, cleaner role separation, and clearer review results.
+This is also why the skill emphasizes a fresh subagent per task. The implementer, the spec reviewer, and the quality reviewer each enter with different goals. The controller curates the context instead of letting every subagent inherit the entire session or wander through the repository on its own. The cost is more coordination work at the top level. The benefit is narrower task boundaries, cleaner role separation, and clearer review outcomes.
 
 `executing-plans` plays a different role. It is the other execution branch. The current skill text explicitly says that if subagents are available, `subagent-driven-development` is usually the stronger fit. `executing-plans` is for carrying out the plan in a more direct execution session: review the plan critically first, then execute task by task, then move into the finishing flow after verification.
 
-So the meaning of multi-agent execution in `superpowers` is not “more concurrency.” It is “when should work be parallel and isolated, when should it be serial and reviewed, and when should context be split across different roles.” The real optimization target is error propagation, not superficial throughput.
+So the point of multi-agent execution in `superpowers` is not “more concurrency.” It is “when should work be parallel and isolated, when should it be serial and reviewed, and when should context be split across different roles.” The real optimization target is error propagation, not superficial throughput.
 
 ## A Typical Execution Path
 
 Compressed into one path, the system works roughly like this: the user makes a request, `using-superpowers` decides which skill flow applies and blocks no-process action, `brainstorming` turns the request into an approved design and spec, `writing-plans` translates that spec into executable tasks, execution then follows either `subagent-driven-development` or `executing-plans` depending on task independence and environment, and `verification-before-completion` blocks any completion claim without fresh evidence.
 
-The interesting part of this chain is that each layer distrusts informal confidence from the previous one. Design has to become a spec. The spec has to be reviewed. The plan has to name exact files and commands. Completion cannot rely on intuition. A success claim requires fresh verification output. The process is slower, but the trade is clear: it replaces “I think this is done” with “I can show why this is done.”
+The notable part of this chain is that each layer distrusts informal confidence from the previous one. Design has to become a spec. The spec has to be reviewed. The plan has to name exact files and commands. Completion cannot rely on intuition. A success claim requires fresh verification output. The process is slower, but the trade is clear: it replaces “I think this is done” with “I can show why this is done.”
 
 ## Costs, Boundaries, and Fit
 
@@ -104,7 +106,7 @@ This approach has obvious costs.
 
 First, the startup is slower. For users who are used to asking a model to jump straight into code, the added stages of `brainstorming`, spec writing, planning, and review loops can feel heavy. Second, documentation and review have real overhead. On very small tasks, the process cost can approach or even exceed the implementation cost. Third, the system fits environments with strong subagent support better than environments without it.
 
-But the trade is also concrete. It exposes requirement misunderstandings earlier. It pushes plan gaps forward into a stage where they are cheaper to fix. And it offers a stronger defense against false completion because `verification-before-completion` turns “no fresh evidence, no completion claim” into an explicit rule.
+But the trade is also concrete. It exposes requirement misunderstandings earlier. It pushes plan gaps into a stage where they are cheaper to fix. And it offers a stronger defense against false completion because `verification-before-completion` turns “no fresh evidence, no completion claim” into an explicit rule.
 
 For that reason, `superpowers` should not be read as a universal speed plugin. It is better understood as a framework for engineering discipline. As task complexity, collaboration cost, and rework risk increase, the extra gates become easier to justify. When the task is tiny and already well bounded, the workflow cost becomes much more visible.
 
