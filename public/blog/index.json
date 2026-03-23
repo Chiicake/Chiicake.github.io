@@ -124,23 +124,22 @@
   ],
   "articles": [
     {
-      "slug": "impeccable-ai-frontend-design-skill",
-      "date": "2026-03-22",
+      "slug": "superpowers-workflow-analysis",
+      "date": "2026-03-23",
       "tags": [
-        "Frontend",
         "AI Tools"
       ],
       "title": {
-        "zh": "Impeccable: AI 前端设计技能包介绍",
-        "en": "Impeccable: An Introduction to an AI Frontend Design Skill Pack"
+        "zh": "Superpowers：组件、工作流程与工程作用分析",
+        "en": "Superpowers: Components, Workflow, and Engineering Role Analysis"
       },
       "summary": {
-        "zh": "介绍 Impeccable 的定位、命令体系、项目级设计上下文与适用边界。",
-        "en": "An introduction to Impeccable, covering its positioning, command system, project-level design context, and usage boundaries."
+        "zh": "介绍 Superpowers 的组件构成、执行流程与工程实践作用。",
+        "en": "An analysis of Superpowers components, execution workflow, and engineering impact."
       },
       "readingTime": {
-        "zh": "11 分钟",
-        "en": "10 min"
+        "zh": "5 分钟",
+        "en": "5 min"
       },
       "category": "ai",
       "contentType": "original"
@@ -164,6 +163,28 @@
         "en": "30 min"
       },
       "category": "cryptography",
+      "contentType": "original"
+    },
+    {
+      "slug": "impeccable-ai-frontend-design-skill",
+      "date": "2026-03-22",
+      "tags": [
+        "AI Tools",
+        "Frontend"
+      ],
+      "title": {
+        "zh": "Impeccable: AI 前端设计技能包介绍",
+        "en": "Impeccable: An Introduction to an AI Frontend Design Skill Pack"
+      },
+      "summary": {
+        "zh": "介绍 Impeccable 的定位、命令体系、项目级设计上下文与适用边界。",
+        "en": "An introduction to Impeccable, covering its positioning, command system, project-level design context, and usage boundaries."
+      },
+      "readingTime": {
+        "zh": "11 分钟",
+        "en": "10 min"
+      },
+      "category": "ai",
       "contentType": "original"
     },
     {
