@@ -72,10 +72,22 @@
 - Examples:
   - Avoid: "ChaCha20-Poly1305: The Elegant Choice for Modern Encryption ✨"
   - Use: "ChaCha20-Poly1305 AEAD Algorithm Analysis"
-  - Avoid: "★★★★★ Excellent software performance"
-  - Use: "High software performance" or provide specific benchmark data
-  - Avoid: "This powerful algorithm elegantly combines..."
-  - Use: "This algorithm combines..."
+- Avoid: "★★★★★ Excellent software performance"
+- Use: "High software performance" or provide specific benchmark data
+- Avoid: "This powerful algorithm elegantly combines..."
+- Use: "This algorithm combines..."
+
+## Personal Writing Voice For Original Posts
+- When drafting original Chinese technical posts, prefer a modest first-person voice instead of an impersonal tutorial voice.
+- The tone should feel serious, restrained, and practical; avoid motivational language, exaggerated confidence, or teacher-like authority.
+- It is acceptable to mention personal background briefly, but only in grounded ways such as ongoing learning, past work habits, or why a topic is being revisited.
+- Prefer wording like "想做一个专栏", "算是把这条线重新捡起来", "看看能不能对读者产生一点启发", "希望能认真对待这个系列".
+- When explaining goals, keep them modest and concrete. Do not promise mastery or expert outcomes; prefer phrasing like "带到一般人" or "能够独立阅读文档、理解常见组件、写出基础服务的阶段".
+- Light self-deprecation is acceptable when it lowers the posture and keeps the text honest, but avoid turning it into jokes, slang, or performative humor.
+- Avoid AI-sounding openings such as abstract definitions, broad industry statements, or overly polished transitions. Start from the writer's real context, motivation, or the concrete problem being discussed.
+- Sentence rhythm can be slightly conversational, but keep vocabulary professional. Use plain expressions over ornate phrasing.
+- For series introductions or prefaces, a good default structure is: current learning/practice state -> why this topic or series is being written -> why the title is chosen -> a modest statement of scope and expected reader outcome.
+- When editing user-provided prose, preserve their original intent and personality. Prefer light polishing over rewriting into a generic "better" style.
 
 ## Visual Assets for Technical Blog Posts
 - SVG diagrams should use light backgrounds (#ffffff or #fafafa) to ensure visibility in both light and dark themes.

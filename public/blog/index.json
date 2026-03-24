@@ -100,6 +100,17 @@
       }
     },
     {
+      "slug": "rust-backend-development",
+      "name": {
+        "zh": "Rust 后端开发：从入门到一般人",
+        "en": "Rust Backend Development: From Beginner to Practitioner"
+      },
+      "description": {
+        "zh": "围绕 Rust 后端开发中的基础概念、Web 框架、数据访问、认证、测试与部署的实践性文章。",
+        "en": "Practical articles on Rust backend development, covering fundamentals, web frameworks, data access, authentication, testing, and deployment."
+      }
+    },
+    {
       "slug": "go-lang",
       "name": {
         "zh": "Go 浅析",
@@ -123,6 +134,29 @@
     }
   ],
   "articles": [
+    {
+      "slug": "axum-introduction-login-example",
+      "date": "2026-03-24",
+      "tags": [
+        "Rust"
+      ],
+      "title": {
+        "zh": "Axum 入门：从路由到用户登录接口",
+        "en": "Axum Introduction: From Routing to a User Login Endpoint"
+      },
+      "summary": {
+        "zh": "从一个最小登录接口出发，整理 axum 中路由、JSON、状态与响应的基本用法。",
+        "en": "A practical introduction to axum through a minimal login endpoint covering routing, JSON, shared state, and responses."
+      },
+      "readingTime": {
+        "zh": "9 分钟",
+        "en": "9 min"
+      },
+      "category": "rust-language",
+      "contentType": "original",
+      "collection": "rust-backend-development",
+      "seriesOrder": 1
+    },
     {
       "slug": "superpowers-workflow-analysis",
       "date": "2026-03-23",
