@@ -96,7 +96,7 @@
       },
       {
         "label": "current experiment",
-        "value": "hybird-kv"
+        "value": "hybrid-kv"
       }
     ],
     "lifeEyebrow": "cellular automaton",
@@ -285,29 +285,29 @@
     "title": "项目",
     "featuredProject": {
       "eyebrow": "Project Spotlight",
-      "title": "hybird-kv",
+      "title": "hybrid-kv",
       "status": "推进中",
       "stackLabel": "Core Stack",
       "repoCta": "查看仓库",
       "detailCta": "项目详情",
-      "path": "github.com/Chiicake/hybird-kv",
-      "tagline": "一个面向 SSD 场景的高性能 KV 存储 lab 项目，采用“内核热 Key 缓存 + 用户态权威存储引擎”的混合架构。",
+      "path": "github.com/Chiicake/hybrid-kv",
+      "tagline": "一个两层 KV 系统：内核提供可复用的热点 Key 缓存数据平面，用户态保留完整语义与持久化能力。",
       "summary": "",
       "metrics": [
         {
           "key": "watch",
           "label": "Watch",
-          "value": "9"
+          "value": "14"
         },
         {
           "key": "fork",
           "label": "Fork",
-          "value": "5"
+          "value": "7"
         },
         {
           "key": "star",
           "label": "Star",
-          "value": "128"
+          "value": "136"
         }
       ],
       "stack": [
@@ -317,7 +317,7 @@
         "KV Storage",
         "Cache Policy"
       ],
-      "sourceHref": "https://github.com/Chiicake/hybird-kv"
+      "sourceHref": "https://github.com/Chiicake/hybrid-kv"
     },
     "secondaryLabel": "更多仓库",
     "secondaryHint": "real repositories / static snapshot",
@@ -325,14 +325,14 @@
     "githubHref": "https://github.com/Chiicake?tab=repositories",
     "secondaryProjects": [
       {
-        "title": "Chiicake.github.io",
-        "path": "github.com/Chiicake/Chiicake.github.io",
-        "summary": "CLI-first 的个人博客与作品站，支持双语内容、转载来源和本地投稿工作流。",
-        "href": "https://github.com/Chiicake/Chiicake.github.io",
+        "title": "opencode-skills-cleaner",
+        "path": "github.com/Chiicake/opencode-skills-cleaner",
+        "summary": "一个用于分析和清理 opencode 技能目录中无效或冗余 skills 的小工具。",
+        "href": "https://github.com/Chiicake/opencode-skills-cleaner",
         "stack": [
-          "React",
-          "TypeScript",
-          "Vite"
+          "Automation",
+          "Tooling",
+          "CLI"
         ]
       },
       {
@@ -371,8 +371,8 @@
     ],
     "detailPage": {
       "eyebrow": "Engineering Dossier",
-      "title": "hybird-kv",
-      "terminalLabel": "kv://hybird-kv/live",
+      "title": "hybrid-kv",
+      "terminalLabel": "kv://hybrid-kv/live",
       "status": "推进中",
       "introLabel": "项目介绍",
       "focusLabel": "核心关注",
@@ -381,13 +381,13 @@
       "stackLabel": "技术栈",
       "sourceCta": "查看仓库",
       "backCta": "返回项目列表",
-      "path": "github.com/Chiicake/hybird-kv",
-      "tagline": "一个面向 SSD 场景的高性能 KV 存储 lab 项目，采用“内核热 Key 缓存 + 用户态权威存储引擎”的混合架构。",
-      "summary": "一个偏研究的实验性项目，用来验证冷热数据路径怎么分层、缓存策略怎样从存储引擎里解耦，以及内核态与用户态边界该如何划分，才能兼顾命中效率、可演进性和工程可解释性。",
+      "path": "github.com/Chiicake/hybrid-kv",
+      "tagline": "一个两层 KV 系统：内核提供可复用的热点 Key 缓存数据平面，用户态保留完整语义与持久化能力。",
+      "summary": "这个项目现在更像一个系统方向的实验台，用来验证热点路径能前移到什么程度、缓存策略如何从存储核心里拆出来，以及内核态和用户态的边界该怎么划分，才能在命中效率、可演进性和可解释性之间取得比较稳的平衡。",
       "highlights": [
-        "把热点访问路径尽量前移，减少高频请求在用户态反复穿梭的成本。",
-        "用户态继续承担权威数据和控制逻辑，避免为了局部性能牺牲整体可维护性。",
-        "缓存淘汰策略做成可插拔平面，方便继续实验不同 workload 下的取舍。"
+        "把热点 Key 的命中路径尽量前移，减少高频访问不断往返用户态的成本。",
+        "让用户态继续保留权威语义和持久化职责，避免为了局部性能把系统边界做得过于脆弱。",
+        "把缓存策略做成可配置钩子，方便继续比较不同 workload 下的取舍。"
       ],
       "modules": [
         {
@@ -406,32 +406,32 @@
       "diagnostics": [
         {
           "label": "Architecture",
-          "value": "Hybrid KV / kernel + user-space"
+          "value": "Two-tier KV / kernel cache + user-space engine"
         },
         {
           "label": "Primary Question",
-          "value": "如何在命中效率和可演进性之间取得平衡"
+          "value": "热点路径前移后，怎样保持系统语义与可维护性"
         },
         {
           "label": "Summary",
-          "value": "一个验证想法的实验性项目，涉及了大部分系统/网络/存储相关的技术"
+          "value": "一个围绕缓存数据平面、存储语义和内核/用户态边界展开的实验性项目"
         }
       ],
       "metrics": [
         {
           "key": "watch",
           "label": "Watch",
-          "value": "9"
+          "value": "14"
         },
         {
           "key": "fork",
           "label": "Fork",
-          "value": "5"
+          "value": "7"
         },
         {
           "key": "star",
           "label": "Star",
-          "value": "128"
+          "value": "136"
         }
       ],
       "flowLabel": "路径视图",
@@ -449,7 +449,7 @@
         "KV Storage",
         "Cache Policy"
       ],
-      "sourceHref": "https://github.com/Chiicake/hybird-kv"
+      "sourceHref": "https://github.com/Chiicake/hybrid-kv"
     }
   },
   "experience": {

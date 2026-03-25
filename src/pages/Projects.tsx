@@ -82,7 +82,7 @@ export default function Projects({ id }: { id?: string }) {
                       {content.featuredProject.repoCta}
                     </Button>
                     <Button
-                      to="/projects/hybird-kv"
+                      to="/projects/hybrid-kv"
                       variant="secondary"
                       size="md"
                       icon={<ArrowRight size={18} />}

@@ -95,7 +95,7 @@
       },
       {
         "label": "current experiment",
-        "value": "hybird-kv"
+        "value": "hybrid-kv"
       }
     ],
     "lifeEyebrow": "cellular automaton",
@@ -284,29 +284,29 @@
     "title": "Projects",
     "featuredProject": {
       "eyebrow": "Project Spotlight",
-      "title": "hybird-kv",
+      "title": "hybrid-kv",
       "status": "In Progress",
       "stackLabel": "Core Stack",
       "repoCta": "View Repository",
       "detailCta": "Project Details",
-      "path": "github.com/Chiicake/hybird-kv",
-      "tagline": "An SSD-friendly high-performance KV storage experiment built around a hybrid architecture: a kernel hot-key cache plus a user-space authoritative engine.",
+      "path": "github.com/Chiicake/hybrid-kv",
+      "tagline": "A two-tier KV system where the kernel provides a reusable hot-key cache data plane and user space retains full semantics and durability.",
       "summary": "",
       "metrics": [
         {
           "key": "watch",
           "label": "Watch",
-          "value": "9"
+          "value": "14"
         },
         {
           "key": "fork",
           "label": "Fork",
-          "value": "5"
+          "value": "7"
         },
         {
           "key": "star",
           "label": "Star",
-          "value": "128"
+          "value": "136"
         }
       ],
       "stack": [
@@ -316,7 +316,7 @@
         "KV Storage",
         "Cache Policy"
       ],
-      "sourceHref": "https://github.com/Chiicake/hybird-kv"
+      "sourceHref": "https://github.com/Chiicake/hybrid-kv"
     },
     "secondaryLabel": "Additional Repositories",
     "secondaryHint": "real repositories / static snapshot",
@@ -324,14 +324,14 @@
     "githubHref": "https://github.com/Chiicake?tab=repositories",
     "secondaryProjects": [
       {
-        "title": "Chiicake.github.io",
-        "path": "github.com/Chiicake/Chiicake.github.io",
-        "summary": "A CLI-first personal blog and portfolio with bilingual content, repost metadata, and a local publishing workflow.",
-        "href": "https://github.com/Chiicake/Chiicake.github.io",
+        "title": "opencode-skills-cleaner",
+        "path": "github.com/Chiicake/opencode-skills-cleaner",
+        "summary": "A small utility for analyzing and cleaning unused or redundant skills in an opencode setup.",
+        "href": "https://github.com/Chiicake/opencode-skills-cleaner",
         "stack": [
-          "React",
-          "TypeScript",
-          "Vite"
+          "Automation",
+          "Tooling",
+          "CLI"
         ]
       },
       {
@@ -370,8 +370,8 @@
     ],
     "detailPage": {
       "eyebrow": "Engineering Dossier",
-      "title": "hybird-kv",
-      "terminalLabel": "kv://hybird-kv/live",
+      "title": "hybrid-kv",
+      "terminalLabel": "kv://hybrid-kv/live",
       "status": "In Progress",
       "introLabel": "Project Overview",
       "focusLabel": "Core Focus",
@@ -380,13 +380,13 @@
       "stackLabel": "Tech Stack",
       "sourceCta": "View Repository",
       "backCta": "Back to Projects",
-      "path": "github.com/Chiicake/hybird-kv",
-      "tagline": "An SSD-friendly high-performance KV storage experiment built around a hybrid architecture: a kernel hot-key cache plus a user-space authoritative engine.",
-      "summary": "I am using it as a systems-heavy workbench to test how hot and cold paths should be separated, how cache policy can be decoupled from the storage core, and where the boundary between kernel space and user space should sit if you want hit efficiency without sacrificing evolvability or operational clarity.",
+      "path": "github.com/Chiicake/hybrid-kv",
+      "tagline": "A two-tier KV system where the kernel provides a reusable hot-key cache data plane and user space retains full semantics and durability.",
+      "summary": "I am using it as a systems-heavy workbench to test how far the hot path can be pushed forward, how cache policy can be separated from the storage core, and where the kernel/user boundary should sit if hit-path efficiency still needs to coexist with maintainability and clarity.",
       "highlights": [
-        "Push the hottest access path forward so frequent reads and writes do not keep paying unnecessary user-space cost.",
-        "Keep the user-space engine authoritative so control logic, observability, and recovery remain understandable.",
-        "Treat eviction policy as a pluggable plane so different workload tradeoffs can be explored without rewriting the storage core."
+        "Push hot-key hits forward so frequent accesses do not keep paying unnecessary user-space cost.",
+        "Keep user space authoritative for semantics and durability instead of collapsing the whole system around a local optimization.",
+        "Expose configurable cache-policy hooks so different workload tradeoffs can be explored without rewriting the storage core."
       ],
       "modules": [
         {
@@ -405,32 +405,32 @@
       "diagnostics": [
         {
           "label": "Architecture",
-          "value": "Hybrid KV / kernel + user-space"
+          "value": "Two-tier KV / kernel cache + user-space engine"
         },
         {
           "label": "Primary Question",
-          "value": "How to balance hit-path efficiency against evolvability"
+          "value": "How far hot-path acceleration can go without losing system clarity"
         },
         {
           "label": "Summary",
-          "value": "An experimental project for validating ideas, covering most systems, networking, and storage-related techniques."
+          "value": "An experimental project centered on cache data planes, storage semantics, and the kernel/user boundary."
         }
       ],
       "metrics": [
         {
           "key": "watch",
           "label": "Watch",
-          "value": "9"
+          "value": "14"
         },
         {
           "key": "fork",
           "label": "Fork",
-          "value": "5"
+          "value": "7"
         },
         {
           "key": "star",
           "label": "Star",
-          "value": "128"
+          "value": "136"
         }
       ],
       "flowLabel": "Request Path",
@@ -448,7 +448,7 @@
         "KV Storage",
         "Cache Policy"
       ],
-      "sourceHref": "https://github.com/Chiicake/hybird-kv"
+      "sourceHref": "https://github.com/Chiicake/hybrid-kv"
     }
   },
   "experience": {

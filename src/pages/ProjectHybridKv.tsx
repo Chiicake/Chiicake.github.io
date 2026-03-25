@@ -4,7 +4,7 @@ import { Button } from '../components/ui/Button';
 import { ScrollReveal } from '../components/animations/ScrollReveal';
 import { getProjectsContent } from '../lib/projects';
 
-export default function ProjectHybirdKv() {
+export default function ProjectHybridKv() {
   const { i18n } = useTranslation();
   const bundle = i18n.getResourceBundle(i18n.language, 'translation') as Record<string, unknown> | undefined;
   const content = getProjectsContent(bundle).featuredProjectDetail;
