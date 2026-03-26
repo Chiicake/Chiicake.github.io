@@ -56,6 +56,15 @@ export interface BlogTocItem {
   depth: number;
 }
 
+export interface BlogPaginationResult<T> {
+  items: T[];
+  currentPage: number;
+  totalPages: number;
+  pageSize: number;
+}
+
+const DEFAULT_BLOG_PAGE_SIZE = 10;
+
 let blogIndexPromise: Promise<BlogIndex> | null = null;
 
 function sortUniqueStrings(values: string[]) {
@@ -220,6 +229,30 @@ export function getArticlesByContentType(index: BlogIndex, contentType: 'all' | 
   }
 
   return index.articles.filter((article) => getBlogContentType(article) === contentType);
+}
+
+export function paginateArticles<T>(items: T[], page: number, pageSize = DEFAULT_BLOG_PAGE_SIZE): BlogPaginationResult<T> {
+  const safePageSize = Math.max(1, pageSize);
+  const totalPages = Math.max(1, Math.ceil(items.length / safePageSize));
+  const currentPage = Math.min(Math.max(1, page), totalPages);
+  const start = (currentPage - 1) * safePageSize;
+
+  return {
+    items: items.slice(start, start + safePageSize),
+    currentPage,
+    totalPages,
+    pageSize: safePageSize,
+  };
+}
+
+export function getBlogPageFromSearchParams(searchParams: URLSearchParams) {
+  const pageValue = Number.parseInt(searchParams.get('page') ?? '1', 10);
+
+  if (!Number.isFinite(pageValue) || pageValue < 1) {
+    return 1;
+  }
+
+  return pageValue;
 }
 
 export function stripFrontmatter(markdown: string) {

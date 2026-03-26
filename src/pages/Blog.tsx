@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { FolderTree, Layers3, PenLine } from 'lucide-react';
 import { BlogEntryCard } from '../components/blog/BlogEntryCard';
@@ -10,19 +10,32 @@ import {
   findBlogCollection,
   getArticlesByContentType,
   getBlogLanguage,
+  getBlogPageFromSearchParams,
   getCollectionArticles,
   getLocalizedText,
+  paginateArticles,
 } from '../lib/blog';
 
-const BLOG_PAGE_SIZE = 20;
+const BLOG_PAGE_SIZE = 10;
 
 export default function Blog() {
   const { t, i18n } = useTranslation();
   const { index, loading, error } = useBlogIndex();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedContentType, setSelectedContentType] = useState<'all' | 'original' | 'repost'>('all');
-  const [currentPage, setCurrentPage] = useState(1);
+  const currentPage = getBlogPageFromSearchParams(searchParams);
   const lang = getBlogLanguage(i18n.language);
+
+  const setCurrentPage = (page: number) => {
+    const nextParams = new URLSearchParams(searchParams);
+    if (page <= 1) {
+      nextParams.delete('page');
+    } else {
+      nextParams.set('page', String(page));
+    }
+    setSearchParams(nextParams);
+  };
 
   const typeFilteredArticles = useMemo(
     () => (index ? getArticlesByContentType(index, selectedContentType) : []),
@@ -98,10 +111,10 @@ export default function Blog() {
     );
   }
 
-  const totalPages = Math.max(1, Math.ceil(filteredArticles.length / BLOG_PAGE_SIZE));
-  const safeCurrentPage = Math.min(currentPage, totalPages);
-  const pageStart = (safeCurrentPage - 1) * BLOG_PAGE_SIZE;
-  const paginatedArticles = filteredArticles.slice(pageStart, pageStart + BLOG_PAGE_SIZE);
+  const pagination = paginateArticles(filteredArticles, currentPage, BLOG_PAGE_SIZE);
+  const totalPages = pagination.totalPages;
+  const safeCurrentPage = pagination.currentPage;
+  const paginatedArticles = pagination.items;
 
   const visiblePages = Array.from({ length: totalPages }, (_, index) => index + 1).filter((page) => {
     return page === 1 || page === totalPages || Math.abs(page - safeCurrentPage) <= 1;
@@ -191,9 +204,9 @@ export default function Blog() {
                     <button
                       key={category.id}
                       type="button"
-                      onClick={() => {
-                        setSelectedCategory(category.id);
-                        setCurrentPage(1);
+                        onClick={() => {
+                          setSelectedCategory(category.id);
+                          setCurrentPage(1);
                       }}
                       className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
                         active
@@ -291,7 +304,7 @@ export default function Blog() {
               <button
                 type="button"
                 disabled={safeCurrentPage === 1}
-                onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+                onClick={() => setCurrentPage(Math.max(1, safeCurrentPage - 1))}
                 className="rounded-xl border border-gray-200 px-3 py-2 text-sm font-medium text-[var(--color-text-secondary)] disabled:opacity-40 dark:border-slate-800"
               >
                 {t('blog.prevPage')}
@@ -324,7 +337,7 @@ export default function Blog() {
               <button
                 type="button"
                 disabled={safeCurrentPage === totalPages}
-                onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+                onClick={() => setCurrentPage(Math.min(totalPages, safeCurrentPage + 1))}
                 className="rounded-xl border border-gray-200 px-3 py-2 text-sm font-medium text-[var(--color-text-secondary)] disabled:opacity-40 dark:border-slate-800"
               >
                 {t('blog.nextPage')}
