@@ -136,6 +136,38 @@
   ],
   "articles": [
     {
+      "slug": "effective-harnesses-for-long-running-agents",
+      "date": "2026-03-26",
+      "tags": [
+        "AI Tools",
+        "LLM"
+      ],
+      "title": {
+        "zh": "面向长时间运行 Agent 的有效 Harness",
+        "en": "Effective harnesses for long-running agents"
+      },
+      "summary": {
+        "zh": "Anthropic 介绍如何用 initializer agent、feature list、进度文件与测试流程维持长时间运行 agent 的连续工作。",
+        "en": "Anthropic explains how initializer agents, feature lists, progress files, and testing workflows support long-running agents across many context windows."
+      },
+      "readingTime": {
+        "zh": "11 分钟",
+        "en": "10 min"
+      },
+      "category": "ai",
+      "contentType": "repost",
+      "source": {
+        "site": "anthropic.com/engineering",
+        "author": "Justin Young",
+        "title": {
+          "zh": "面向长时间运行 Agent 的有效 Harness",
+          "en": "Effective harnesses for long-running agents"
+        },
+        "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+        "translator": "Chiicake"
+      }
+    },
+    {
       "slug": "harness-design-long-running-apps",
       "date": "2026-03-26",
       "tags": [

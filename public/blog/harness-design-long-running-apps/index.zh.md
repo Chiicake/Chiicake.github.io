@@ -7,7 +7,7 @@ title: 长时间应用开发中的 Harness 设计
 
 在过去几个月里，我一直在处理两个彼此相关的问题：一是让 Claude 产出更高质量的前端设计，二是让它在没有人工干预的情况下构建完整应用。这项工作源于我们之前在 [frontend design skill](https://github.com/anthropics/claude-code/blob/main/plugins/frontend-design/skills/frontend-design/SKILL.md) 和 [long-running coding agent harness](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) 上做过的尝试。当时我和同事们通过 prompt engineering 和 harness design，把 Claude 的表现提升到了远高于 baseline 的水平，但这两条路最后都碰到了上限。
 
-为了继续突破，我开始寻找一种可以同时适用于两个差异很大的领域的 AI 工程方法：一个领域更多受主观审美支配，另一个领域则更依赖可验证的正确性和可用性。受 [生成对抗网络](https://en.wikipedia.org/wiki/Generative_adversarial_network)（GAN）启发，我设计了一种包含 generator agent 和 evaluator agent 的多智能体结构。要让 evaluator 稳定、而且带有“品味”地给输出打分，前提是先构造一组评价标准，把“这个设计好不好”这种主观判断转成可以具体评分的条目。
+为了继续往前做，我开始找一种能同时适用于两个差异很大的领域的 AI 工程方法：一个领域更多受主观审美支配，另一个领域则更依赖可验证的正确性和可用性。受 [生成对抗网络](https://en.wikipedia.org/wiki/Generative_adversarial_network)（GAN）启发，我设计了一种包含 generator agent 和 evaluator agent 的多智能体结构。要让 evaluator 稳定、而且带有“品味”地给输出打分，前提是先构造一组评价标准，把“这个设计好不好”这种主观判断转成可以具体评分的条目。
 
 随后，我把这些方法应用到了长时间自主编码任务上，并继承了我们之前 harness 工作中的两个经验：把构建过程拆成更容易处理的小块，以及使用结构化产物在不同 session 之间交接上下文。最后的结果是一个由 planner、generator 和 evaluator 三个 agent 组成的架构，它可以在持续数小时的自主编码 session 中产出较完整的全栈应用。
 
@@ -19,7 +19,7 @@ title: 长时间应用开发中的 Harness 设计
 
 第一个问题是，模型在长任务中随着上下文窗口不断被填满，往往会逐渐失去连贯性（可以参考我们关于 [context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) 的文章）。有些模型还会出现“context anxiety”，也就是当它们觉得快碰到上下文上限时，会开始过早收尾。所谓 context reset，就是彻底清空上下文窗口，重新启动一个新的 agent，同时依靠结构化 handoff，把前一个 agent 的状态和接下来的步骤交给后一个 agent。这个做法能同时缓解上面两个问题。
 
-这和 compaction 不一样。compaction 是在同一个 agent 内部，对更早的对话做原地总结，让它在压缩后的历史上继续工作。compaction 虽然保留了连续性，但不会给 agent 一个真正的“干净上下文”，所以 context anxiety 仍然可能存在。reset 则提供了一块真正的 clean slate，代价是 handoff artifact 必须带足够多的状态，好让下一个 agent 能平稳接手。我们之前测试时发现，Claude Sonnet 4.5 的 context anxiety 明显到只靠 compaction 还不够，因此 context reset 成了 harness 设计中的关键部分。它解决了核心问题，但同时也带来了编排复杂度、token 开销和每次运行的额外延迟。
+这和 compaction 不一样。compaction 是在同一个 agent 内部，对更早的对话做原地总结，让它在压缩后的历史上继续工作。compaction 虽然保留了连续性，但不会给 agent 一个真正的“干净上下文”，所以 context anxiety 仍然可能存在。reset 则提供了一块真正的 clean slate，代价是 handoff artifact 必须带足够多的状态，好让下一个 agent 能平稳接手。我们之前测试时发现，Claude Sonnet 4.5 的 context anxiety 明显到只靠 compaction 还不够，因此 context reset 成了 harness 设计中的关键部分。它解决了核心问题，但同时也会带来编排复杂度、token 开销和每次运行的额外延迟。
 
 第二个问题，则是我们之前没有正面处理过的：self-evaluation。当 agent 被要求评估自己刚做出的工作时，它们往往会很自信地夸赞结果——即便在人类看来，质量其实相当一般。这个问题在设计这类主观任务上尤其明显，因为这里没有软件测试那样的二元验证。一个布局到底是精致还是平庸，本来就带有判断色彩，而 agent 在给自己评分时又很稳定地偏向正面。
 
@@ -42,9 +42,9 @@ title: 长时间应用开发中的 Harness 设计
 
 我还用 few-shot 示例和详细分项评分，对 evaluator 做了校准。这样可以让 evaluator 的判断更贴近我的偏好，也能减小多轮迭代中的分数漂移。
 
-整个循环是建立在 [Claude Agent SDK](https://platform.claude.com/docs/en/agent-sdk/overview) 上的，编排起来相对直接。generator agent 会先根据用户 prompt 生成一个 HTML/CSS/JS 前端，我给 evaluator 配了 Playwright MCP，这样它就能直接操作 live page，再对每个评分维度打分并写详细 critique。实际运行时，evaluator 会自己在页面里导航、截图、仔细查看实现，然后再给出评估。随后这些反馈又会回流给 generator，作为下一轮迭代的输入。每次生成我通常会跑 5 到 15 轮，而每轮迭代通常都会推动 generator 走向更鲜明的方向。因为 evaluator 不是只看静态截图，而是要主动操作页面，所以每一轮都要消耗真实的 wall-clock time，完整运行往往会拉长到 4 个小时。我还要求 generator 在每次评估后做一个策略判断：如果分数趋势不错，就继续沿着当前方向细化；如果这条路线不太行，就干脆换一个完全不同的美学方向。
+整个循环是建立在 [Claude Agent SDK](https://platform.claude.com/docs/en/agent-sdk/overview) 上的，编排起来相对直接。generator agent 会先根据用户 prompt 生成一个 HTML/CSS/JS 前端，我给 evaluator 配了 Playwright MCP，这样它就能直接操作 live page，再对每个评分维度打分并写详细 critique。实际运行时，evaluator 会自己在页面里导航、截图、仔细查看实现，然后再给出评估。随后这些反馈又会回流给 generator，作为下一轮迭代的输入。每次生成我通常会跑 5 到 15 轮，而每轮迭代通常都会把 generator 往更鲜明的方向推一些。因为 evaluator 不是只看静态截图，而是要主动操作页面，所以每一轮都要消耗真实的 wall-clock time，完整运行往往会拉长到 4 个小时。我还要求 generator 在每次评估后做一个策略判断：如果分数趋势不错，就继续沿着当前方向细化；如果这条路线不太行，就干脆换一个完全不同的美学方向。
 
-从多次运行结果来看，evaluator 的分数通常会随着迭代改善，然后逐渐进入平台期，而且仍然有继续提升的空间。有些生成是平滑细化，有些则会在中途突然发生非常大的风格转向。
+从多次运行结果来看，evaluator 的分数通常会随着迭代改善，然后逐渐进入平台期，而且仍然还有继续提升的空间。有些生成是平滑细化，有些则会在中途突然发生非常大的风格转向。
 
 评分标准的措辞，对 generator 的引导方式有时也会超出我的预期。比如当我加入“最好的设计应该达到 museum quality”这类表达后，结果就会朝某种特定审美收敛，说明这些标准背后的 prompt 本身就在塑造输出的性格。
 
@@ -145,7 +145,7 @@ title: 长时间应用开发中的 Harness 设计
 
 把 sprint 去掉之后，我把 evaluator 改成只在构建完成后做单次整体评估，而不再对每个 sprint 单独打分。由于模型能力整体变强，evaluator 在不同任务里的“承重程度”也开始变化，它是否值得保留，要看任务到底处在当前模型单独完成能力的什么边界上。在 4.5 上，这个边界离得很近：很多构建任务都处在 generator 单独做会有些吃力的边缘，因此 evaluator 能持续抓到对整体质量有意义的问题。而到了 4.6，模型本身能力提高，边界就往外推了。过去那些必须靠 evaluator 盯着才能做稳的任务，现在很多已经落在 generator 自己也能处理得比较好的范围内。对这些任务来说，evaluator 反而就开始变成额外开销。但对于那些仍处在 generator 能力边缘的部分，evaluator 依然能带来实打实的提升。
 
-这件事在实践上的含义是：evaluator 不是一个永远固定的“要”或“不要”的二元选择。只有当任务确实超出了当前模型单独能稳定完成的范围时，它才值得这个成本。
+这件事在实践上的含义是：evaluator 不是一个固定的“要”或“不要”的二元选择。只有当任务确实超出了当前模型单独能稳定完成的范围时，它才值得这个成本。
 
 在结构简化的同时，我还加了一些新的 prompting，专门改善 harness 把 AI feature 做进应用里的方式，特别是让 generator 去构建一个真正能通过 tools 驱动应用功能的 agent。这件事同样需要不少迭代，因为相关知识本身很新，Claude 的训练数据里对它覆盖得还比较薄。但调了一段时间后，generator 基本已经能把 agent 正确接起来。
 
@@ -189,7 +189,7 @@ title: 长时间应用开发中的 Harness 设计
 
 当然，这个应用离真正专业的音乐制作程序还差得很远，agent 自己作曲的能力也还有大量提升空间。另外，Claude 并不能真的“听见”声音，所以 QA 循环在音乐审美这件事上天然就不够有效。
 
-不过最终这个应用已经具备了一个可工作的音乐制作程序的核心部件：浏览器里的 arrangement view、mixer 和 transport 都能运作。除此之外，我还确实可以完全通过 prompting 拼出一小段歌曲：agent 会设 tempo 和 key，放进旋律，补上鼓轨，调整 mixer levels，再加一些 reverb。作曲所需的核心 primitives 已经在了，而 agent 也能通过 tools 自主驱动它们，从头到尾完成一段简单作品。可以说，它现在离真正“好听”还差一些，但至少已经开始接近了。
+不过最终这个应用已经具备了一个可工作的音乐制作程序的核心部件：浏览器里的 arrangement view、mixer 和 transport 都能运作。除此之外，我还确实可以完全通过 prompting 拼出一小段歌曲：agent 会设 tempo 和 key，放进旋律，补上鼓轨，调整 mixer levels，再加一些 reverb。作曲所需的核心 primitives 已经在了，而 agent 也能通过 tools 自主驱动它们，从头到尾完成一段简单作品。可以说，它现在离真正“好听”还差一些，但至少已经开始往那个方向靠了。
 
 ## 接下来会怎样
 
