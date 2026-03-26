@@ -5,6 +5,7 @@
     "Distributed Systems",
     "Frontend",
     "Go",
+    "LLM",
     "Programming Paradigms",
     "Rust"
   ],
@@ -134,6 +135,39 @@
     }
   ],
   "articles": [
+    {
+      "slug": "harness-design-long-running-apps",
+      "date": "2026-03-26",
+      "tags": [
+        "AI Tools",
+        "LLM"
+      ],
+      "title": {
+        "zh": "长时间应用开发中的 Harness 设计",
+        "en": "Harness design for long-running application development"
+      },
+      "summary": {
+        "zh": "Anthropic 介绍如何用 planner、generator、evaluator 三类 agent 改进长时间自主应用开发。",
+        "en": "Anthropic explains how planner, generator, and evaluator agents improve long-running autonomous application development."
+      },
+      "readingTime": {
+        "zh": "21 分钟",
+        "en": "19 min"
+      },
+      "category": "ai",
+      "contentType": "repost",
+      "source": {
+        "site": "anthropic.com/engineering",
+        "author": "Prithvi Rajasekaran",
+        "title": {
+          "zh": "长时间应用开发中的 Harness 设计",
+          "en": "Harness design for long-running application development"
+        },
+        "url": "https://www.anthropic.com/engineering/harness-design-long-running-apps",
+        "publishedAt": "2026-03-24",
+        "translator": "Chiicake"
+      }
+    },
     {
       "slug": "axum-introduction-login-example",
       "date": "2026-03-24",
