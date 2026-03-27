@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Calendar, Clock, ExternalLink, Layers3, ListTree } from 'lucide-react';
 import { useBlogIndex } from '../hooks/useBlogIndex';
 import {
+  computeArticleReadingProgress,
   findBlogCategory,
   findBlogCollection,
   getBlogContentType,
@@ -150,8 +151,12 @@ export default function BlogArticle() {
       const articleTop = window.scrollY + rect.top;
       const articleBottom = articleTop + articleElement.offsetHeight;
       const focusY = Math.min(Math.max(getViewportFocusY(), articleTop + 1), articleBottom - 1);
-      const readableHeight = Math.max(articleBottom - articleTop, 1);
-      const nextProgress = Math.min(1, Math.max(0, (focusY - articleTop) / readableHeight));
+      const nextProgress = computeArticleReadingProgress({
+        scrollY: window.scrollY,
+        articleTop,
+        articleBottom,
+        viewportHeight: window.innerHeight,
+      });
       const headingElements = Array.from(articleElement.querySelectorAll<HTMLElement>('h2[id], h3[id]'));
       let nextActiveSectionId = headingElements[0]?.id ?? '';
 

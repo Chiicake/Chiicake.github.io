@@ -346,3 +346,36 @@ export function resolveActiveTocSectionIdByProgress({
 
   return activeId;
 }
+
+export function computeArticleReadingProgress({
+  scrollY,
+  articleTop,
+  articleBottom,
+  viewportHeight,
+}: {
+  scrollY: number;
+  articleTop: number;
+  articleBottom: number;
+  viewportHeight: number;
+}) {
+  // The scrollable range for reading:
+  // - Start: when the article top reaches the viewport top (scrollY = articleTop)
+  // - End: when the article bottom reaches the viewport bottom (scrollY = articleBottom - viewportHeight)
+  const scrollStart = articleTop;
+  const scrollEnd = Math.max(articleBottom - viewportHeight, scrollStart);
+
+  if (scrollEnd <= scrollStart) {
+    // Article fits entirely in viewport, consider it fully read when visible
+    return scrollY >= scrollStart ? 1 : 0;
+  }
+
+  if (scrollY <= scrollStart) {
+    return 0;
+  }
+
+  if (scrollY >= scrollEnd) {
+    return 1;
+  }
+
+  return (scrollY - scrollStart) / (scrollEnd - scrollStart);
+}
