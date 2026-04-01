@@ -136,6 +136,61 @@
   ],
   "articles": [
     {
+      "slug": "claude-multi-context-window-workflows",
+      "date": "2026-03-31",
+      "tags": [
+        "AI Tools",
+        "LLM"
+      ],
+      "title": {
+        "zh": "Claude 多上下文窗口工作流",
+        "en": "Claude Multi-context Window Workflows"
+      },
+      "summary": {
+        "zh": "转载 Claude 文档中关于多上下文窗口工作流、状态管理和长任务 agent 设计的相关章节。",
+        "en": "A repost of the Claude docs sections on multi-context window workflows, state management, and long-running agent design."
+      },
+      "readingTime": {
+        "zh": "6 分钟",
+        "en": "6 min"
+      },
+      "category": "ai",
+      "contentType": "repost",
+      "source": {
+        "site": "docs.claude.com",
+        "author": "Anthropic Documentation",
+        "title": {
+          "zh": "Claude 多上下文窗口工作流",
+          "en": "Claude Multi-context Window Workflows"
+        },
+        "url": "https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/claude-prompting-best-practices#multi-context-window-workflows",
+        "translator": "Chiicake"
+      }
+    },
+    {
+      "slug": "axum-project-structure-introduction",
+      "date": "2026-03-27",
+      "tags": [
+        "Rust"
+      ],
+      "title": {
+        "zh": "Axum 项目结构入门",
+        "en": "Axum Project Structure Introduction"
+      },
+      "summary": {
+        "zh": "从一个单文件的 axum 登录示例出发，整理项目结构为什么需要拆分，以及最小可维护结构可以如何组织。",
+        "en": "A practical introduction to structuring an axum project by moving a single-file login example into a small maintainable multi-file layout."
+      },
+      "readingTime": {
+        "zh": "10 分钟",
+        "en": "9 min"
+      },
+      "category": "rust-language",
+      "contentType": "original",
+      "collection": "rust-backend-development",
+      "seriesOrder": 2
+    },
+    {
       "slug": "effective-harnesses-for-long-running-agents",
       "date": "2026-03-26",
       "tags": [
